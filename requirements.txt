@@ -1,0 +1,11 @@
+speechrecognition==3.10.4
+pyttsx3==2.90
+python-dotenv==1.0.1
+google-generativeai==0.8.3
+pyautogui==0.9.54
+PyQt6==6.10.2
+pyqtgraph==0.14.0
+numpy==2.4.2
+Pillow==12.1.1
+psutil==7.2.2
+python-telegram-bot==22.6
