@@ -1,0 +1,5 @@
+2026-02-16 22:13:21,336 - DEBUG - Release <POINTER(ISpeechVoice) ptr=0x203183f2db0 at 20330373e50>
+2026-02-16 22:13:21,337 - DEBUG - <comtypes.client._events.CreateEventReceiver.<locals>.Sink object at 0x0000020319861E80>.Release() -> 0
+2026-02-16 22:13:21,337 - DEBUG - 0 active COM objects: Removed <comtypes.client._events.CreateEventReceiver.<locals>.Sink object at 0x0000020319861E80>
+2026-02-16 22:13:21,337 - DEBUG - Remaining: []
+2026-02-16 22:13:21,338 - DEBUG - Release <POINTER(IConnectionPoint) ptr=0x203183f2db8 at 203300a6f50>
