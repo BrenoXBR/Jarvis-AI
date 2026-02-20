@@ -1,0 +1,52 @@
+# Temporary screenshots
+temp_screen.png
+screenshot.png
+
+# Python cache directories
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Environment variables
+.env
+.env.local
+.env.*.local
+
+# Log files
+*.log
+jarvis_logs/
+debug_*.log
+
+# Database files
+*.db
+*.sqlite
+*.sqlite3
+jarvis_memory.db
+
+# IDE and editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Virtual environment
+jarvis_env/
+venv/
+env/
+ENV/
+
+# Temporary files
+*.tmp
+*.temp
+temp_*
+*~
