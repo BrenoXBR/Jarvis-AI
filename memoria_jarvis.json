@@ -1,0 +1,48 @@
+{
+  "dicas_importantes": [
+    {
+      "data": "2026-02-20T18:04:00.836374",
+      "conteudo": "Dica de teste: sempre use try/except",
+      "tags": [
+        "dica",
+        "importante",
+        "usuario"
+      ],
+      "categoria": "geral"
+    },
+    {
+      "data": "2026-02-20T18:04:32.829230",
+      "conteudo": "use sempre list comprehension",
+      "tags": [
+        "dica",
+        "importante",
+        "usuario"
+      ],
+      "categoria": "geral"
+    }
+  ],
+  "erros_resolvidos": [
+    {
+      "data": "2026-02-20T18:04:17.418393",
+      "tipo": "debugging",
+      "analise": "Olá! Sou seu especialista em debugging Python. Vamos analisar o que está acontecendo aqui e colocar seu código de volta nos trilhos.\n\n---\n\n### Análise da Captura de Tela\n\nAo inspecionar a imagem, consigo identificar um problema claro de sintaxe que o seu editor VS Code já está sinalizando.\n\n---\n\n### 1. IDENTIFIQUE O ERRO\n\nO erro está localizado no arquivo `jarvis_threads.py`, especificamente na **linha 11**:\n\n`from PyQt6.QtCore import QThread, pyqtSignal, QObject`\n\nO VS Code está indicando um er...",
+      "tags": [
+        "erro",
+        "debug",
+        "python",
+        "traceback"
+      ]
+    },
+    {
+      "data": "2026-02-20T18:04:32.791994",
+      "tipo": "debugging",
+      "analise": "Olá! Como seu especialista em debugging, vamos analisar a situação para resolver o problema.\n\nEmbora o traceback exato não esteja visível na captura de tela (o terminal está limpo e o painel \"Problems\" mostra 0 erros), a mensagem do seu assistente de IA \"Enviando para análise especializ a de erro...\" e o fato de que a aplicação não está rodando indicam que um erro ocorreu durante a inicialização ou importação.\n\nAo inspecionar o código de `jarvis_threads.py` na linha 11, identifico a causa prováv...",
+      "tags": [
+        "erro",
+        "debug",
+        "python",
+        "traceback"
+      ]
+    }
+  ]
+}
