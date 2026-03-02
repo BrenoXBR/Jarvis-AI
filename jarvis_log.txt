@@ -1,0 +1,311 @@
+
+============================================================
+🤖 J.A.R.V.I.S. - INÍCIO DE SESSÃO
+============================================================
+Data/Hora: 2026-02-20 21:33:59
+Sistema: win32
+Python: 3.13.12 (tags/v3.13.12:1cbe481, Feb  3 2026, 18:22:25) [MSC v.1944 64 bit (AMD64)]
+Executável: False
+Diretório: C:\Users\Breno\CascadeProjects
+============================================================
+
+[2026-02-20 21:33:59] [INFO] [SISTEMA] Sistema de log inicializado
+
+============================================================
+🤖 J.A.R.V.I.S. - INÍCIO DE SESSÃO
+============================================================
+Data/Hora: 2026-02-20 21:33:59
+Sistema: win32
+Python: 3.13.12 (tags/v3.13.12:1cbe481, Feb  3 2026, 18:22:25) [MSC v.1944 64 bit (AMD64)]
+Executável: False
+Diretório: C:\Users\Breno\CascadeProjects
+============================================================
+
+[2026-02-20 21:33:59] [INFO] [TESTE] Teste de mensagem informativa
+[2026-02-20 21:33:59] [SUCCESS] [TESTE] Teste de mensagem de sucesso
+[2026-02-20 21:33:59] [WARNING] [TESTE] Teste de mensagem de aviso
+[2026-02-20 21:33:59] [ERROR] [TESTE] Erro simulado durante teste
+  Tipo: ValueError
+  Mensagem: Este é um erro de teste para verificar o sistema de log
+  Traceback: Traceback (most recent call last):
+  File "C:\Users\Breno\CascadeProjects\test_log.py", line 36, in test_logger
+    raise ValueError("Este é um erro de teste para verificar o sistema de log")
+ValueError: Este é um erro de teste para verificar o sistema de log
+
+------------------------------------------------------------
+
+
+============================================================
+🤖 J.A.R.V.I.S. - INÍCIO DE SESSÃO
+============================================================
+Data/Hora: 2026-02-27 18:31:46
+Sistema: win32
+Python: 3.13.12 (tags/v3.13.12:1cbe481, Feb  3 2026, 18:22:25) [MSC v.1944 64 bit (AMD64)]
+Executável: False
+Diretório: C:\Users\Breno\CascadeProjects
+============================================================
+
+[2026-02-27 18:31:46] [INFO] [SISTEMA] Sistema de log inicializado
+
+============================================================
+🤖 J.A.R.V.I.S. - INÍCIO DE SESSÃO
+============================================================
+Data/Hora: 2026-02-27 18:32:17
+Sistema: win32
+Python: 3.13.12 (tags/v3.13.12:1cbe481, Feb  3 2026, 18:22:25) [MSC v.1944 64 bit (AMD64)]
+Executável: False
+Diretório: C:\Users\Breno\CascadeProjects
+============================================================
+
+[2026-02-27 18:32:17] [INFO] [SISTEMA] Sistema de log inicializado
+[2026-02-27 18:32:17] [INFO] [SISTEMA] Iniciando função principal do J.A.R.V.I.S.
+[2026-02-27 18:32:17] [INFO] [SISTEMA] Criando instância da interface GUI
+[2026-02-27 18:32:17] [INFO] [MEMÓRIA] Inicializando memória em: C:\Users\Breno\CascadeProjects\jarvis_memory.db
+[2026-02-27 18:32:17] [SUCCESS] [MEMÓRIA] Banco de dados inicializado com sucesso
+[2026-02-27 18:32:17] [INFO] [VISÃO] Script detectado, diretório base: C:\Users\Breno\CascadeProjects
+[2026-02-27 18:32:17] [INFO] [VISÃO] Procurando .env em: C:\Users\Breno\CascadeProjects\.env
+[2026-02-27 18:32:17] [SUCCESS] [VISÃO] Arquivo .env carregado com UTF-8: C:\Users\Breno\CascadeProjects\.env
+[2026-02-27 18:32:17] [INFO] [VISÃO] API Key detectada (mascarada): AIzaSyDN...t5CM
+[2026-02-27 18:32:17] [SUCCESS] [VISÃO] Visão computacional inicializada com Gemini 1.5 Flash
+[2026-02-27 18:32:18] [ERROR] [SISTEMA] Erro crítico ao iniciar interface
+  Tipo: AttributeError
+  Mensagem: 'JarvisGUI' object has no attribute 'capture_and_analyze_screen'
+  Traceback: Traceback (most recent call last):
+  File "C:\Users\Breno\CascadeProjects\jarvis_gui_integrada.py", line 1058, in main
+    app = JarvisGUI()
+  File "C:\Users\Breno\CascadeProjects\jarvis_gui_integrada.py", line 424, in __init__
+    self.setup_ui()
+    ~~~~~~~~~~~~~^^
+  File "C:\Users\Breno\CascadeProjects\jarvis_gui_integrada.py", line 525, in setup_ui
+    command=self.capture_and_analyze_screen
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'JarvisGUI' object has no attribute 'capture_and_analyze_screen'
+
+------------------------------------------------------------
+
+
+============================================================
+🤖 J.A.R.V.I.S. - INÍCIO DE SESSÃO
+============================================================
+Data/Hora: 2026-02-27 18:32:37
+Sistema: win32
+Python: 3.13.12 (tags/v3.13.12:1cbe481, Feb  3 2026, 18:22:25) [MSC v.1944 64 bit (AMD64)]
+Executável: False
+Diretório: C:\Users\Breno\CascadeProjects
+============================================================
+
+[2026-02-27 18:32:37] [INFO] [SISTEMA] Sistema de log inicializado
+[2026-02-27 18:32:37] [INFO] [SISTEMA] Iniciando função principal do J.A.R.V.I.S.
+[2026-02-27 18:32:37] [INFO] [SISTEMA] Criando instância da interface GUI
+[2026-02-27 18:32:37] [INFO] [MEMÓRIA] Inicializando memória em: C:\Users\Breno\CascadeProjects\jarvis_memory.db
+[2026-02-27 18:32:37] [SUCCESS] [MEMÓRIA] Banco de dados inicializado com sucesso
+[2026-02-27 18:32:37] [INFO] [VISÃO] Script detectado, diretório base: C:\Users\Breno\CascadeProjects
+[2026-02-27 18:32:37] [INFO] [VISÃO] Procurando .env em: C:\Users\Breno\CascadeProjects\.env
+[2026-02-27 18:32:37] [SUCCESS] [VISÃO] Arquivo .env carregado com UTF-8: C:\Users\Breno\CascadeProjects\.env
+[2026-02-27 18:32:37] [INFO] [VISÃO] API Key detectada (mascarada): AIzaSyDN...t5CM
+[2026-02-27 18:32:37] [SUCCESS] [VISÃO] Visão computacional inicializada com Gemini 1.5 Flash
+[2026-02-27 18:32:38] [ERROR] [SISTEMA] Erro crítico ao iniciar interface
+  Tipo: AttributeError
+  Mensagem: 'JarvisGUI' object has no attribute 'capture_and_analyze'
+  Traceback: Traceback (most recent call last):
+  File "C:\Users\Breno\CascadeProjects\jarvis_gui_integrada.py", line 1058, in main
+    app = JarvisGUI()
+  File "C:\Users\Breno\CascadeProjects\jarvis_gui_integrada.py", line 424, in __init__
+    self.setup_ui()
+    ~~~~~~~~~~~~~^^
+  File "C:\Users\Breno\CascadeProjects\jarvis_gui_integrada.py", line 525, in setup_ui
+    command=self.capture_and_analyze
+            ^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'JarvisGUI' object has no attribute 'capture_and_analyze'
+
+------------------------------------------------------------
+
+
+============================================================
+🤖 J.A.R.V.I.S. - INÍCIO DE SESSÃO
+============================================================
+Data/Hora: 2026-02-27 18:33:38
+Sistema: win32
+Python: 3.13.12 (tags/v3.13.12:1cbe481, Feb  3 2026, 18:22:25) [MSC v.1944 64 bit (AMD64)]
+Executável: False
+Diretório: C:\Users\Breno\CascadeProjects
+============================================================
+
+[2026-02-27 18:33:38] [INFO] [SISTEMA] Sistema de log inicializado
+[2026-02-27 18:33:38] [INFO] [SISTEMA] Iniciando função principal do J.A.R.V.I.S.
+[2026-02-27 18:33:38] [INFO] [SISTEMA] Criando instância da interface GUI
+[2026-02-27 18:33:38] [INFO] [MEMÓRIA] Inicializando memória em: C:\Users\Breno\CascadeProjects\jarvis_memory.db
+[2026-02-27 18:33:38] [SUCCESS] [MEMÓRIA] Banco de dados inicializado com sucesso
+[2026-02-27 18:33:38] [INFO] [VISÃO] Script detectado, diretório base: C:\Users\Breno\CascadeProjects
+[2026-02-27 18:33:38] [INFO] [VISÃO] Procurando .env em: C:\Users\Breno\CascadeProjects\.env
+[2026-02-27 18:33:38] [SUCCESS] [VISÃO] Arquivo .env carregado com UTF-8: C:\Users\Breno\CascadeProjects\.env
+[2026-02-27 18:33:38] [INFO] [VISÃO] API Key detectada (mascarada): AIzaSyDN...t5CM
+[2026-02-27 18:33:38] [SUCCESS] [VISÃO] Visão computacional inicializada com Gemini 1.5 Flash
+[2026-02-27 18:33:39] [ERROR] [SISTEMA] Erro crítico ao iniciar interface
+  Tipo: AttributeError
+  Mensagem: 'JarvisGUI' object has no attribute 'add_message'
+  Traceback: Traceback (most recent call last):
+  File "C:\Users\Breno\CascadeProjects\jarvis_gui_integrada.py", line 1058, in main
+    app = JarvisGUI()
+  File "C:\Users\Breno\CascadeProjects\jarvis_gui_integrada.py", line 424, in __init__
+    self.setup_ui()
+    ~~~~~~~~~~~~~^^
+  File "C:\Users\Breno\CascadeProjects\jarvis_gui_integrada.py", line 574, in setup_ui
+    self.add_message("Jarvis", "👋 Olá! Sou o J.A.R.V.I.S. com todos os módulos integrados. Posso ouvir, ver, lembrar e analisar para você!", is_jarvis=True)
+    ^^^^^^^^^^^^^^^^
+AttributeError: 'JarvisGUI' object has no attribute 'add_message'. Did you mean: 'send_message'?
+
+------------------------------------------------------------
+
+
+============================================================
+🤖 J.A.R.V.I.S. - INÍCIO DE SESSÃO
+============================================================
+Data/Hora: 2026-02-27 18:40:26
+Sistema: win32
+Python: 3.13.12 (tags/v3.13.12:1cbe481, Feb  3 2026, 18:22:25) [MSC v.1944 64 bit (AMD64)]
+Executável: False
+Diretório: C:\Users\Breno\CascadeProjects
+============================================================
+
+[2026-02-27 18:40:26] [INFO] [SISTEMA] Sistema de log inicializado
+[2026-02-27 18:40:26] [INFO] [SISTEMA] Iniciando função principal do J.A.R.V.I.S.
+[2026-02-27 18:40:26] [INFO] [SISTEMA] Criando instância da interface GUI
+[2026-02-27 18:40:26] [INFO] [MEMÓRIA] Inicializando memória em: C:\Users\Breno\CascadeProjects\jarvis_memory.db
+[2026-02-27 18:40:26] [SUCCESS] [MEMÓRIA] Banco de dados inicializado com sucesso
+[2026-02-27 18:40:26] [INFO] [VISÃO] Script detectado, diretório base: C:\Users\Breno\CascadeProjects
+[2026-02-27 18:40:26] [INFO] [VISÃO] Procurando .env em: C:\Users\Breno\CascadeProjects\.env
+[2026-02-27 18:40:26] [SUCCESS] [VISÃO] Arquivo .env carregado com UTF-8: C:\Users\Breno\CascadeProjects\.env
+[2026-02-27 18:40:26] [INFO] [VISÃO] API Key detectada (mascarada): AIzaSyDN...t5CM
+[2026-02-27 18:40:26] [SUCCESS] [VISÃO] Visão computacional inicializada com Gemini 1.5 Flash
+[2026-02-27 18:40:27] [ERROR] [SISTEMA] Erro crítico ao iniciar interface
+  Tipo: AttributeError
+  Mensagem: 'font' option forbidden, because would be incompatible with scaling
+  Traceback: Traceback (most recent call last):
+  File "C:\Users\Breno\CascadeProjects\jarvis_gui_integrada.py", line 1058, in main
+    app = JarvisGUI()
+  File "C:\Users\Breno\CascadeProjects\jarvis_gui_integrada.py", line 424, in __init__
+    self.setup_ui()
+    ~~~~~~~~~~~~~^^
+  File "C:\Users\Breno\CascadeProjects\jarvis_gui_integrada.py", line 574, in setup_ui
+    self.add_message("Jarvis", "👋 Olá! Sou o J.A.R.V.I.S. com todos os módulos integrados. Posso ouvir, ver, lembrar e analisar para você!", is_jarvis=True)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Breno\CascadeProjects\jarvis_gui_integrada.py", line 939, in add_message
+    self.chat_display.tag_config("prefix", foreground=color, font=ctk.CTkFont(family="Segoe UI", size=12, weight="bold"))
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Breno\AppData\Local\Programs\Python\Python313\Lib\site-packages\customtkinter\windows\widgets\ctk_textbox.py", line 442, in tag_config
+    raise AttributeError("'font' option forbidden, because would be incompatible with scaling")
+AttributeError: 'font' option forbidden, because would be incompatible with scaling
+
+------------------------------------------------------------
+
+
+============================================================
+🤖 J.A.R.V.I.S. - INÍCIO DE SESSÃO
+============================================================
+Data/Hora: 2026-02-27 18:41:03
+Sistema: win32
+Python: 3.13.12 (tags/v3.13.12:1cbe481, Feb  3 2026, 18:22:25) [MSC v.1944 64 bit (AMD64)]
+Executável: False
+Diretório: C:\Users\Breno\CascadeProjects
+============================================================
+
+[2026-02-27 18:41:03] [INFO] [SISTEMA] Sistema de log inicializado
+[2026-02-27 18:41:03] [INFO] [SISTEMA] Iniciando função principal do J.A.R.V.I.S.
+[2026-02-27 18:41:03] [INFO] [SISTEMA] Criando instância da interface GUI
+[2026-02-27 18:41:03] [INFO] [MEMÓRIA] Inicializando memória em: C:\Users\Breno\CascadeProjects\jarvis_memory.db
+[2026-02-27 18:41:03] [SUCCESS] [MEMÓRIA] Banco de dados inicializado com sucesso
+[2026-02-27 18:41:03] [INFO] [VISÃO] Script detectado, diretório base: C:\Users\Breno\CascadeProjects
+[2026-02-27 18:41:03] [INFO] [VISÃO] Procurando .env em: C:\Users\Breno\CascadeProjects\.env
+[2026-02-27 18:41:03] [SUCCESS] [VISÃO] Arquivo .env carregado com UTF-8: C:\Users\Breno\CascadeProjects\.env
+[2026-02-27 18:41:03] [INFO] [VISÃO] API Key detectada (mascarada): AIzaSyDN...t5CM
+[2026-02-27 18:41:03] [SUCCESS] [VISÃO] Visão computacional inicializada com Gemini 1.5 Flash
+[2026-02-27 18:41:03] [INFO] [SISTEMA] Interface criada com sucesso, iniciando mainloop
+
+============================================================
+🤖 J.A.R.V.I.S. - INÍCIO DE SESSÃO
+============================================================
+Data/Hora: 2026-02-27 18:58:36
+Sistema: win32
+Python: 3.13.12 (tags/v3.13.12:1cbe481, Feb  3 2026, 18:22:25) [MSC v.1944 64 bit (AMD64)]
+Executável: False
+Diretório: C:\Users\Breno\CascadeProjects
+============================================================
+
+[2026-02-27 18:58:36] [INFO] [SISTEMA] Sistema de log inicializado
+[2026-02-27 18:58:36] [INFO] [SISTEMA] Iniciando função principal do J.A.R.V.I.S.
+[2026-02-27 18:58:36] [INFO] [SISTEMA] Criando instância da interface GUI
+[2026-02-27 18:58:36] [INFO] [MEMÓRIA] Inicializando memória em: C:\Users\Breno\CascadeProjects\jarvis_memory.db
+[2026-02-27 18:58:36] [SUCCESS] [MEMÓRIA] Banco de dados inicializado com sucesso
+[2026-02-27 18:58:36] [INFO] [VISÃO] Script detectado, diretório base: C:\Users\Breno\CascadeProjects
+[2026-02-27 18:58:36] [INFO] [VISÃO] Procurando .env em: C:\Users\Breno\CascadeProjects\.env
+[2026-02-27 18:58:36] [SUCCESS] [VISÃO] Arquivo .env carregado com UTF-8: C:\Users\Breno\CascadeProjects\.env
+[2026-02-27 18:58:36] [INFO] [VISÃO] API Key detectada (mascarada): AIzaSyDN...t5CM
+[2026-02-27 18:58:36] [SUCCESS] [VISÃO] Visão computacional inicializada com Gemini 1.5 Flash
+[2026-02-27 18:58:37] [INFO] [SISTEMA] Interface criada com sucesso, iniciando mainloop
+
+============================================================
+🤖 J.A.R.V.I.S. - INÍCIO DE SESSÃO
+============================================================
+Data/Hora: 2026-02-27 19:00:07
+Sistema: win32
+Python: 3.13.12 (tags/v3.13.12:1cbe481, Feb  3 2026, 18:22:25) [MSC v.1944 64 bit (AMD64)]
+Executável: False
+Diretório: C:\Users\Breno\CascadeProjects
+============================================================
+
+[2026-02-27 19:00:07] [INFO] [SISTEMA] Sistema de log inicializado
+[2026-02-27 19:00:07] [INFO] [SISTEMA] Iniciando função principal do J.A.R.V.I.S.
+[2026-02-27 19:00:07] [INFO] [SISTEMA] Criando instância da interface GUI
+[2026-02-27 19:00:07] [INFO] [MEMÓRIA] Inicializando memória em: C:\Users\Breno\CascadeProjects\jarvis_memory.db
+[2026-02-27 19:00:07] [SUCCESS] [MEMÓRIA] Banco de dados inicializado com sucesso
+[2026-02-27 19:00:07] [INFO] [VISÃO] Script detectado, diretório base: C:\Users\Breno\CascadeProjects
+[2026-02-27 19:00:07] [INFO] [VISÃO] Procurando .env em: C:\Users\Breno\CascadeProjects\.env
+[2026-02-27 19:00:07] [SUCCESS] [VISÃO] Arquivo .env carregado com UTF-8: C:\Users\Breno\CascadeProjects\.env
+[2026-02-27 19:00:07] [INFO] [VISÃO] API Key detectada (mascarada): AIzaSyDN...t5CM
+[2026-02-27 19:00:07] [SUCCESS] [VISÃO] Visão computacional inicializada com Gemini 1.5 Flash
+[2026-02-27 19:00:07] [INFO] [SISTEMA] Interface criada com sucesso, iniciando mainloop
+
+============================================================
+🤖 J.A.R.V.I.S. - INÍCIO DE SESSÃO
+============================================================
+Data/Hora: 2026-02-27 19:04:21
+Sistema: win32
+Python: 3.13.12 (tags/v3.13.12:1cbe481, Feb  3 2026, 18:22:25) [MSC v.1944 64 bit (AMD64)]
+Executável: False
+Diretório: C:\Users\Breno\CascadeProjects
+============================================================
+
+[2026-02-27 19:04:21] [INFO] [SISTEMA] Sistema de log inicializado
+[2026-02-27 19:04:21] [INFO] [SISTEMA] Iniciando função principal do J.A.R.V.I.S.
+[2026-02-27 19:04:21] [INFO] [SISTEMA] Criando instância da interface GUI
+[2026-02-27 19:04:21] [INFO] [MEMÓRIA] Inicializando memória em: C:\Users\Breno\CascadeProjects\jarvis_memory.db
+[2026-02-27 19:04:21] [SUCCESS] [MEMÓRIA] Banco de dados inicializado com sucesso
+[2026-02-27 19:04:21] [INFO] [VISÃO] Script detectado, diretório base: C:\Users\Breno\CascadeProjects
+[2026-02-27 19:04:21] [INFO] [VISÃO] Procurando .env em: C:\Users\Breno\CascadeProjects\.env
+[2026-02-27 19:04:21] [SUCCESS] [VISÃO] Arquivo .env carregado com UTF-8: C:\Users\Breno\CascadeProjects\.env
+[2026-02-27 19:04:21] [INFO] [VISÃO] API Key detectada (mascarada): AIzaSyDN...t5CM
+[2026-02-27 19:04:21] [SUCCESS] [VISÃO] Visão computacional inicializada com Gemini 1.5 Flash
+[2026-02-27 19:04:22] [INFO] [SISTEMA] Interface criada com sucesso, iniciando mainloop
+
+============================================================
+🤖 J.A.R.V.I.S. - INÍCIO DE SESSÃO
+============================================================
+Data/Hora: 2026-02-27 19:10:49
+Sistema: win32
+Python: 3.13.12 (tags/v3.13.12:1cbe481, Feb  3 2026, 18:22:25) [MSC v.1944 64 bit (AMD64)]
+Executável: False
+Diretório: C:\Users\Breno\CascadeProjects
+============================================================
+
+[2026-02-27 19:10:49] [INFO] [SISTEMA] Sistema de log inicializado
+[2026-02-27 19:10:49] [INFO] [SISTEMA] Iniciando função principal do J.A.R.V.I.S.
+[2026-02-27 19:10:49] [INFO] [SISTEMA] Criando instância da interface GUI
+[2026-02-27 19:10:50] [INFO] [MEMÓRIA] Inicializando memória em: C:\Users\Breno\CascadeProjects\jarvis_memory.db
+[2026-02-27 19:10:50] [SUCCESS] [MEMÓRIA] Banco de dados inicializado com sucesso
+[2026-02-27 19:10:50] [INFO] [VISÃO] Script detectado, diretório base: C:\Users\Breno\CascadeProjects
+[2026-02-27 19:10:50] [INFO] [VISÃO] Procurando .env em: C:\Users\Breno\CascadeProjects\.env
+[2026-02-27 19:10:50] [SUCCESS] [VISÃO] Arquivo .env carregado com UTF-8: C:\Users\Breno\CascadeProjects\.env
+[2026-02-27 19:10:50] [INFO] [VISÃO] API Key detectada (mascarada): AIzaSyDN...t5CM
+[2026-02-27 19:10:50] [SUCCESS] [VISÃO] Visão computacional inicializada com Gemini 1.5 Flash
+[2026-02-27 19:10:50] [INFO] [SISTEMA] Interface criada com sucesso, iniciando mainloop

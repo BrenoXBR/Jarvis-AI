@@ -1,0 +1,32 @@
+🤖 J.A.R.V.I.S. - ERRO CRÍTICO DE INICIALIZAÇÃO
+==================================================
+
+Data/Hora: 2026-02-23 19:02:10
+Sistema: win32
+Python: 3.13.12 (tags/v3.13.12:1cbe481, Feb  3 2026, 18:22:25) [MSC v.1944 64 bit (AMD64)]
+Executável: True
+Diretório: C:\Users\Breno\CascadeProjects\dist
+Módulo: __main__
+Contexto: main
+
+ERRO:
+Tipo: AttributeError
+Mensagem: 'font' option forbidden, because would be incompatible with scaling
+
+TRACEBACK COMPLETO:
+Traceback (most recent call last):
+  File "jarvis_gui_integrada.py", line 1137, in main
+  File "jarvis_gui_integrada.py", line 421, in __init__
+  File "jarvis_gui_integrada.py", line 559, in setup_ui
+  File "jarvis_gui_integrada.py", line 1015, in add_message
+  File "customtkinter\windows\widgets\ctk_textbox.py", line 442, in tag_config
+AttributeError: 'font' option forbidden, because would be incompatible with scaling
+
+
+INFORMAÇÕES ADICIONAIS:
+Arquivos no diretório:
+  - .env
+  - ERRO_CRITICO.txt
+  - jarvis_log.txt
+  - jarvis_memory.db
+  - Jarvis_Stark_Edition.exe

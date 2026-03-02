@@ -50,8 +50,8 @@ class JarvisThreadedApp:
         
     def start(self):
         """Inicia a aplicação completa"""
-        # Carrega variáveis de ambiente
-        load_dotenv()
+        # Carrega variáveis de ambiente com encoding UTF-8
+        load_dotenv(encoding='utf-8')
         
         # Inicializa QApplication
         self.app = QApplication(sys.argv)
@@ -90,6 +90,18 @@ class JarvisThreadedApp:
 
 def main():
     """Função principal"""
+    # Verifica se está rodando como executável sem console
+    if getattr(sys, 'frozen', False):
+        try:
+            # Redireciona stdin/stdout/stderr para evitar erros
+            import io
+            sys.stdin = io.StringIO()
+            sys.stdout = io.StringIO()
+            sys.stderr = io.StringIO()
+        except:
+            # Se falhar, apenas ignora
+            pass
+    
     print("Iniciando Jarvis com sistema de threads...")
     print("Interface grafica com processamento paralelo")
     print("Voz e IA em threads separadas")

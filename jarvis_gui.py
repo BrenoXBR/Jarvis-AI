@@ -152,7 +152,7 @@ class JarvisGUI(QMainWindow):
         try:
             from dotenv import load_dotenv
             import os
-            load_dotenv()
+            load_dotenv(encoding='utf-8')
             api_key = os.getenv('GEMINI_API_KEY')
             workspace_path = os.getenv('WORKSPACE_PATH', os.getcwd())
             
