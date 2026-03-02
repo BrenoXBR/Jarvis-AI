@@ -1,0 +1,115 @@
+🤖 J.A.R.V.I.S. - ERRO CRÍTICO DE INICIALIZAÇÃO
+==================================================
+
+Data/Hora: 2026-03-02 19:45:16
+Sistema: win32
+Python: 3.13.12 (tags/v3.13.12:1cbe481, Feb  3 2026, 18:22:25) [MSC v.1944 64 bit (AMD64)]
+Executável: False
+Diretório: C:\Users\Breno\CascadeProjects
+Módulo: __main__
+Contexto: main
+
+ERRO:
+Tipo: AttributeError
+Mensagem: 'font' option forbidden, because would be incompatible with scaling
+
+TRACEBACK COMPLETO:
+Traceback (most recent call last):
+  File "C:\Users\Breno\CascadeProjects\jarvis_gui_integrada.py", line 1081, in main
+    app = JarvisGUI()
+  File "C:\Users\Breno\CascadeProjects\jarvis_gui_integrada.py", line 424, in __init__
+    self.setup_ui()
+    ~~~~~~~~~~~~~^^
+  File "C:\Users\Breno\CascadeProjects\jarvis_gui_integrada.py", line 577, in setup_ui
+    self.add_message("Jarvis", "👋 Olá! Sou o J.A.R.V.I.S. com todos os módulos integrados. Posso ouvir, ver, lembrar e analisar para você!", is_jarvis=True)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Breno\CascadeProjects\jarvis_gui_integrada.py", line 946, in add_message
+    self.chat_display.tag_config("jarvis_name", foreground="#00D2FF", font=ctk.CTkFont(family="Segoe UI", size=14, weight="bold"))
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Breno\AppData\Local\Programs\Python\Python313\Lib\site-packages\customtkinter\windows\widgets\ctk_textbox.py", line 442, in tag_config
+    raise AttributeError("'font' option forbidden, because would be incompatible with scaling")
+AttributeError: 'font' option forbidden, because would be incompatible with scaling
+
+
+INFORMAÇÕES ADICIONAIS:
+Arquivos no diretório:
+  - .env
+  - .env.example
+  - .git
+  - .gitignore
+  - action_handler.py
+  - action_handler_backup.py
+  - action_handler_fixed.py
+  - action_handler_minimal.py
+  - action_handler_unsafe.py
+  - aprendizado.md
+  - build
+  - build_debug.py
+  - build_exe.py
+  - code_generator.py
+  - config.py
+  - create_final_package.py
+  - create_icon.py
+  - create_log_package.py
+  - create_portable.py
+  - debug_mode.py
+  - desktop.ini
+  - dicas_do_dia.md
+  - dist
+  - ERRO_CRITICO.txt
+  - fix_env_encoding.py
+  - jarvis.ico
+  - jarvis.py
+  - jarvis_assistant.py
+  - jarvis_cleanup.py
+  - jarvis_env
+  - jarvis_gui.py
+  - jarvis_gui_integrada.py
+  - jarvis_gui_integrada_backup.py
+  - jarvis_gui_moderna.py
+  - jarvis_gui_standalone.py
+  - jarvis_log.txt
+  - jarvis_memory.db
+  - jarvis_memory.py
+  - Jarvis_Stark_Edition.spec
+  - jarvis_threads.py
+  - jarvis_vision.py
+  - LICENSE
+  - memoria_jarvis.json
+  - mobile_bridge.py
+  - multi_language_generator.py
+  - progress_demo.py
+  - pyinstaller_checklist.py
+  - README.md
+  - requirements.txt
+  - run_jarvis.vbs
+  - simple_build.py
+  - stark_theme_demo.py
+  - start_jarvis.bat
+  - start_jarvis_gui.bat
+  - start_jarvis_integrado.bat
+  - test_actions.py
+  - test_analise_tela.py
+  - test_code_generator.py
+  - test_code_paste_fix.py
+  - test_correcoes_audio.py
+  - test_correcoes_urgentes.py
+  - test_correcoes_urgentes_finais.py
+  - test_debug_mode.py
+  - test_easter_eggs.py
+  - test_fechar_apps.py
+  - test_funcionalidades_avancadas.py
+  - test_log.py
+  - test_memory.py
+  - test_mobile_bridge.py
+  - test_modo_gamer.py
+  - test_multi_language.py
+  - test_novas_funcionalidades.py
+  - test_produtividade.py
+  - test_resposta_completa.py
+  - test_safety_features.py
+  - test_threads.py
+  - test_vision_cleanup.py
+  - test_visual_quick.py
+  - version_info.txt
+  - __pycache__
