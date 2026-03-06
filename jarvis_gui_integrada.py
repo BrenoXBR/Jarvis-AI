@@ -471,10 +471,10 @@ class JarvisGUI:
         chat_frame = ctk.CTkFrame(main_frame, border_color=STARK_COLORS["border"], fg_color=STARK_COLORS["component_bg"])
         chat_frame.pack(fill="both", expand=True, padx=10, pady=(0, 10))
         
-        # CTkTextbox para chat (em vez de balões)
+        # CTkTextbox para chat com layout clean
         self.chat_display = ctk.CTkTextbox(
             chat_frame,
-            font=ctk.CTkFont(family="Segoe UI", size=12),
+            font=ctk.CTkFont(family="Segoe UI", size=13),  # Fonte um pouco maior para melhor legibilidade
             fg_color=STARK_COLORS["background"],
             border_color=STARK_COLORS["border"],
             text_color="#ffffff",
@@ -731,19 +731,65 @@ class JarvisGUI:
         # Thread para processamento
         def process_and_respond():
             try:
-                # Contexto da memória
+                # Contexto da conversa (últimas 5-10 mensagens)
+                conversation_history = ""
+                if len(self.chat_history) > 0:
+                    # Pega as últimas 10 mensagens do histórico
+                    recent_messages = self.chat_history[-10:]
+                    history_lines = []
+                    for msg in recent_messages:
+                        if msg.get('is_user'):
+                            history_lines.append(f"VOCÊ: {msg['message']}")
+                        elif msg.get('is_jarvis'):
+                            history_lines.append(f"JARVIS: {msg['message']}")
+                        elif msg.get('is_system'):
+                            history_lines.append(f"SISTEMA: {msg['message']}")
+                    
+                    conversation_history = "\n".join(history_lines)
+                
+                # Memórias do sistema (apenas para contexto profundo)
                 memories = self.memory.get_recent_memories(3)
                 memory_context = "\n".join([f"- {mem[0]}" for mem in memories]) if memories else ""
                 
-                # Prompt com contexto
-                prompt = f"""Você é J.A.R.V.I.S., assistente de programação. 
+                # Detecção de pedido de detalhamento
+                needs_detail = any(keyword in message.lower() for keyword in ['mais detalhes', 'continue', 'explique melhor', 'pode detalhar', 'mais informações'])
                 
-Memórias recentes:
+                # Prompt otimizado com contexto da conversa
+                if needs_detail:
+                    prompt = f"""Você é J.A.R.V.I.S., assistente de IA avançada.
+
+Regras para esta resposta:
+- Forneça análise profunda e técnica (ignore a regra de concisão)
+- Use todo o contexto disponível
+- Seja detalhado e completo
+
+Histórico da conversa recente:
+{conversation_history}
+
+Memórias do sistema:
 {memory_context}
 
-Comando do usuário: {message}
+Comando atual: {message}
 
-Responda de forma útil, educativa e técnica. Se for sobre programação, forneça exemplos de código quando relevante."""
+Responda com detalhamento técnico completo."""
+                else:
+                    prompt = f"""Você é J.A.R.V.I.S., assistente de IA avançada.
+
+Regras de resposta:
+- Seja objetivo e direto, sem introduções longas
+- Limite: 2-3 parágrafos curtos
+- Tom: técnico, útil, levemente sarcástico/atencioso
+- Sem enrolações como "Com certeza" ou "Aqui está sua análise"
+
+Histórico da conversa recente:
+{conversation_history}
+
+Memórias do sistema:
+{memory_context}
+
+Comando: {message}
+
+Responda de forma técnica e direta."""
                 
                 # Chamada à API com configuração otimizada
                 model = genai.GenerativeModel(
@@ -823,27 +869,24 @@ Responda de forma útil, educativa e técnica. Se for sobre programação, forne
         threading.Thread(target=process_and_respond, daemon=True).start()
 
     def typewriter_effect(self, sender, message):
-        """Efeito typewriter para mensagens do Jarvis no CTkTextbox"""
+        """Efeito typewriter para mensagens do Jarvis no layout clean"""
         # Verifica se a mensagem é válida antes de processar
         if not message or not isinstance(message, str):
             self.add_message("Jarvis", "❌ Mensagem inválida para exibição", is_jarvis=True)
             return
         
-        timestamp = datetime.now().strftime("%H:%M:%S")
-        prefix = f"JARVIS [{timestamp}]:"
-        
         # Habilita o textbox para edição
         self.chat_display.configure(state="normal")
         
-        # Adiciona o prefixo com cor azul
-        self.chat_display.insert("end", f"{prefix}\n", "prefix")
-        self.chat_display.tag_config("prefix", foreground="#00D2FF")
+        # Layout Clean: Nome JARVIS em azul neon
+        self.chat_display.insert("end", "JARVIS\n", "jarvis_name")
+        self.chat_display.tag_config("jarvis_name", foreground="#00D2FF")
         
         # Armazena a mensagem completa em variável local para garantir persistência durante o loop
         complete_message = str(message)  # Garante que é string
         self.current_response = complete_message  # Backup em variável de instância
         
-        # Efeito typewriter
+        # Efeito typewriter para a mensagem
         def add_char_by_char():
             try:
                 # Usa a variável de instância para garantir persistência durante o loop
@@ -854,35 +897,22 @@ Responda de forma útil, educativa e técnica. Se for sobre programação, forne
                     if not self.is_processing:
                         # Se interrompido, adiciona o resto da mensagem de uma vez
                         remaining_text = message_to_type[i:]
-                        self.chat_display.insert("end", remaining_text, "message")
-                        self.chat_display.tag_config("message", foreground="#ffffff")
+                        self.chat_display.insert("end", remaining_text, "jarvis_message")
+                        self.chat_display.tag_config("jarvis_message", foreground="#ffffff")
                         break
                     
                     # Adiciona caractere por caractere
-                    self.chat_display.insert("end", char, "message")
-                    self.chat_display.tag_config("message", foreground="#ffffff")
-                    
-                    # Nota: CTkTextbox não suporta recuo por tag como o tk.Text tradicional
-                    # O texto será exibido com alinhamento padrão
+                    self.chat_display.insert("end", char, "jarvis_message")
+                    self.chat_display.tag_config("jarvis_message", foreground="#ffffff")
                     
                     # Auto-scroll e pequena pausa
                     self.chat_display.see("end")
                     self.root.update()
                     time.sleep(0.01)  # Pequena pausa para efeito
                 
-                # Adiciona espaçamento final e linha divisória
-                self.chat_display.insert("end", "\n", "message")
-                self.chat_display.tag_config("message", foreground="#ffffff")
-                
-                # Adiciona linha divisória sutil
-                self.chat_display.insert("end", "─" * 50 + "\n", "divider")
-                self.chat_display.tag_config("divider", foreground="#404040")
-                
-                # Adiciona espaço extra
-                self.chat_display.insert("end", "\n", "spacing")
-                self.chat_display.tag_config("spacing", foreground="#ffffff")
-                
-                # Nota: CTkTextbox não suporta recuo por tag
+                # Adiciona espaçamento final após a mensagem
+                self.chat_display.insert("end", "\n\n", "jarvis_message")
+                self.chat_display.tag_config("jarvis_message", foreground="#ffffff")
                 
                 # Auto-scroll final
                 self.chat_display.see("end")
@@ -890,8 +920,8 @@ Responda de forma útil, educativa e técnica. Se for sobre programação, forne
             except Exception as e:
                 print(f"Erro no efeito typewriter: {e}")
                 # Em caso de erro, adiciona a mensagem completa
-                self.chat_display.insert("end", f"{message_to_type}\n\n", "message")
-                self.chat_display.tag_config("message", foreground="#ffffff")
+                self.chat_display.insert("end", f"{message_to_type}\n\n", "jarvis_message")
+                self.chat_display.tag_config("jarvis_message", foreground="#ffffff")
                 self.chat_display.see("end")
             finally:
                 # Sempre desabilita o textbox no final
@@ -946,39 +976,39 @@ Responda de forma útil, educativa e técnica. Se for sobre programação, forne
         # Habilita o textbox para edição
         self.chat_display.configure(state="normal")
         
-        # Define cores e prefixos baseados no remetente
-        if is_user:
-            prefix = f"VOCÊ [{timestamp}]:"
-            color = "#e5e5e5"  # Cinza claro para usuário
-            message_color = "#ffffff"  # Branco para texto do usuário
-        elif is_jarvis:
-            prefix = f"JARVIS [{timestamp}]:"
-            color = "#00D2FF"  # Azul Reator Arc para Jarvis
-            message_color = "#ffffff"  # Branco para texto do Jarvis
+        # Layout Clean: Texto corrido estilo Gemini
+        if is_jarvis:
+            # Nome JARVIS em azul neon acima da resposta
+            self.chat_display.insert("end", f"JARVIS\n", "jarvis_name")
+            self.chat_display.tag_config("jarvis_name", foreground="#00D2FF")
+            
+            # Resposta em branco com espaçamento adequado
+            self.chat_display.insert("end", f"{message}\n\n", "jarvis_message")
+            self.chat_display.tag_config("jarvis_message", foreground="#ffffff")
+            
+        elif is_user:
+            # Mensagem do usuário
+            self.chat_display.insert("end", f"VOCÊ\n", "user_name")
+            self.chat_display.tag_config("user_name", foreground="#e5e5e5")
+            
+            self.chat_display.insert("end", f"{message}\n\n", "user_message")
+            self.chat_display.tag_config("user_message", foreground="#ffffff")
+            
         elif is_system:
-            prefix = f"SISTEMA [{timestamp}]:"
-            color = "#ffaa00"  # Laranja para sistema
-            message_color = "#ffffff"
+            # Mensagem do sistema
+            self.chat_display.insert("end", f"SISTEMA\n", "system_name")
+            self.chat_display.tag_config("system_name", foreground="#ffaa00")
+            
+            self.chat_display.insert("end", f"{message}\n\n", "system_message")
+            self.chat_display.tag_config("system_message", foreground="#ffffff")
+            
         else:
-            prefix = f"{sender} [{timestamp}]:"
-            color = "#ffffff"
-            message_color = "#ffffff"
-        
-        # Adiciona o prefixo com cor
-        self.chat_display.insert("end", f"{prefix}\n", "prefix")
-        self.chat_display.tag_config("prefix", foreground=color)
-        
-        # Adiciona a mensagem com cor apropriada
-        self.chat_display.insert("end", f"{message}\n", "message")
-        self.chat_display.tag_config("message", foreground=message_color)
-        
-        # Adiciona linha divisória sutil entre mensagens
-        self.chat_display.insert("end", "─" * 50 + "\n", "divider")
-        self.chat_display.tag_config("divider", foreground="#404040")
-        
-        # Adiciona espaço extra após a linha divisória
-        self.chat_display.insert("end", "\n", "spacing")
-        self.chat_display.tag_config("spacing", foreground="#ffffff")
+            # Outros remetentes
+            self.chat_display.insert("end", f"{sender}\n", "other_name")
+            self.chat_display.tag_config("other_name", foreground="#ffffff")
+            
+            self.chat_display.insert("end", f"{message}\n\n", "other_message")
+            self.chat_display.tag_config("other_message", foreground="#ffffff")
         
         # Nota: CTkTextbox não suporta recuo por tag, então o recuo foi removido
         # O texto será exibido com alinhamento padrão

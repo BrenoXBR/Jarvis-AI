@@ -309,3 +309,89 @@ Diretório: C:\Users\Breno\CascadeProjects
 [2026-02-27 19:10:50] [INFO] [VISÃO] API Key detectada (mascarada): AIzaSyDN...t5CM
 [2026-02-27 19:10:50] [SUCCESS] [VISÃO] Visão computacional inicializada com Gemini 1.5 Flash
 [2026-02-27 19:10:50] [INFO] [SISTEMA] Interface criada com sucesso, iniciando mainloop
+
+============================================================
+🤖 J.A.R.V.I.S. - INÍCIO DE SESSÃO
+============================================================
+Data/Hora: 2026-03-02 19:45:14
+Sistema: win32
+Python: 3.13.12 (tags/v3.13.12:1cbe481, Feb  3 2026, 18:22:25) [MSC v.1944 64 bit (AMD64)]
+Executável: False
+Diretório: C:\Users\Breno\CascadeProjects
+============================================================
+
+[2026-03-02 19:45:14] [INFO] [SISTEMA] Sistema de log inicializado
+[2026-03-02 19:45:14] [INFO] [SISTEMA] Iniciando função principal do J.A.R.V.I.S.
+[2026-03-02 19:45:14] [INFO] [SISTEMA] Criando instância da interface GUI
+[2026-03-02 19:45:15] [INFO] [MEMÓRIA] Inicializando memória em: C:\Users\Breno\CascadeProjects\jarvis_memory.db
+[2026-03-02 19:45:15] [SUCCESS] [MEMÓRIA] Banco de dados inicializado com sucesso
+[2026-03-02 19:45:15] [INFO] [VISÃO] Script detectado, diretório base: C:\Users\Breno\CascadeProjects
+[2026-03-02 19:45:15] [INFO] [VISÃO] Procurando .env em: C:\Users\Breno\CascadeProjects\.env
+[2026-03-02 19:45:15] [SUCCESS] [VISÃO] Arquivo .env carregado com UTF-8: C:\Users\Breno\CascadeProjects\.env
+[2026-03-02 19:45:15] [INFO] [VISÃO] API Key detectada (mascarada): AIzaSyDN...t5CM
+[2026-03-02 19:45:15] [SUCCESS] [VISÃO] Visão computacional inicializada com Gemini 1.5 Flash
+[2026-03-02 19:45:16] [ERROR] [SISTEMA] Erro crítico ao iniciar interface
+  Tipo: AttributeError
+  Mensagem: 'font' option forbidden, because would be incompatible with scaling
+  Traceback: Traceback (most recent call last):
+  File "C:\Users\Breno\CascadeProjects\jarvis_gui_integrada.py", line 1081, in main
+    app = JarvisGUI()
+  File "C:\Users\Breno\CascadeProjects\jarvis_gui_integrada.py", line 424, in __init__
+    self.setup_ui()
+    ~~~~~~~~~~~~~^^
+  File "C:\Users\Breno\CascadeProjects\jarvis_gui_integrada.py", line 577, in setup_ui
+    self.add_message("Jarvis", "👋 Olá! Sou o J.A.R.V.I.S. com todos os módulos integrados. Posso ouvir, ver, lembrar e analisar para você!", is_jarvis=True)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Breno\CascadeProjects\jarvis_gui_integrada.py", line 946, in add_message
+    self.chat_display.tag_config("jarvis_name", foreground="#00D2FF", font=ctk.CTkFont(family="Segoe UI", size=14, weight="bold"))
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Breno\AppData\Local\Programs\Python\Python313\Lib\site-packages\customtkinter\windows\widgets\ctk_textbox.py", line 442, in tag_config
+    raise AttributeError("'font' option forbidden, because would be incompatible with scaling")
+AttributeError: 'font' option forbidden, because would be incompatible with scaling
+
+------------------------------------------------------------
+
+
+============================================================
+🤖 J.A.R.V.I.S. - INÍCIO DE SESSÃO
+============================================================
+Data/Hora: 2026-03-02 19:45:50
+Sistema: win32
+Python: 3.13.12 (tags/v3.13.12:1cbe481, Feb  3 2026, 18:22:25) [MSC v.1944 64 bit (AMD64)]
+Executável: False
+Diretório: C:\Users\Breno\CascadeProjects
+============================================================
+
+[2026-03-02 19:45:50] [INFO] [SISTEMA] Sistema de log inicializado
+[2026-03-02 19:45:50] [INFO] [SISTEMA] Iniciando função principal do J.A.R.V.I.S.
+[2026-03-02 19:45:50] [INFO] [SISTEMA] Criando instância da interface GUI
+[2026-03-02 19:45:50] [INFO] [MEMÓRIA] Inicializando memória em: C:\Users\Breno\CascadeProjects\jarvis_memory.db
+[2026-03-02 19:45:50] [SUCCESS] [MEMÓRIA] Banco de dados inicializado com sucesso
+[2026-03-02 19:45:50] [INFO] [VISÃO] Script detectado, diretório base: C:\Users\Breno\CascadeProjects
+[2026-03-02 19:45:50] [INFO] [VISÃO] Procurando .env em: C:\Users\Breno\CascadeProjects\.env
+[2026-03-02 19:45:50] [SUCCESS] [VISÃO] Arquivo .env carregado com UTF-8: C:\Users\Breno\CascadeProjects\.env
+[2026-03-02 19:45:50] [INFO] [VISÃO] API Key detectada (mascarada): AIzaSyDN...t5CM
+[2026-03-02 19:45:50] [SUCCESS] [VISÃO] Visão computacional inicializada com Gemini 1.5 Flash
+[2026-03-02 19:45:51] [INFO] [SISTEMA] Interface criada com sucesso, iniciando mainloop
+
+============================================================
+🤖 J.A.R.V.I.S. - INÍCIO DE SESSÃO
+============================================================
+Data/Hora: 2026-03-02 20:07:22
+Sistema: win32
+Python: 3.13.12 (tags/v3.13.12:1cbe481, Feb  3 2026, 18:22:25) [MSC v.1944 64 bit (AMD64)]
+Executável: False
+Diretório: C:\Users\Breno\CascadeProjects
+============================================================
+
+[2026-03-02 20:07:22] [INFO] [SISTEMA] Sistema de log inicializado
+[2026-03-02 20:07:22] [INFO] [SISTEMA] Iniciando função principal do J.A.R.V.I.S.
+[2026-03-02 20:07:22] [INFO] [SISTEMA] Criando instância da interface GUI
+[2026-03-02 20:07:22] [INFO] [MEMÓRIA] Inicializando memória em: C:\Users\Breno\CascadeProjects\jarvis_memory.db
+[2026-03-02 20:07:22] [SUCCESS] [MEMÓRIA] Banco de dados inicializado com sucesso
+[2026-03-02 20:07:22] [INFO] [VISÃO] Script detectado, diretório base: C:\Users\Breno\CascadeProjects
+[2026-03-02 20:07:22] [INFO] [VISÃO] Procurando .env em: C:\Users\Breno\CascadeProjects\.env
+[2026-03-02 20:07:22] [SUCCESS] [VISÃO] Arquivo .env carregado com UTF-8: C:\Users\Breno\CascadeProjects\.env
+[2026-03-02 20:07:22] [INFO] [VISÃO] API Key detectada (mascarada): AIzaSyDN...t5CM
+[2026-03-02 20:07:22] [SUCCESS] [VISÃO] Visão computacional inicializada com Gemini 1.5 Flash
+[2026-03-02 20:07:23] [INFO] [SISTEMA] Interface criada com sucesso, iniciando mainloop
