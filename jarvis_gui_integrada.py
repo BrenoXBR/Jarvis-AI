@@ -125,48 +125,46 @@ class JarvisLogger:
             # Registra no log normal
             with open(self.log_file, 'a', encoding='utf-8') as f:
                 f.write(f"[{timestamp}] [ERROR] [{module}] {context}\n")
-                f.write(f"  Tipo: {type(error).__name__}\n")
-                f.write(f"  Mensagem: {str(error)}\n")
-                import traceback
-                f.write(f"  Traceback: {traceback.format_exc()}\n")
-                f.write(f"{'-'*60}\n\n")
+                f.write(f"[{timestamp}] [ERROR] [{module}] Detalhes: {str(error)}\n")
             
-            # Salva erro crítico separado
+            # Salva erro crítico em arquivo separado
             with open(self.error_file, 'w', encoding='utf-8') as f:
                 f.write("🤖 J.A.R.V.I.S. - ERRO CRÍTICO\n")
                 f.write("=" * 50 + "\n\n")
-                f.write(f"Data/Hora: {timestamp}\n")
+                f.write(f"Data/Hora: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n")
                 f.write(f"Sistema: {sys.platform}\n")
                 f.write(f"Python: {sys.version}\n")
                 f.write(f"Executável: {getattr(sys, 'frozen', False)}\n")
-                f.write(f"Diretório: {self.base_path}\n")
-                f.write(f"Módulo: {module}\n")
-                f.write(f"Contexto: {context}\n\n")
+                f.write(f"Diretório: {self.base_path}\n\n")
                 f.write("ERRO:\n")
                 f.write(f"Tipo: {type(error).__name__}\n")
-                f.write(f"Mensagem: {str(error)}\n\n")
-                f.write("TRACEBACK COMPLETO:\n")
-                f.write(traceback.format_exc())
-                f.write("\n\n")
-                f.write("INFORMAÇÕES ADICIONAIS:\n")
-                f.write(f"Arquivos no diretório:\n")
-                try:
-                    for item in os.listdir(self.base_path):
-                        f.write(f"  - {item}\n")
-                except Exception as list_error:
-                    f.write(f"  Erro ao listar diretório: {list_error}\n")
-                f.write("\n")
-                f.write("SUGESTÕES:\n")
-                f.write("1. Verifique sua conexão com internet\n")
-                f.write("2. Confirme se a API key está correta\n")
-                f.write("3. Reinicie o aplicativo\n")
-                f.write("4. Verifique se o Windows está atualizado\n")
-                f.write("5. Feche outros aplicativos pesados\n")
-            
-            print(f"❌ Erro crítico salvo em: {self.error_file}")
-            
+                f.write(f"Mensagem: {str(error)}\n")
+                f.write(f"Contexto: {context}\n")
+                f.write(f"Módulo: {module}\n\n")
+                f.write("SOLUÇÃO:\n")
+                f.write("1. Verifique se todas as dependências estão instaladas\n")
+                f.write("2. Tente executar como administrador\n")
+                f.write("3. Verifique se o arquivo .env existe e está configurado\n")
+                
         except Exception as e:
-            print(f"❌ Erro ao salvar erro crítico: {e}")
+            print(f"❌ Erro ao registrar erro: {e}")
+    
+    def warning(self, message, module="GERAL"):
+        """Registra mensagem de aviso"""
+        try:
+            timestamp = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+            with open(self.log_file, 'a', encoding='utf-8') as f:
+                f.write(f"[{timestamp}] [WARNING] [{module}] {message}\n")
+        except Exception as e:
+            print(f"❌ Erro ao registrar aviso: {e}")
+    
+    def info(self, message, module="GERAL"):
+        """Registra mensagem informativa (alias para log_info)"""
+        return self.log_info(message, module)
+    
+    def error(self, error, context="Desconhecido", module="GERAL"):
+        """Registra erro (alias para log_error)"""
+        return self.log_error(error, context, module)
     
     def log_warning(self, message, module="GERAL"):
         """Registra aviso"""
@@ -756,15 +754,21 @@ class JarvisGUI:
         self.add_message("Você", message, is_user=True)
         
         # Processa com Gemini
-        self.process_with_gemini(message)
+        self._process_message(message)
     
-    def process_with_gemini(self, message):
+    def _process_message(self, message):
         """Processa mensagem com Gemini e controle de sistema"""
         # Primeiro, verifica se é um comando de sistema
         if SYSTEM_CONTROL_AVAILABLE and self.system_controller:
             command_intent = self.system_controller.detect_command_intent(message)
             if command_intent:
                 command_type, command_data = command_intent
+                
+                # Para comandos de energia, pede confirmação
+                if command_type == "power_control":
+                    self._show_power_confirmation(command_data["action"])
+                    return
+                
                 result = self.system_controller.execute_command(command_type, command_data)
                 self.add_message("Jarvis", result, is_jarvis=True)
                 
@@ -832,6 +836,7 @@ Histórico da conversa recente:
 
 Memórias do sistema:
 {memory_context}
+
 {system_commands_info}
 
 Comando atual: {message}
@@ -851,6 +856,7 @@ Histórico da conversa recente:
 
 Memórias do sistema:
 {memory_context}
+
 {system_commands_info}
 
 Comando: {message}
@@ -927,14 +933,12 @@ Responda de forma técnica e direta."""
             finally:
                 self.root.after(0, lambda: self.status_label.configure(text="🟢 Online", text_color=STARK_COLORS["ia_text"]))
                 self.root.after(0, lambda: setattr(self, 'is_processing', False))
-            self.root.after(0, lambda: self.status_label.configure(text="🟢 Online", text_color=STARK_COLORS["ia_text"]))
-            self.root.after(0, lambda: setattr(self, 'is_processing', False))
-            self.root.after(0, lambda: self.stop_progress_animation())
+                self.root.after(0, lambda: self.stop_progress_animation())
         
         # Executa a thread dentro do escopo correto
         threading.Thread(target=process_and_respond, daemon=True).start()
     
-    def emergency_silence(self):
+    def emergency_silence(self) -> None:
         """Executa Protocolo Silêncio via botão de emergência"""
         if not SYSTEM_CONTROL_AVAILABLE or not self.system_controller:
             self.add_message("Sistema", "❌ Controlador de sistema não disponível", is_system=True)
@@ -949,7 +953,7 @@ Responda de forma técnica e direta."""
                 result = self.system_controller.execute_command("emergency_silence", {})
                 self.root.after(0, lambda: self.add_message("Jarvis", result, is_jarvis=True))
             except Exception as e:
-                logger.error(e, "Erro no Protocolo Silêncio", "EMERGÊNCIA")
+                self.logger.error(e, "Erro no Protocolo Silêncio", "EMERGÊNCIA")
                 self.root.after(0, lambda: self.add_message("Sistema", f"❌ Erro: {e}", is_system=True))
             finally:
                 # Reseta status após 3 segundos
@@ -960,6 +964,93 @@ Responda de forma técnica e direta."""
         
         # Executa imediatamente em thread separada
         threading.Thread(target=execute_emergency, daemon=True).start()
+    
+    def _show_power_confirmation(self, action: str):
+        """Mostra diálogo de confirmação para comandos de energia"""
+        action_names = {
+            "shutdown": "Desligamento",
+            "restart": "Reinicialização", 
+            "suspend": "Suspensão"
+        }
+        
+        action_name = action_names.get(action, action.title())
+        
+        # Cria janela de confirmação
+        confirm_window = ctk.CTkToplevel(self.root)
+        confirm_window.title("🔌 Confirmação de Energia")
+        confirm_window.geometry("400x200")
+        confirm_window.configure(fg_color=STARK_COLORS["background"])
+        confirm_window.transient(self.root)
+        confirm_window.grab_set()
+        
+        # Centraliza a janela
+        confirm_window.update_idletasks()
+        x = (confirm_window.winfo_screenwidth() // 2) - (400 // 2)
+        y = (confirm_window.winfo_screenheight() // 2) - (200 // 2)
+        confirm_window.geometry(f"400x200+{x}+{y}")
+        
+        # Frame principal
+        main_frame = ctk.CTkFrame(confirm_window, fg_color="transparent")
+        main_frame.pack(fill="both", expand=True, padx=20, pady=20)
+        
+        # Mensagem
+        message_label = ctk.CTkLabel(
+            main_frame,
+            text=f"🔌 {action_name} do Sistema\n\nSenhor, os sistemas serão encerrados.\nConfirma o protocolo?",
+            font=ctk.CTkFont(size=14, weight="bold"),
+            text_color=STARK_COLORS["ia_text"],
+            wraplength=350
+        )
+        message_label.pack(pady=(20, 10))
+        
+        # Frame dos botões
+        button_frame = ctk.CTkFrame(main_frame, fg_color="transparent")
+        button_frame.pack(fill="x", pady=10)
+        
+        # Botão Não
+        no_button = ctk.CTkButton(
+            button_frame,
+            text="❌ Não",
+            width=80,
+            height=35,
+            font=ctk.CTkFont(size=12, weight="bold"),
+            fg_color="#FF4444",
+            hover_color="#CC0000",
+            command=lambda: self._cancel_power_action(confirm_window)
+        )
+        no_button.pack(side="left", padx=(50, 10), expand=True)
+        
+        # Botão Sim
+        yes_button = ctk.CTkButton(
+            button_frame,
+            text="✅ Sim",
+            width=80,
+            height=35,
+            font=ctk.CTkFont(size=12, weight="bold"),
+            fg_color="#44FF44",
+            hover_color="#00CC00",
+            command=lambda: self._confirm_power_action(confirm_window, action)
+        )
+        yes_button.pack(side="right", padx=(10, 50), expand=True)
+        
+        # Foco na janela
+        confirm_window.focus_set()
+        confirm_window.grab_set()
+    
+    def _cancel_power_action(self, window):
+        """Cancela ação de energia"""
+        window.destroy()
+        self.add_message("Jarvis", "🔌 Ação de energia cancelada, senhor.", is_jarvis=True)
+    
+    def _confirm_power_action(self, window, action: str):
+        """Confirma e executa ação de energia"""
+        window.destroy()
+        
+        if SYSTEM_CONTROL_AVAILABLE and self.system_controller:
+            result = self.system_controller.confirm_power_action(action)
+            self.add_message("Jarvis", result, is_jarvis=True)
+        else:
+            self.add_message("Jarvis", "❌ Controlador de sistema não disponível", is_jarvis=True)
 
     def typewriter_effect(self, sender, message):
         """Efeito typewriter para mensagens do Jarvis no layout clean"""

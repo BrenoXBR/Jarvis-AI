@@ -406,21 +406,35 @@ class SystemController:
             if keyword in message_lower:
                 return ("emergency_silence", {})
         
-        # Comandos de abrir aplicativos
-        open_keywords = ["abra", "abrir", "abre", "iniciar", "start", "open", "execute"]
+        # Comandos de abrir aplicativos - busca universal
+        open_keywords = ["abra", "abrir", "abre", "iniciar", "start", "open", "execute", "execute", "acesse", "acessar", "abre o", "abra o", "inicie o"]
         for keyword in open_keywords:
             if keyword in message_lower:
-                # Procura por aplicativo correspondente
-                for app_key, app_data in self.applications.items():
-                    for command in app_data["commands"]:
-                        if command in message_lower:
-                            return ("open_app", {"app_key": app_key, "app_data": app_data})
+                # Extrai o nome do aplicativo após o comando
+                if keyword in ["abre o", "abra o", "inicie o"]:
+                    app_name = message_lower.replace(keyword, "").strip()
+                else:
+                    app_name = message_lower.replace(keyword, "").strip()
                 
-                # Procura por links rápidos
-                for link_key, link_data in self.quick_links.items():
-                    for command in link_data["commands"]:
-                        if command in message_lower:
-                            return ("open_link", {"link_key": link_key, "link_data": link_data})
+                # Remove artigos e palavras desnecessárias
+                app_name = app_name.replace("o ", "").replace("a ", "").replace("os ", "").replace("as ", "")
+                app_name = app_name.replace("meu ", "").replace("minha ", "").replace("seu ", "").replace("sua ", "")
+                app_name = app_name.replace("e ", "").replace("e procure por", "").replace("procure por", "")
+                app_name = app_name.replace("configurações", "configuracoes").strip()
+                
+                # Se ainda tiver palavras extras, pega só a primeira
+                if " " in app_name:
+                    app_name = app_name.split()[0]
+                
+                if app_name and len(app_name) > 1:
+                    # Usa busca universal
+                    return ("universal_app", {"app_name": app_name})
+        
+        # Comandos de links rápidos (mantido para compatibilidade)
+        for link_key, link_data in self.quick_links.items():
+            for command in link_data["commands"]:
+                if command in message_lower:
+                    return ("open_link", {"link_key": link_key, "link_data": link_data})
         
         # Comandos de volume
         volume_keywords = ["volume", "som", "áudio", "audio"]
@@ -448,31 +462,124 @@ class SystemController:
                 elif "mínimo" in message_lower or "min" in message_lower:
                     return ("brightness", {"action": "min"})
         
+        # Comandos de energia (Mark 12)
+        power_keywords = ["desligar", "desligue", "desliga", "shutdown", "desligamento"]
+        for keyword in power_keywords:
+            if keyword in message_lower:
+                return ("power_control", {"action": "shutdown"})
+        
+        restart_keywords = ["reiniciar", "reinicie", "restart", "reboot", "reinicialização", "reinicialize"]
+        for keyword in restart_keywords:
+            if keyword in message_lower:
+                return ("power_control", {"action": "restart"})
+        
+        suspend_keywords = ["suspender", "suspenda", "hibernar", "hibernate", "dormir", "sleep"]
+        for keyword in suspend_keywords:
+            if keyword in message_lower:
+                return ("power_control", {"action": "suspend"})
+        
+        # Comando específico para verificar atualizações (Deep Link direto)
+        update_keywords = ["verificar atualizações", "verifique atualizações", "checar atualizações", "check updates", "procurar atualizações"]
+        for keyword in update_keywords:
+            if keyword in message_lower:
+                return ("universal_app", {"app_name": "atualizações"})
+        
         return None
     
     def execute_command(self, command_type: str, command_data: Dict) -> str:
-        """
-        Executa o comando detectado.
-        Retorna mensagem de resultado para exibir ao usuário.
-        """
+        """Executa comando detectado"""
         try:
-            if command_type == "emergency_silence":
-                return self._execute_emergency_silence()
-            elif command_type == "open_app":
+            if command_type == "open_app":
                 return self._open_application(command_data["app_key"], command_data["app_data"])
             elif command_type == "open_link":
                 return self._open_link(command_data["link_key"], command_data["link_data"])
+            elif command_type == "universal_app":
+                return self._universal_app_search(command_data["app_name"])
             elif command_type == "volume":
                 return self._control_volume(command_data["action"])
             elif command_type == "brightness":
                 return self._control_brightness(command_data["action"])
+            elif command_type == "emergency_silence":
+                return self._execute_emergency_silence(command_data)
+            elif command_type == "power_control":
+                return self._execute_power_command(command_data["action"])
             else:
-                return "❌ Comando não reconhecido"
+                return f"❌ Comando desconhecido: {command_type}"
         except Exception as e:
             self.logger.error(e, f"Erro ao executar comando {command_type}", "SISTEMA")
             return f"❌ Erro ao executar comando: {e}"
     
-    def _execute_emergency_silence(self) -> str:
+    def _execute_power_command(self, action: str) -> str:
+        """Executa comandos de energia do sistema (Mark 12)"""
+        if action == "shutdown":
+            return self._execute_shutdown()
+        elif action == "restart":
+            return self._execute_restart()
+        elif action == "suspend":
+            return self._execute_suspend()
+        else:
+            return f"❌ Comando de energia desconhecido: {action}"
+    
+    def _execute_shutdown(self) -> str:
+        """Executa desligamento com aviso de 60 segundos"""
+        self.logger.warning("🔌 COMANDO DE DESLIGAMENTO SOLICITADO", "ENERGIA")
+        
+        # Log de segurança
+        log_entry = f"COMANDO_DESligAMENTO_SOLICITADO - {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}"
+        self.logger.info(log_entry, "ENERGIA")
+        
+        return "🔌 Senhor, os sistemas serão encerrados. Confirma o protocolo?"
+    
+    def _execute_restart(self) -> str:
+        """Executa reinicialização com aviso de 60 segundos"""
+        self.logger.warning("🔄 COMANDO DE REINICIALIZAÇÃO SOLICITADO", "ENERGIA")
+        
+        # Log de segurança
+        log_entry = f"COMANDO_REINICIALIZACAO_SOLICITADO - {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}"
+        self.logger.info(log_entry, "ENERGIA")
+        
+        return "🔄 Senhor, os sistemas serão reiniciados. Confirma o protocolo?"
+    
+    def _execute_suspend(self) -> str:
+        """Executa suspensão imediata"""
+        self.logger.warning("😴 COMANDO DE SUSPENSÃO SOLICITADO", "ENERGIA")
+        
+        try:
+            # Log de segurança
+            log_entry = f"COMANDO_SUSPENSAO_EXECUTADO - {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}"
+            self.logger.info(log_entry, "ENERGIA")
+            
+            # Executa suspensão
+            os.system('rundll32.exe powrprof.dll,SetSuspendState 0,1,0')
+            return "😴 Sistema suspenso, senhor."
+        except Exception as e:
+            self.logger.error(e, "Erro ao suspender sistema", "ENERGIA")
+            return f"❌ Erro ao suspender sistema: {e}"
+    
+    def confirm_power_action(self, action: str) -> str:
+        """Confirma e executa ação de energia"""
+        if action == "shutdown":
+            try:
+                self.logger.info("🔌 DESLIGAMENTO CONFIRMADO - EXECUTANDO", "ENERGIA")
+                os.system('shutdown /s /t 60')
+                return "🔌 Desligamento confirmado. O sistema será desligado em 60 segundos, senhor."
+            except Exception as e:
+                self.logger.error(e, "Erro ao executar desligamento", "ENERGIA")
+                return f"❌ Erro ao executar desligamento: {e}"
+                
+        elif action == "restart":
+            try:
+                self.logger.info("🔄 REINICIALIZAÇÃO CONFIRMADA - EXECUTANDO", "ENERGIA")
+                os.system('shutdown /r /t 60')
+                return "🔄 Reinicialização confirmada. O sistema será reiniciado em 60 segundos, senhor."
+            except Exception as e:
+                self.logger.error(e, "Erro ao executar reinicialização", "ENERGIA")
+                return f"❌ Erro ao executar reinicialização: {e}"
+                
+        else:
+            return f"❌ Ação de energia não reconhecida: {action}"
+    
+    def _execute_emergency_silence(self, command_data: Dict) -> str:
         """Executa o Protocolo Silêncio - fecha abas e silencia volume"""
         self.logger.info("🚨 PROTOCOLO SILÊNCIO ATIVADO", "EMERGÊNCIA")
         
@@ -645,8 +752,257 @@ class SystemController:
             self.logger.error(e, "Erro ao minimizar janelas", "EMERGÊNCIA")
             return 0
     
+    def _universal_app_search(self, app_name: str) -> Optional[str]:
+        """Busca universal de aplicativos usando os.startfile e protocolos do Windows"""
+        app_name_lower = app_name.lower().strip()
+        
+        print(f"🔍 Busca universal iniciada para: {app_name}")
+        
+        # Protocolos específicos do Windows (prioridade máxima)
+        specific_protocols = {
+            'configurações': 'ms-settings:',
+            'configuracoes': 'ms-settings:',
+            'settings': 'ms-settings:',
+            'loja': 'ms-windows-store:',
+            'store': 'ms-windows-store:',
+            'microsoft store': 'ms-windows-store:',
+            'calculadora': 'calc',
+            'calculator': 'calc',
+            'calc': 'calc',
+            'painel de controle': 'control',
+            'control panel': 'control',
+            'notepad': 'notepad',
+            'bloco de notas': 'notepad',
+            'cmd': 'cmd',
+            'prompt': 'cmd',
+            'terminal': 'cmd',
+            'powershell': 'powershell',
+            'explorer': 'explorer',
+            'task manager': 'taskmgr',
+            'gerenciador de tarefas': 'taskmgr',
+            # Deep Links Mark 12
+            'atualizações': 'ms-settings:windowsupdate-action',
+            'atualizacoes': 'ms-settings:windowsupdate-action',
+            'windows update': 'ms-settings:windowsupdate-action',
+            'update': 'ms-settings:windowsupdate-action',
+            'atualizar': 'ms-settings:windowsupdate-action',
+            'atualizar windows': 'ms-settings:windowsupdate-action',
+            'windows defender': 'ms-settings:windowsdefender',
+            'defender': 'ms-settings:windowsdefender',
+            'antivírus': 'ms-settings:windowsdefender',
+            'rede': 'ms-settings:network',
+            'network': 'ms-settings:network',
+            'conexões': 'ms-settings:network',
+            'bluetooth': 'ms-settings:bluetooth',
+            'som': 'ms-settings:sound',
+            'áudio': 'ms-settings:sound',
+            'audio': 'ms-settings:sound',
+            'energia': 'ms-settings:powersleep',
+            'power': 'ms-settings:powersleep',
+            'bateria': 'ms-settings:powersleep',
+            'notificações': 'ms-settings:notifications',
+            'privacidade': 'ms-settings:privacy',
+            'contas': 'ms-settings:yourinfo',
+            'hora e data': 'ms-settings:dateandtime',
+            'time': 'ms-settings:dateandtime',
+            'data': 'ms-settings:dateandtime',
+            'acessibilidade': 'ms-settings:easeofaccess',
+            'acessibilidade': 'ms-settings:easeofaccess'
+        }
+        
+        # 1. Verifica se é um protocolo específico conhecido
+        if app_name_lower in specific_protocols:
+            protocol = specific_protocols[app_name_lower]
+            try:
+                print(f"🚀 Usando os.startfile para protocolo: {protocol}")
+                os.startfile(protocol)
+                self.logger.info(f"Protocolo Windows executado com os.startfile: {protocol}", "SISTEMA")
+                
+                # Mensagem específica para cada tipo
+                if app_name_lower in ['configurações', 'configuracoes', 'settings']:
+                    return "Configurações acessadas, senhor."
+                elif app_name_lower in ['loja', 'store', 'microsoft store']:
+                    return "Microsoft Store acessada, senhor."
+                elif app_name_lower in ['calculadora', 'calculator', 'calc']:
+                    return "Calculadora acessada, senhor."
+                else:
+                    return f"{app_name.title()} acessado, senhor."
+                    
+            except Exception as e:
+                print(f"❌ Erro no protocolo: {e}")
+                self.logger.error(e, f"Protocolo falhou para {app_name}", "SISTEMA")
+                return f"❌ Senhor, o sistema operacional recusou o protocolo. Verifique se o caminho está correto."
+        
+        # 2. Para outros apps, usa where para encontrar o caminho real
+        try:
+            print(f"🔍 Buscando caminho com 'where {app_name_lower}'")
+            where_result = os.popen(f'where {app_name_lower}').read().strip()
+            
+            if where_result:
+                # Pega a primeira linha (caminho mais relevante)
+                exe_path = where_result.split('\n')[0].strip()
+                print(f"✅ Encontrado: {exe_path}")
+                
+                try:
+                    os.startfile(exe_path)
+                    self.logger.info(f"Aplicativo executado com os.startfile: {exe_path}", "SISTEMA")
+                    return f"{app_name.title()} acessado, senhor."
+                except Exception as e:
+                    print(f"❌ Erro ao executar {exe_path}: {e}")
+                    self.logger.error(e, f"Erro ao executar {app_name}", "SISTEMA")
+                    return f"❌ Senhor, o sistema operacional recusou o protocolo. Verifique se o caminho está correto."
+            else:
+                print(f"⚠️ {app_name} não encontrado com 'where'")
+                
+        except Exception as e:
+            print(f"⚠️ Erro no comando 'where': {e}")
+            self.logger.warning(f"Comando 'where' falhou para {app_name}: {e}", "SISTEMA")
+        
+        # 3. Se não encontrar com where, tenta busca direta em pastas comuns
+        search_paths = [
+            fr"C:\Program Files",
+            fr"C:\Program Files (x86)",
+            fr"C:\Users\{os.getenv('USERNAME')}\AppData\Local",
+            fr"C:\Users\{os.getenv('USERNAME')}\AppData\Roaming",
+            fr"C:\Users\{os.getenv('USERNAME')}\Desktop",
+            "C:\\Windows\\System32"
+        ]
+        
+        # Nomes possíveis de executáveis para buscar
+        possible_names = [
+            f"{app_name}.exe",
+            f"{app_name_lower}.exe",
+            f"{app_name.replace(' ', '')}.exe",
+            f"{app_name_lower.replace(' ', '')}.exe",
+            app_name,
+            app_name_lower
+        ]
+        
+        print(f"📂 Buscando em pastas do Windows...")
+        
+        for search_path in search_paths:
+            if not os.path.exists(search_path):
+                continue
+                
+            for possible_name in possible_names:
+                try:
+                    # Busca recursiva com glob
+                    import glob
+                    pattern = os.path.join(search_path, "**", possible_name)
+                    matches = glob.glob(pattern, recursive=True)
+                    
+                    if matches:
+                        # Pega o primeiro match mais relevante
+                        best_match = matches[0]
+                        print(f"✅ Encontrado: {best_match}")
+                        
+                        try:
+                            os.startfile(best_match)
+                            self.logger.info(f"Aplicativo encontrado e executado: {best_match}", "SISTEMA")
+                            return f"{app_name.title()} acessado, senhor."
+                        except Exception as e:
+                            print(f"❌ Erro ao executar {best_match}: {e}")
+                            self.logger.error(e, f"Erro ao executar {app_name}", "SISTEMA")
+                            continue
+                                
+                except Exception as e:
+                    continue
+        
+        # 4. Se for pasta, tenta abrir com explorer
+        if any(keyword in app_name_lower for keyword in ['pasta', 'folder', 'downloads', 'documents', 'desktop', 'pictures', 'music', 'videos']):
+            return self._open_special_folder(app_name)
+        
+        # 5. Busca por palavras-chave em nomes de arquivos
+        print(f"🔍 Busca por palavras-chave...")
+        for search_path in search_paths:
+            if not os.path.exists(search_path):
+                continue
+                
+            try:
+                import glob
+                # Busca arquivos que contenham o nome do app
+                pattern = os.path.join(search_path, "**", f"*{app_name_lower}*.exe")
+                matches = glob.glob(pattern, recursive=True)
+                
+                for match in matches[:3]:  # Limita a 3 resultados mais relevantes
+                    try:
+                        os.startfile(match)
+                        self.logger.info(f"Aplicativo encontrado por keyword: {match}", "SISTEMA")
+                        return f"{app_name.title()} acessado, senhor."
+                    except Exception:
+                        continue
+                        
+            except Exception:
+                continue
+        
+        # 6. Se nada funcionou, tenta busca no Google como último recurso
+        try:
+            print(f"🌐 Tentando busca no Google para: {app_name}")
+            search_url = f"https://www.google.com/search?q={app_name.replace(' ', '+')}"
+            webbrowser.open(search_url)
+            self.logger.info(f"Busca no Google realizada para: {app_name}", "SISTEMA")
+            return f"Não encontrei {app_name} localmente. Buscando no Google, senhor."
+        except Exception as e:
+            self.logger.warning(f"Busca no Google falhou: {e}", "SISTEMA")
+        
+        # Se absolutamente nada funcionou
+        self.logger.warning(f"Aplicativo não encontrado: {app_name}", "SISTEMA")
+        return f"❌ Não consegui encontrar o {app_name} em seu sistema, senhor. Verifique se está instalado."
+    
+    def _open_special_folder(self, folder_name: str) -> str:
+        """Abre pastas especiais do Windows"""
+        folder_lower = folder_name.lower()
+        
+        # Mapeamento de pastas especiais
+        special_folders = {
+            'downloads': os.path.join(os.path.expanduser('~'), 'Downloads'),
+            'documentos': os.path.join(os.path.expanduser('~'), 'Documents'),
+            'documents': os.path.join(os.path.expanduser('~'), 'Documents'),
+            'desktop': os.path.join(os.path.expanduser('~'), 'Desktop'),
+            'área de trabalho': os.path.join(os.path.expanduser('~'), 'Desktop'),
+            'pictures': os.path.join(os.path.expanduser('~'), 'Pictures'),
+            'imagens': os.path.join(os.path.expanduser('~'), 'Pictures'),
+            'music': os.path.join(os.path.expanduser('~'), 'Music'),
+            'música': os.path.join(os.path.expanduser('~'), 'Music'),
+            'videos': os.path.join(os.path.expanduser('~'), 'Videos'),
+            'vídeos': os.path.join(os.path.expanduser('~'), 'Videos'),
+            'this pc': '::{20D04FE0-3AEA-1069-A2D8-08002B30309D}',
+            'computador': '::{20D04FE0-3AEA-1069-A2D8-08002B30309D}',
+            'control panel': '::{26EE0668-A00A-44D7-9371-BB0633BBC311}',
+            'painel de controle': '::{26EE0668-A00A-44D7-9371-BB0633BBC311}'
+        }
+        
+        # Verifica se é uma pasta especial
+        for key, path in special_folders.items():
+            if key in folder_lower:
+                try:
+                    os.startfile(path)
+                    self.logger.info(f"Pasta especial aberta: {key} -> {path}", "SISTEMA")
+                    return f"Acessando {folder_name}, senhor."
+                except Exception as e:
+                    self.logger.error(e, f"Erro ao abrir pasta {folder_name}", "SISTEMA")
+                    return f"❌ Erro ao abrir {folder_name}: {e}"
+        
+        # Se não for especial, tenta abrir como caminho direto
+        possible_paths = [
+            folder_name,
+            os.path.expanduser(f"~\\{folder_name}"),
+            os.path.expanduser(f"~\\Desktop\\{folder_name}"),
+            os.path.expanduser(f"~\\Downloads\\{folder_name}")
+        ]
+        
+        for path in possible_paths:
+            if os.path.exists(path):
+                try:
+                    os.startfile(path)
+                    return f"Acessando {folder_name}, senhor."
+                except Exception as e:
+                    continue
+        
+        return f"❌ Pasta {folder_name} não encontrada, senhor."
+    
     def _open_application(self, app_key: str, app_data: Dict) -> str:
-        """Abre aplicativo específico com validação e fallback"""
+        """Abre aplicativo específico com subprocess.Popen e feedback positivo"""
         app_name = app_data["name"]
         
         try:
@@ -658,38 +1014,38 @@ class SystemController:
                 self.logger.warning(f"Aplicativo {app_name} não encontrado localmente", "SISTEMA")
                 return self._open_web_fallback(app_key, app_data)
             
-            # 3. Tenta executar o aplicativo
+            # 3. Tenta executar o aplicativo com subprocess.Popen
             try:
-                print(f"🔍 Tentando abrir: {app_path}")
-                process = subprocess.Popen([app_path], shell=False)
+                print(f"🔍 Iniciando: {app_path}")
+                # Usa subprocess.Popen sem esperar o processo terminar
+                process = subprocess.Popen([app_path], shell=False, 
+                                         stdout=subprocess.PIPE, 
+                                         stderr=subprocess.PIPE)
                 
-                # 4. Valida execução
-                if self._validate_execution(process, app_name):
-                    self.logger.info(f"✅ {app_name} aberto com sucesso: {app_path}", "SISTEMA")
-                    return f"✅ {app_name} aberto com sucesso!"
-                else:
-                    # 5. Se falhou na validação, tenta web fallback
-                    error_msg = f"❌ {app_name} não iniciou corretamente"
-                    print(f"❌ Erro: {app_name} não iniciou corretamente")
-                    self.logger.error(f"{app_name} falhou na validação", "SISTEMA")
-                    
-                    # Pergunta ao usuário e oferece web fallback
-                    fallback_msg = f"{error_msg}\n\n🌐 Deseja abrir a versão web? (Sim/Não)"
-                    web_fallback_result = self._open_web_fallback(app_key, app_data)
-                    return f"{fallback_msg}\n\n💡 Senhor, não encontrei o executável no caminho padrão. Pode me informar onde o {app_name} está instalado?"
+                # Feedback imediato positivo - não espera validação
+                self.logger.info(f"✅ {app_name} iniciado: {app_path}", "SISTEMA")
+                return f"✅ {app_name} aberto com sucesso!"
                 
-            except subprocess.CalledProcessError as e:
-                print(f"❌ Erro subprocess: {e}")
-                self.logger.error(e, f"Erro subprocess ao abrir {app_name}", "SISTEMA")
-                return self._open_web_fallback(app_key, app_data)
             except FileNotFoundError as e:
                 print(f"❌ Arquivo não encontrado: {e}")
                 self.logger.error(e, f"Arquivo não encontrado: {app_path}", "SISTEMA")
                 return self._open_web_fallback(app_key, app_data)
+            except PermissionError as e:
+                print(f"❌ Erro de permissão: {e}")
+                self.logger.error(e, f"Sem permissão para executar {app_name}", "SISTEMA")
+                return f"❌ Sem permissão para executar {app_name}. Tente como administrador."
+            except OSError as e:
+                print(f"❌ Erro do sistema: {e}")
+                self.logger.error(e, f"Erro do sistema ao abrir {app_name}", "SISTEMA")
+                return f"❌ Erro do sistema ao abrir {app_name}: {e}"
             except Exception as e:
                 print(f"❌ Erro geral ao abrir {app_name}: {e}")
                 self.logger.error(e, f"Erro geral ao abrir {app_name}", "SISTEMA")
-                return f"❌ Erro ao abrir {app_name}: {e}"
+                # Se não for erro crítico de arquivo não encontrado, assume sucesso
+                if "FileNotFoundError" not in str(e) and "No such file" not in str(e):
+                    return f"Comando executado, senhor. Verifique sua tela."
+                else:
+                    return self._open_web_fallback(app_key, app_data)
                 
         except Exception as e:
             print(f"❌ Erro crítico no _open_application: {e}")

@@ -395,3 +395,595 @@ Diretório: C:\Users\Breno\CascadeProjects
 [2026-03-02 20:07:22] [INFO] [VISÃO] API Key detectada (mascarada): AIzaSyDN...t5CM
 [2026-03-02 20:07:22] [SUCCESS] [VISÃO] Visão computacional inicializada com Gemini 1.5 Flash
 [2026-03-02 20:07:23] [INFO] [SISTEMA] Interface criada com sucesso, iniciando mainloop
+
+============================================================
+🤖 J.A.R.V.I.S. - INÍCIO DE SESSÃO
+============================================================
+Data/Hora: 2026-03-09 22:11:36
+Sistema: win32
+Python: 3.13.12 (tags/v3.13.12:1cbe481, Feb  3 2026, 18:22:25) [MSC v.1944 64 bit (AMD64)]
+Executável: True
+Diretório: C:\Users\Breno\CascadeProjects
+============================================================
+
+[2026-03-09 22:11:36] [INFO] [SISTEMA] Sistema de log inicializado
+[2026-03-09 22:11:36] [INFO] [SISTEMA] Executável detectado - Redirecionando I/O para modo gráfico
+[2026-03-09 22:11:36] [INFO] [SISTEMA] Iniciando função principal do J.A.R.V.I.S.
+[2026-03-09 22:11:36] [INFO] [SISTEMA] Criando instância da interface GUI
+[2026-03-09 22:11:37] [INFO] [MEMÓRIA] Inicializando memória em: C:\Users\Breno\CascadeProjects\jarvis_memory.db
+[2026-03-09 22:11:37] [SUCCESS] [MEMÓRIA] Banco de dados inicializado com sucesso
+[2026-03-09 22:11:37] [INFO] [VISÃO] Executável detectado, diretório base: C:\Users\Breno\CascadeProjects
+[2026-03-09 22:11:37] [INFO] [VISÃO] Procurando .env em: C:\Users\Breno\CascadeProjects\.env
+[2026-03-09 22:11:37] [SUCCESS] [VISÃO] Arquivo .env carregado com UTF-8: C:\Users\Breno\CascadeProjects\.env
+[2026-03-09 22:11:37] [INFO] [VISÃO] API Key detectada (mascarada): AIzaSyDN...t5CM
+[2026-03-09 22:11:37] [SUCCESS] [VISÃO] Visão computacional inicializada com Gemini 1.5 Flash
+[2026-03-09 22:11:37] [ERROR] [SISTEMA] Erro crítico ao iniciar interface
+  Tipo: AttributeError
+  Mensagem: 'JarvisLogger' object has no attribute 'warning'
+  Traceback: Traceback (most recent call last):
+  File "jarvis_gui_integrada.py", line 1211, in main
+    app = JarvisGUI()
+  File "jarvis_gui_integrada.py", line 423, in __init__
+    self.system_controller = SystemController(logger)
+                             ~~~~~~~~~~~~~~~~^^^^^^^^
+  File "jarvis_system_controller.py", line 37, in __init__
+    self._setup_audio()
+    ~~~~~~~~~~~~~~~~~^^
+  File "jarvis_system_controller.py", line 56, in _setup_audio
+    self.logger.warning("pycaw não disponível - usando alternativas", "SISTEMA")
+    ^^^^^^^^^^^^^^^^^^^
+AttributeError: 'JarvisLogger' object has no attribute 'warning'
+
+------------------------------------------------------------
+
+
+============================================================
+🤖 J.A.R.V.I.S. - INÍCIO DE SESSÃO
+============================================================
+Data/Hora: 2026-03-09 22:12:04
+Sistema: win32
+Python: 3.13.12 (tags/v3.13.12:1cbe481, Feb  3 2026, 18:22:25) [MSC v.1944 64 bit (AMD64)]
+Executável: True
+Diretório: C:\Users\Breno\CascadeProjects
+============================================================
+
+[2026-03-09 22:12:04] [INFO] [SISTEMA] Sistema de log inicializado
+[2026-03-09 22:12:04] [INFO] [SISTEMA] Executável detectado - Redirecionando I/O para modo gráfico
+[2026-03-09 22:12:04] [INFO] [SISTEMA] Iniciando função principal do J.A.R.V.I.S.
+[2026-03-09 22:12:04] [INFO] [SISTEMA] Criando instância da interface GUI
+[2026-03-09 22:12:04] [INFO] [MEMÓRIA] Inicializando memória em: C:\Users\Breno\CascadeProjects\jarvis_memory.db
+[2026-03-09 22:12:04] [SUCCESS] [MEMÓRIA] Banco de dados inicializado com sucesso
+[2026-03-09 22:12:04] [INFO] [VISÃO] Executável detectado, diretório base: C:\Users\Breno\CascadeProjects
+[2026-03-09 22:12:04] [INFO] [VISÃO] Procurando .env em: C:\Users\Breno\CascadeProjects\.env
+[2026-03-09 22:12:04] [SUCCESS] [VISÃO] Arquivo .env carregado com UTF-8: C:\Users\Breno\CascadeProjects\.env
+[2026-03-09 22:12:04] [INFO] [VISÃO] API Key detectada (mascarada): AIzaSyDN...t5CM
+[2026-03-09 22:12:04] [SUCCESS] [VISÃO] Visão computacional inicializada com Gemini 1.5 Flash
+[2026-03-09 22:12:04] [ERROR] [SISTEMA] Erro crítico ao iniciar interface
+  Tipo: AttributeError
+  Mensagem: 'JarvisLogger' object has no attribute 'warning'
+  Traceback: Traceback (most recent call last):
+  File "jarvis_gui_integrada.py", line 1211, in main
+    app = JarvisGUI()
+  File "jarvis_gui_integrada.py", line 423, in __init__
+    self.system_controller = SystemController(logger)
+                             ~~~~~~~~~~~~~~~~^^^^^^^^
+  File "jarvis_system_controller.py", line 37, in __init__
+    self._setup_audio()
+    ~~~~~~~~~~~~~~~~~^^
+  File "jarvis_system_controller.py", line 56, in _setup_audio
+    self.logger.warning("pycaw não disponível - usando alternativas", "SISTEMA")
+    ^^^^^^^^^^^^^^^^^^^
+AttributeError: 'JarvisLogger' object has no attribute 'warning'
+
+------------------------------------------------------------
+
+
+============================================================
+🤖 J.A.R.V.I.S. - INÍCIO DE SESSÃO
+============================================================
+Data/Hora: 2026-03-09 22:14:42
+Sistema: win32
+Python: 3.13.12 (tags/v3.13.12:1cbe481, Feb  3 2026, 18:22:25) [MSC v.1944 64 bit (AMD64)]
+Executável: True
+Diretório: 
+============================================================
+
+[2026-03-09 22:14:42] [INFO] [SISTEMA] Sistema de log inicializado
+
+============================================================
+🤖 J.A.R.V.I.S. - INÍCIO DE SESSÃO
+============================================================
+Data/Hora: 2026-03-09 22:17:09
+Sistema: win32
+Python: 3.13.12 (tags/v3.13.12:1cbe481, Feb  3 2026, 18:22:25) [MSC v.1944 64 bit (AMD64)]
+Executável: True
+Diretório: C:\Users\Breno\CascadeProjects
+============================================================
+
+[2026-03-09 22:17:09] [INFO] [SISTEMA] Sistema de log inicializado
+[2026-03-09 22:17:09] [INFO] [SISTEMA] Executável detectado - Redirecionando I/O para modo gráfico
+[2026-03-09 22:17:09] [INFO] [SISTEMA] Iniciando função principal do J.A.R.V.I.S.
+[2026-03-09 22:17:09] [INFO] [SISTEMA] Criando instância da interface GUI
+[2026-03-09 22:17:09] [INFO] [MEMÓRIA] Inicializando memória em: C:\Users\Breno\CascadeProjects\jarvis_memory.db
+[2026-03-09 22:17:09] [SUCCESS] [MEMÓRIA] Banco de dados inicializado com sucesso
+[2026-03-09 22:17:09] [INFO] [VISÃO] Executável detectado, diretório base: C:\Users\Breno\CascadeProjects
+[2026-03-09 22:17:09] [INFO] [VISÃO] Procurando .env em: C:\Users\Breno\CascadeProjects\.env
+[2026-03-09 22:17:09] [SUCCESS] [VISÃO] Arquivo .env carregado com UTF-8: C:\Users\Breno\CascadeProjects\.env
+[2026-03-09 22:17:09] [INFO] [VISÃO] API Key detectada (mascarada): AIzaSyDN...t5CM
+[2026-03-09 22:17:09] [SUCCESS] [VISÃO] Visão computacional inicializada com Gemini 1.5 Flash
+[2026-03-09 22:17:09] [ERROR] [SISTEMA] Erro crítico ao iniciar interface
+  Tipo: AttributeError
+  Mensagem: 'JarvisLogger' object has no attribute 'error'
+  Traceback: Traceback (most recent call last):
+  File "jarvis_system_controller.py", line 49, in _setup_audio
+    interface = devices.Activate(IAudioEndpointVolume._iid_, CLSCTX_ALL, None)
+                ^^^^^^^^^^^^^^^^
+AttributeError: 'AudioDevice' object has no attribute 'Activate'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "jarvis_gui_integrada.py", line 1211, in main
+    app = JarvisGUI()
+  File "jarvis_gui_integrada.py", line 423, in __init__
+    self.system_controller = SystemController(logger)
+                             ~~~~~~~~~~~~~~~~^^^^^^^^
+  File "jarvis_system_controller.py", line 37, in __init__
+    self._setup_audio()
+    ~~~~~~~~~~~~~~~~~^^
+  File "jarvis_system_controller.py", line 54, in _setup_audio
+    self.logger.error(e, "Falha ao inicializar áudio", "SISTEMA")
+    ^^^^^^^^^^^^^^^^^
+AttributeError: 'JarvisLogger' object has no attribute 'error'
+
+------------------------------------------------------------
+
+
+============================================================
+🤖 J.A.R.V.I.S. - INÍCIO DE SESSÃO
+============================================================
+Data/Hora: 2026-03-09 22:17:36
+Sistema: win32
+Python: 3.13.12 (tags/v3.13.12:1cbe481, Feb  3 2026, 18:22:25) [MSC v.1944 64 bit (AMD64)]
+Executável: True
+Diretório: C:\Users\Breno\CascadeProjects
+============================================================
+
+[2026-03-09 22:17:36] [INFO] [SISTEMA] Sistema de log inicializado
+[2026-03-09 22:17:36] [INFO] [SISTEMA] Executável detectado - Redirecionando I/O para modo gráfico
+[2026-03-09 22:17:36] [INFO] [SISTEMA] Iniciando função principal do J.A.R.V.I.S.
+[2026-03-09 22:17:36] [INFO] [SISTEMA] Criando instância da interface GUI
+[2026-03-09 22:17:36] [INFO] [MEMÓRIA] Inicializando memória em: C:\Users\Breno\CascadeProjects\jarvis_memory.db
+[2026-03-09 22:17:36] [SUCCESS] [MEMÓRIA] Banco de dados inicializado com sucesso
+[2026-03-09 22:17:36] [INFO] [VISÃO] Executável detectado, diretório base: C:\Users\Breno\CascadeProjects
+[2026-03-09 22:17:36] [INFO] [VISÃO] Procurando .env em: C:\Users\Breno\CascadeProjects\.env
+[2026-03-09 22:17:36] [SUCCESS] [VISÃO] Arquivo .env carregado com UTF-8: C:\Users\Breno\CascadeProjects\.env
+[2026-03-09 22:17:36] [INFO] [VISÃO] API Key detectada (mascarada): AIzaSyDN...t5CM
+[2026-03-09 22:17:36] [SUCCESS] [VISÃO] Visão computacional inicializada com Gemini 1.5 Flash
+[2026-03-09 22:17:36] [ERROR] [SISTEMA] Erro crítico ao iniciar interface
+  Tipo: AttributeError
+  Mensagem: 'JarvisLogger' object has no attribute 'error'
+  Traceback: Traceback (most recent call last):
+  File "jarvis_system_controller.py", line 49, in _setup_audio
+    interface = devices.Activate(IAudioEndpointVolume._iid_, CLSCTX_ALL, None)
+                ^^^^^^^^^^^^^^^^
+AttributeError: 'AudioDevice' object has no attribute 'Activate'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "jarvis_gui_integrada.py", line 1211, in main
+    app = JarvisGUI()
+  File "jarvis_gui_integrada.py", line 423, in __init__
+    self.system_controller = SystemController(logger)
+                             ~~~~~~~~~~~~~~~~^^^^^^^^
+  File "jarvis_system_controller.py", line 37, in __init__
+    self._setup_audio()
+    ~~~~~~~~~~~~~~~~~^^
+  File "jarvis_system_controller.py", line 54, in _setup_audio
+    self.logger.error(e, "Falha ao inicializar áudio", "SISTEMA")
+    ^^^^^^^^^^^^^^^^^
+AttributeError: 'JarvisLogger' object has no attribute 'error'
+
+------------------------------------------------------------
+
+
+============================================================
+🤖 J.A.R.V.I.S. - INÍCIO DE SESSÃO
+============================================================
+Data/Hora: 2026-03-10 18:49:22
+Sistema: win32
+Python: 3.13.12 (tags/v3.13.12:1cbe481, Feb  3 2026, 18:22:25) [MSC v.1944 64 bit (AMD64)]
+Executável: True
+Diretório: C:\Users\Breno\CascadeProjects
+============================================================
+
+[2026-03-10 18:49:22] [INFO] [SISTEMA] Sistema de log inicializado
+[2026-03-10 18:49:22] [INFO] [SISTEMA] Executável detectado - Redirecionando I/O para modo gráfico
+[2026-03-10 18:49:22] [INFO] [SISTEMA] Iniciando função principal do J.A.R.V.I.S.
+[2026-03-10 18:49:22] [INFO] [SISTEMA] Criando instância da interface GUI
+[2026-03-10 18:49:22] [INFO] [MEMÓRIA] Inicializando memória em: C:\Users\Breno\CascadeProjects\jarvis_memory.db
+[2026-03-10 18:49:22] [SUCCESS] [MEMÓRIA] Banco de dados inicializado com sucesso
+[2026-03-10 18:49:22] [INFO] [VISÃO] Executável detectado, diretório base: C:\Users\Breno\CascadeProjects
+[2026-03-10 18:49:22] [INFO] [VISÃO] Procurando .env em: C:\Users\Breno\CascadeProjects\.env
+[2026-03-10 18:49:22] [SUCCESS] [VISÃO] Arquivo .env carregado com UTF-8: C:\Users\Breno\CascadeProjects\.env
+[2026-03-10 18:49:22] [INFO] [VISÃO] API Key detectada (mascarada): AIzaSyDN...t5CM
+[2026-03-10 18:49:22] [SUCCESS] [VISÃO] Visão computacional inicializada com Gemini 1.5 Flash
+[2026-03-10 18:49:23] [ERROR] [SISTEMA] Erro crítico ao iniciar interface
+  Tipo: AttributeError
+  Mensagem: 'JarvisLogger' object has no attribute 'error'
+  Traceback: Traceback (most recent call last):
+  File "jarvis_system_controller.py", line 49, in _setup_audio
+    interface = devices.Activate(IAudioEndpointVolume._iid_, CLSCTX_ALL, None)
+                ^^^^^^^^^^^^^^^^
+AttributeError: 'AudioDevice' object has no attribute 'Activate'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "jarvis_gui_integrada.py", line 1211, in main
+    app = JarvisGUI()
+  File "jarvis_gui_integrada.py", line 423, in __init__
+    self.system_controller = SystemController(logger)
+                             ~~~~~~~~~~~~~~~~^^^^^^^^
+  File "jarvis_system_controller.py", line 37, in __init__
+    self._setup_audio()
+    ~~~~~~~~~~~~~~~~~^^
+  File "jarvis_system_controller.py", line 54, in _setup_audio
+    self.logger.error(e, "Falha ao inicializar áudio", "SISTEMA")
+    ^^^^^^^^^^^^^^^^^
+AttributeError: 'JarvisLogger' object has no attribute 'error'
+
+------------------------------------------------------------
+
+
+============================================================
+🤖 J.A.R.V.I.S. - INÍCIO DE SESSÃO
+============================================================
+Data/Hora: 2026-03-10 19:01:56
+Sistema: win32
+Python: 3.13.12 (tags/v3.13.12:1cbe481, Feb  3 2026, 18:22:25) [MSC v.1944 64 bit (AMD64)]
+Executável: False
+Diretório: C:\Users\Breno\CascadeProjects
+============================================================
+
+[2026-03-10 19:01:56] [INFO] [SISTEMA] Sistema de log inicializado
+[2026-03-10 19:01:56] [INFO] [SISTEMA] Iniciando função principal do J.A.R.V.I.S.
+[2026-03-10 19:01:56] [INFO] [SISTEMA] Criando instância da interface GUI
+[2026-03-10 19:01:57] [INFO] [MEMÓRIA] Inicializando memória em: C:\Users\Breno\CascadeProjects\jarvis_memory.db
+[2026-03-10 19:01:57] [SUCCESS] [MEMÓRIA] Banco de dados inicializado com sucesso
+[2026-03-10 19:01:57] [INFO] [VISÃO] Script detectado, diretório base: C:\Users\Breno\CascadeProjects
+[2026-03-10 19:01:57] [INFO] [VISÃO] Procurando .env em: C:\Users\Breno\CascadeProjects\.env
+[2026-03-10 19:01:57] [SUCCESS] [VISÃO] Arquivo .env carregado com UTF-8: C:\Users\Breno\CascadeProjects\.env
+[2026-03-10 19:01:57] [INFO] [VISÃO] API Key detectada (mascarada): AIzaSyDN...t5CM
+[2026-03-10 19:01:57] [SUCCESS] [VISÃO] Visão computacional inicializada com Gemini 1.5 Flash
+[2026-03-10 19:01:57] [ERROR] [SISTEMA] Erro crítico ao iniciar interface
+  Tipo: AttributeError
+  Mensagem: 'JarvisLogger' object has no attribute 'warning'
+  Traceback: Traceback (most recent call last):
+  File "C:\Users\Breno\CascadeProjects\jarvis_gui_integrada.py", line 1211, in main
+    app = JarvisGUI()
+  File "C:\Users\Breno\CascadeProjects\jarvis_gui_integrada.py", line 423, in __init__
+    self.system_controller = SystemController(logger)
+                             ~~~~~~~~~~~~~~~~^^^^^^^^
+  File "C:\Users\Breno\CascadeProjects\jarvis_system_controller.py", line 37, in __init__
+    self._setup_audio()
+    ~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\Breno\CascadeProjects\jarvis_system_controller.py", line 56, in _setup_audio
+    self.logger.warning("pycaw não disponível - usando alternativas", "SISTEMA")
+    ^^^^^^^^^^^^^^^^^^^
+AttributeError: 'JarvisLogger' object has no attribute 'warning'
+
+------------------------------------------------------------
+
+
+============================================================
+🤖 J.A.R.V.I.S. - INÍCIO DE SESSÃO
+============================================================
+Data/Hora: 2026-03-10 19:06:13
+Sistema: win32
+Python: 3.13.12 (tags/v3.13.12:1cbe481, Feb  3 2026, 18:22:25) [MSC v.1944 64 bit (AMD64)]
+Executável: False
+Diretório: c:\Users\Breno\CascadeProjects
+============================================================
+
+[2026-03-10 19:06:13] [INFO] [SISTEMA] Sistema de log inicializado
+[2026-03-10 19:06:13] [INFO] [SISTEMA] Iniciando função principal do J.A.R.V.I.S.
+[2026-03-10 19:06:13] [INFO] [SISTEMA] Criando instância da interface GUI
+[2026-03-10 19:06:13] [INFO] [MEMÓRIA] Inicializando memória em: c:\Users\Breno\CascadeProjects\jarvis_memory.db
+[2026-03-10 19:06:13] [SUCCESS] [MEMÓRIA] Banco de dados inicializado com sucesso
+[2026-03-10 19:06:13] [INFO] [VISÃO] Script detectado, diretório base: c:\Users\Breno\CascadeProjects
+[2026-03-10 19:06:13] [INFO] [VISÃO] Procurando .env em: c:\Users\Breno\CascadeProjects\.env
+[2026-03-10 19:06:13] [SUCCESS] [VISÃO] Arquivo .env carregado com UTF-8: c:\Users\Breno\CascadeProjects\.env
+[2026-03-10 19:06:13] [INFO] [VISÃO] API Key detectada (mascarada): AIzaSyDN...t5CM
+[2026-03-10 19:06:13] [SUCCESS] [VISÃO] Visão computacional inicializada com Gemini 1.5 Flash
+[2026-03-10 19:06:13] [ERROR] [SISTEMA] Falha ao inicializar áudio
+[2026-03-10 19:06:13] [ERROR] [SISTEMA] Detalhes: 'AudioDevice' object has no attribute 'Activate'
+[2026-03-10 19:06:13] [INFO] [SISTEMA] Controlador de sistema inicializado
+[2026-03-10 19:06:13] [INFO] [SISTEMA] Interface criada com sucesso, iniciando mainloop
+[2026-03-10 19:07:07] [INFO] [SISTEMA] Aplicativo encontrado dinamicamente: C:\Users\Breno\AppData\Local\Discord\app-1.0.9227\Discord.exe
+[2026-03-10 19:07:09] [INFO] [SISTEMA] Discord iniciado com sucesso
+[2026-03-10 19:07:09] [INFO] [SISTEMA] ✅ Discord aberto com sucesso: C:\Users\Breno\AppData\Local\Discord\app-1.0.9227\Discord.exe
+[2026-03-10 19:07:33] [ERROR] [GERAL] SISTEMA
+[2026-03-10 19:07:33] [ERROR] [GERAL] Detalhes: Bloco de Notas falhou ao iniciar (código: 0)
+[2026-03-10 19:07:33] [ERROR] [GERAL] SISTEMA
+[2026-03-10 19:07:33] [ERROR] [GERAL] Detalhes: Bloco de Notas falhou na validação
+[2026-03-10 19:07:51] [INFO] [SISTEMA] Aplicativo encontrado dinamicamente: C:\Users\Breno\AppData\Local\Discord\app-1.0.9227\Discord.exe
+[2026-03-10 19:07:53] [INFO] [SISTEMA] Discord iniciado com sucesso
+[2026-03-10 19:07:53] [INFO] [SISTEMA] ✅ Discord aberto com sucesso: C:\Users\Breno\AppData\Local\Discord\app-1.0.9227\Discord.exe
+[2026-03-10 19:08:03] [WARNING] [SISTEMA] Aplicativo Calculadora não encontrado localmente
+[2026-03-10 19:08:52] [ERROR] [GERAL] SISTEMA
+[2026-03-10 19:08:52] [ERROR] [GERAL] Detalhes: Bloco de Notas falhou ao iniciar (código: 0)
+[2026-03-10 19:08:52] [ERROR] [GERAL] SISTEMA
+[2026-03-10 19:08:52] [ERROR] [GERAL] Detalhes: Bloco de Notas falhou na validação
+[2026-03-10 19:09:34] [INFO] [EMERGÊNCIA] 🚨 PROTOCOLO SILÊNCIO ATIVADO
+[2026-03-10 19:09:35] [INFO] [EMERGÊNCIA] Protocolo Silêncio executado: 3 ações
+
+============================================================
+🤖 J.A.R.V.I.S. - INÍCIO DE SESSÃO
+============================================================
+Data/Hora: 2026-03-10 19:13:59
+Sistema: win32
+Python: 3.13.12 (tags/v3.13.12:1cbe481, Feb  3 2026, 18:22:25) [MSC v.1944 64 bit (AMD64)]
+Executável: True
+Diretório: C:\Users\Breno\CascadeProjects
+============================================================
+
+[2026-03-10 19:13:59] [INFO] [SISTEMA] Sistema de log inicializado
+[2026-03-10 19:13:59] [INFO] [SISTEMA] Executável detectado - Redirecionando I/O para modo gráfico
+[2026-03-10 19:13:59] [INFO] [SISTEMA] Iniciando função principal do J.A.R.V.I.S.
+[2026-03-10 19:13:59] [INFO] [SISTEMA] Criando instância da interface GUI
+[2026-03-10 19:13:59] [INFO] [MEMÓRIA] Inicializando memória em: C:\Users\Breno\CascadeProjects\jarvis_memory.db
+[2026-03-10 19:13:59] [SUCCESS] [MEMÓRIA] Banco de dados inicializado com sucesso
+[2026-03-10 19:13:59] [INFO] [VISÃO] Executável detectado, diretório base: C:\Users\Breno\CascadeProjects
+[2026-03-10 19:13:59] [INFO] [VISÃO] Procurando .env em: C:\Users\Breno\CascadeProjects\.env
+[2026-03-10 19:13:59] [SUCCESS] [VISÃO] Arquivo .env carregado com UTF-8: C:\Users\Breno\CascadeProjects\.env
+[2026-03-10 19:13:59] [INFO] [VISÃO] API Key detectada (mascarada): AIzaSyDN...t5CM
+[2026-03-10 19:13:59] [SUCCESS] [VISÃO] Visão computacional inicializada com Gemini 1.5 Flash
+[2026-03-10 19:13:59] [ERROR] [SISTEMA] Falha ao inicializar áudio
+[2026-03-10 19:13:59] [ERROR] [SISTEMA] Detalhes: 'AudioDevice' object has no attribute 'Activate'
+[2026-03-10 19:13:59] [INFO] [SISTEMA] Controlador de sistema inicializado
+[2026-03-10 19:13:59] [INFO] [SISTEMA] Interface criada com sucesso, iniciando mainloop
+[2026-03-10 19:14:22] [INFO] [SISTEMA] Aplicativo encontrado dinamicamente: C:\Users\Breno\AppData\Local\Discord\app-1.0.9227\Discord.exe
+[2026-03-10 19:14:24] [INFO] [SISTEMA] Discord iniciado com sucesso
+[2026-03-10 19:14:24] [INFO] [SISTEMA] ✅ Discord aberto com sucesso: C:\Users\Breno\AppData\Local\Discord\app-1.0.9227\Discord.exe
+[2026-03-10 19:14:40] [ERROR] [GERAL] SISTEMA
+[2026-03-10 19:14:40] [ERROR] [GERAL] Detalhes: Bloco de Notas falhou ao iniciar (código: 0)
+[2026-03-10 19:14:40] [ERROR] [GERAL] SISTEMA
+[2026-03-10 19:14:40] [ERROR] [GERAL] Detalhes: Bloco de Notas falhou na validação
+
+============================================================
+🤖 J.A.R.V.I.S. - INÍCIO DE SESSÃO
+============================================================
+Data/Hora: 2026-03-10 19:16:59
+Sistema: win32
+Python: 3.13.12 (tags/v3.13.12:1cbe481, Feb  3 2026, 18:22:25) [MSC v.1944 64 bit (AMD64)]
+Executável: False
+Diretório: c:\Users\Breno\CascadeProjects
+============================================================
+
+[2026-03-10 19:16:59] [INFO] [SISTEMA] Sistema de log inicializado
+[2026-03-10 19:16:59] [INFO] [SISTEMA] Iniciando função principal do J.A.R.V.I.S.
+[2026-03-10 19:16:59] [INFO] [SISTEMA] Criando instância da interface GUI
+[2026-03-10 19:16:59] [INFO] [MEMÓRIA] Inicializando memória em: c:\Users\Breno\CascadeProjects\jarvis_memory.db
+[2026-03-10 19:16:59] [SUCCESS] [MEMÓRIA] Banco de dados inicializado com sucesso
+[2026-03-10 19:16:59] [INFO] [VISÃO] Script detectado, diretório base: c:\Users\Breno\CascadeProjects
+[2026-03-10 19:16:59] [INFO] [VISÃO] Procurando .env em: c:\Users\Breno\CascadeProjects\.env
+[2026-03-10 19:16:59] [SUCCESS] [VISÃO] Arquivo .env carregado com UTF-8: c:\Users\Breno\CascadeProjects\.env
+[2026-03-10 19:16:59] [INFO] [VISÃO] API Key detectada (mascarada): AIzaSyDN...t5CM
+[2026-03-10 19:16:59] [SUCCESS] [VISÃO] Visão computacional inicializada com Gemini 1.5 Flash
+[2026-03-10 19:17:00] [ERROR] [SISTEMA] Falha ao inicializar áudio
+[2026-03-10 19:17:00] [ERROR] [SISTEMA] Detalhes: 'AudioDevice' object has no attribute 'Activate'
+[2026-03-10 19:17:00] [INFO] [SISTEMA] Controlador de sistema inicializado
+[2026-03-10 19:17:00] [INFO] [SISTEMA] Interface criada com sucesso, iniciando mainloop
+[2026-03-10 19:17:46] [INFO] [SISTEMA] ✅ Bloco de Notas iniciado: C:\WINDOWS\system32\notepad.EXE
+
+============================================================
+🤖 J.A.R.V.I.S. - INÍCIO DE SESSÃO
+============================================================
+Data/Hora: 2026-03-10 19:19:59
+Sistema: win32
+Python: 3.13.12 (tags/v3.13.12:1cbe481, Feb  3 2026, 18:22:25) [MSC v.1944 64 bit (AMD64)]
+Executável: False
+Diretório: c:\Users\Breno\CascadeProjects
+============================================================
+
+[2026-03-10 19:19:59] [INFO] [SISTEMA] Sistema de log inicializado
+[2026-03-10 19:19:59] [INFO] [SISTEMA] Iniciando função principal do J.A.R.V.I.S.
+[2026-03-10 19:19:59] [INFO] [SISTEMA] Criando instância da interface GUI
+[2026-03-10 19:19:59] [INFO] [MEMÓRIA] Inicializando memória em: c:\Users\Breno\CascadeProjects\jarvis_memory.db
+[2026-03-10 19:19:59] [SUCCESS] [MEMÓRIA] Banco de dados inicializado com sucesso
+[2026-03-10 19:19:59] [INFO] [VISÃO] Script detectado, diretório base: c:\Users\Breno\CascadeProjects
+[2026-03-10 19:19:59] [INFO] [VISÃO] Procurando .env em: c:\Users\Breno\CascadeProjects\.env
+[2026-03-10 19:19:59] [SUCCESS] [VISÃO] Arquivo .env carregado com UTF-8: c:\Users\Breno\CascadeProjects\.env
+[2026-03-10 19:19:59] [INFO] [VISÃO] API Key detectada (mascarada): AIzaSyDN...t5CM
+[2026-03-10 19:19:59] [SUCCESS] [VISÃO] Visão computacional inicializada com Gemini 1.5 Flash
+[2026-03-10 19:20:00] [ERROR] [SISTEMA] Falha ao inicializar áudio
+[2026-03-10 19:20:00] [ERROR] [SISTEMA] Detalhes: 'AudioDevice' object has no attribute 'Activate'
+[2026-03-10 19:20:00] [INFO] [SISTEMA] Controlador de sistema inicializado
+[2026-03-10 19:20:00] [INFO] [SISTEMA] Interface criada com sucesso, iniciando mainloop
+[2026-03-10 19:20:45] [WARNING] [SISTEMA] os.startfile falhou para jarvis,  microsoft store: [WinError 2] O sistema não pode encontrar o arquivo especificado: 'jarvis,  microsoft store'
+[2026-03-10 19:21:39] [INFO] [SISTEMA] Aplicativo iniciado via terminal: jarvis,  microsoft store
+
+============================================================
+🤖 J.A.R.V.I.S. - INÍCIO DE SESSÃO
+============================================================
+Data/Hora: 2026-03-10 19:23:28
+Sistema: win32
+Python: 3.13.12 (tags/v3.13.12:1cbe481, Feb  3 2026, 18:22:25) [MSC v.1944 64 bit (AMD64)]
+Executável: False
+Diretório: c:\Users\Breno\CascadeProjects
+============================================================
+
+[2026-03-10 19:23:28] [INFO] [SISTEMA] Sistema de log inicializado
+[2026-03-10 19:23:28] [INFO] [SISTEMA] Iniciando função principal do J.A.R.V.I.S.
+[2026-03-10 19:23:28] [INFO] [SISTEMA] Criando instância da interface GUI
+[2026-03-10 19:23:28] [INFO] [MEMÓRIA] Inicializando memória em: c:\Users\Breno\CascadeProjects\jarvis_memory.db
+[2026-03-10 19:23:28] [SUCCESS] [MEMÓRIA] Banco de dados inicializado com sucesso
+[2026-03-10 19:23:28] [INFO] [VISÃO] Script detectado, diretório base: c:\Users\Breno\CascadeProjects
+[2026-03-10 19:23:28] [INFO] [VISÃO] Procurando .env em: c:\Users\Breno\CascadeProjects\.env
+[2026-03-10 19:23:28] [SUCCESS] [VISÃO] Arquivo .env carregado com UTF-8: c:\Users\Breno\CascadeProjects\.env
+[2026-03-10 19:23:28] [INFO] [VISÃO] API Key detectada (mascarada): AIzaSyDN...t5CM
+[2026-03-10 19:23:28] [SUCCESS] [VISÃO] Visão computacional inicializada com Gemini 1.5 Flash
+[2026-03-10 19:23:29] [ERROR] [SISTEMA] Falha ao inicializar áudio
+[2026-03-10 19:23:29] [ERROR] [SISTEMA] Detalhes: 'AudioDevice' object has no attribute 'Activate'
+[2026-03-10 19:23:29] [INFO] [SISTEMA] Controlador de sistema inicializado
+[2026-03-10 19:23:29] [INFO] [SISTEMA] Interface criada com sucesso, iniciando mainloop
+[2026-03-10 19:23:45] [INFO] [SISTEMA] Shell AppsFolder executado: jarvis,  configurações dwindows e procure por atualizações.
+[2026-03-10 19:23:59] [INFO] [SISTEMA] Shell AppsFolder executado: jarvis,  configurações dwindows e procure por atualizações.
+
+============================================================
+🤖 J.A.R.V.I.S. - INÍCIO DE SESSÃO
+============================================================
+Data/Hora: 2026-03-10 19:24:16
+Sistema: win32
+Python: 3.13.12 (tags/v3.13.12:1cbe481, Feb  3 2026, 18:22:25) [MSC v.1944 64 bit (AMD64)]
+Executável: False
+Diretório: c:\Users\Breno\CascadeProjects
+============================================================
+
+[2026-03-10 19:24:16] [INFO] [SISTEMA] Sistema de log inicializado
+[2026-03-10 19:24:16] [INFO] [SISTEMA] Iniciando função principal do J.A.R.V.I.S.
+[2026-03-10 19:24:16] [INFO] [SISTEMA] Criando instância da interface GUI
+[2026-03-10 19:24:16] [INFO] [MEMÓRIA] Inicializando memória em: c:\Users\Breno\CascadeProjects\jarvis_memory.db
+[2026-03-10 19:24:16] [SUCCESS] [MEMÓRIA] Banco de dados inicializado com sucesso
+[2026-03-10 19:24:16] [INFO] [VISÃO] Script detectado, diretório base: c:\Users\Breno\CascadeProjects
+[2026-03-10 19:24:16] [INFO] [VISÃO] Procurando .env em: c:\Users\Breno\CascadeProjects\.env
+[2026-03-10 19:24:16] [SUCCESS] [VISÃO] Arquivo .env carregado com UTF-8: c:\Users\Breno\CascadeProjects\.env
+[2026-03-10 19:24:16] [INFO] [VISÃO] API Key detectada (mascarada): AIzaSyDN...t5CM
+[2026-03-10 19:24:16] [SUCCESS] [VISÃO] Visão computacional inicializada com Gemini 1.5 Flash
+[2026-03-10 19:24:17] [ERROR] [SISTEMA] Falha ao inicializar áudio
+[2026-03-10 19:24:17] [ERROR] [SISTEMA] Detalhes: 'AudioDevice' object has no attribute 'Activate'
+[2026-03-10 19:24:17] [INFO] [SISTEMA] Controlador de sistema inicializado
+[2026-03-10 19:24:17] [INFO] [SISTEMA] Interface criada com sucesso, iniciando mainloop
+[2026-03-10 19:24:42] [INFO] [SISTEMA] Shell AppsFolder executado: jarvis,
+
+============================================================
+🤖 J.A.R.V.I.S. - INÍCIO DE SESSÃO
+============================================================
+Data/Hora: 2026-03-10 19:27:03
+Sistema: win32
+Python: 3.13.12 (tags/v3.13.12:1cbe481, Feb  3 2026, 18:22:25) [MSC v.1944 64 bit (AMD64)]
+Executável: False
+Diretório: c:\Users\Breno\CascadeProjects
+============================================================
+
+[2026-03-10 19:27:03] [INFO] [SISTEMA] Sistema de log inicializado
+[2026-03-10 19:27:03] [INFO] [SISTEMA] Iniciando função principal do J.A.R.V.I.S.
+[2026-03-10 19:27:03] [INFO] [SISTEMA] Criando instância da interface GUI
+[2026-03-10 19:27:03] [INFO] [MEMÓRIA] Inicializando memória em: c:\Users\Breno\CascadeProjects\jarvis_memory.db
+[2026-03-10 19:27:03] [SUCCESS] [MEMÓRIA] Banco de dados inicializado com sucesso
+[2026-03-10 19:27:03] [INFO] [VISÃO] Script detectado, diretório base: c:\Users\Breno\CascadeProjects
+[2026-03-10 19:27:03] [INFO] [VISÃO] Procurando .env em: c:\Users\Breno\CascadeProjects\.env
+[2026-03-10 19:27:03] [SUCCESS] [VISÃO] Arquivo .env carregado com UTF-8: c:\Users\Breno\CascadeProjects\.env
+[2026-03-10 19:27:03] [INFO] [VISÃO] API Key detectada (mascarada): AIzaSyDN...t5CM
+[2026-03-10 19:27:03] [SUCCESS] [VISÃO] Visão computacional inicializada com Gemini 1.5 Flash
+[2026-03-10 19:27:03] [ERROR] [SISTEMA] Falha ao inicializar áudio
+[2026-03-10 19:27:03] [ERROR] [SISTEMA] Detalhes: 'AudioDevice' object has no attribute 'Activate'
+[2026-03-10 19:27:03] [INFO] [SISTEMA] Controlador de sistema inicializado
+[2026-03-10 19:27:04] [INFO] [SISTEMA] Interface criada com sucesso, iniciando mainloop
+[2026-03-10 19:28:16] [INFO] [SISTEMA] Busca no Google realizada para: jarvis,
+[2026-03-10 19:30:13] [INFO] [SISTEMA] Protocolo Windows executado com os.startfile: ms-settings:
+
+============================================================
+🤖 J.A.R.V.I.S. - INÍCIO DE SESSÃO
+============================================================
+Data/Hora: 2026-03-10 19:35:10
+Sistema: win32
+Python: 3.13.12 (tags/v3.13.12:1cbe481, Feb  3 2026, 18:22:25) [MSC v.1944 64 bit (AMD64)]
+Executável: False
+Diretório: c:\Users\Breno\CascadeProjects
+============================================================
+
+[2026-03-10 19:35:10] [INFO] [SISTEMA] Sistema de log inicializado
+[2026-03-10 19:35:10] [INFO] [SISTEMA] Iniciando função principal do J.A.R.V.I.S.
+[2026-03-10 19:35:10] [INFO] [SISTEMA] Criando instância da interface GUI
+[2026-03-10 19:35:10] [INFO] [MEMÓRIA] Inicializando memória em: c:\Users\Breno\CascadeProjects\jarvis_memory.db
+[2026-03-10 19:35:10] [SUCCESS] [MEMÓRIA] Banco de dados inicializado com sucesso
+[2026-03-10 19:35:10] [INFO] [VISÃO] Script detectado, diretório base: c:\Users\Breno\CascadeProjects
+[2026-03-10 19:35:10] [INFO] [VISÃO] Procurando .env em: c:\Users\Breno\CascadeProjects\.env
+[2026-03-10 19:35:10] [SUCCESS] [VISÃO] Arquivo .env carregado com UTF-8: c:\Users\Breno\CascadeProjects\.env
+[2026-03-10 19:35:10] [INFO] [VISÃO] API Key detectada (mascarada): AIzaSyDN...t5CM
+[2026-03-10 19:35:10] [SUCCESS] [VISÃO] Visão computacional inicializada com Gemini 1.5 Flash
+[2026-03-10 19:35:10] [ERROR] [SISTEMA] Falha ao inicializar áudio
+[2026-03-10 19:35:10] [ERROR] [SISTEMA] Detalhes: 'AudioDevice' object has no attribute 'Activate'
+[2026-03-10 19:35:10] [INFO] [SISTEMA] Controlador de sistema inicializado
+[2026-03-10 19:35:11] [ERROR] [SISTEMA] Erro crítico ao iniciar interface
+[2026-03-10 19:35:11] [ERROR] [SISTEMA] Detalhes: 'JarvisGUI' object has no attribute 'emergency_silence'
+
+============================================================
+🤖 J.A.R.V.I.S. - INÍCIO DE SESSÃO
+============================================================
+Data/Hora: 2026-03-10 19:35:48
+Sistema: win32
+Python: 3.13.12 (tags/v3.13.12:1cbe481, Feb  3 2026, 18:22:25) [MSC v.1944 64 bit (AMD64)]
+Executável: False
+Diretório: c:\Users\Breno\CascadeProjects
+============================================================
+
+[2026-03-10 19:35:48] [INFO] [SISTEMA] Sistema de log inicializado
+[2026-03-10 19:35:48] [INFO] [SISTEMA] Iniciando função principal do J.A.R.V.I.S.
+[2026-03-10 19:35:48] [INFO] [SISTEMA] Criando instância da interface GUI
+[2026-03-10 19:35:48] [INFO] [MEMÓRIA] Inicializando memória em: c:\Users\Breno\CascadeProjects\jarvis_memory.db
+[2026-03-10 19:35:48] [SUCCESS] [MEMÓRIA] Banco de dados inicializado com sucesso
+[2026-03-10 19:35:48] [INFO] [VISÃO] Script detectado, diretório base: c:\Users\Breno\CascadeProjects
+[2026-03-10 19:35:48] [INFO] [VISÃO] Procurando .env em: c:\Users\Breno\CascadeProjects\.env
+[2026-03-10 19:35:48] [SUCCESS] [VISÃO] Arquivo .env carregado com UTF-8: c:\Users\Breno\CascadeProjects\.env
+[2026-03-10 19:35:48] [INFO] [VISÃO] API Key detectada (mascarada): AIzaSyDN...t5CM
+[2026-03-10 19:35:48] [SUCCESS] [VISÃO] Visão computacional inicializada com Gemini 1.5 Flash
+[2026-03-10 19:35:48] [ERROR] [SISTEMA] Falha ao inicializar áudio
+[2026-03-10 19:35:48] [ERROR] [SISTEMA] Detalhes: 'AudioDevice' object has no attribute 'Activate'
+[2026-03-10 19:35:48] [INFO] [SISTEMA] Controlador de sistema inicializado
+[2026-03-10 19:35:49] [INFO] [SISTEMA] Interface criada com sucesso, iniciando mainloop
+
+============================================================
+🤖 J.A.R.V.I.S. - INÍCIO DE SESSÃO
+============================================================
+Data/Hora: 2026-03-10 19:39:48
+Sistema: win32
+Python: 3.13.12 (tags/v3.13.12:1cbe481, Feb  3 2026, 18:22:25) [MSC v.1944 64 bit (AMD64)]
+Executável: False
+Diretório: c:\Users\Breno\CascadeProjects
+============================================================
+
+[2026-03-10 19:39:48] [INFO] [SISTEMA] Sistema de log inicializado
+[2026-03-10 19:39:48] [INFO] [SISTEMA] Iniciando função principal do J.A.R.V.I.S.
+[2026-03-10 19:39:48] [INFO] [SISTEMA] Criando instância da interface GUI
+[2026-03-10 19:39:48] [INFO] [MEMÓRIA] Inicializando memória em: c:\Users\Breno\CascadeProjects\jarvis_memory.db
+[2026-03-10 19:39:48] [SUCCESS] [MEMÓRIA] Banco de dados inicializado com sucesso
+[2026-03-10 19:39:48] [INFO] [VISÃO] Script detectado, diretório base: c:\Users\Breno\CascadeProjects
+[2026-03-10 19:39:48] [INFO] [VISÃO] Procurando .env em: c:\Users\Breno\CascadeProjects\.env
+[2026-03-10 19:39:48] [SUCCESS] [VISÃO] Arquivo .env carregado com UTF-8: c:\Users\Breno\CascadeProjects\.env
+[2026-03-10 19:39:48] [INFO] [VISÃO] API Key detectada (mascarada): AIzaSyDN...t5CM
+[2026-03-10 19:39:48] [SUCCESS] [VISÃO] Visão computacional inicializada com Gemini 1.5 Flash
+[2026-03-10 19:39:48] [ERROR] [SISTEMA] Falha ao inicializar áudio
+[2026-03-10 19:39:48] [ERROR] [SISTEMA] Detalhes: 'AudioDevice' object has no attribute 'Activate'
+[2026-03-10 19:39:48] [INFO] [SISTEMA] Controlador de sistema inicializado
+[2026-03-10 19:39:49] [INFO] [SISTEMA] Interface criada com sucesso, iniciando mainloop
+
+============================================================
+🤖 J.A.R.V.I.S. - INÍCIO DE SESSÃO
+============================================================
+Data/Hora: 2026-03-10 19:46:36
+Sistema: win32
+Python: 3.13.12 (tags/v3.13.12:1cbe481, Feb  3 2026, 18:22:25) [MSC v.1944 64 bit (AMD64)]
+Executável: True
+Diretório: C:\Users\Breno\CascadeProjects
+============================================================
+
+[2026-03-10 19:46:36] [INFO] [SISTEMA] Sistema de log inicializado
+[2026-03-10 19:46:36] [INFO] [SISTEMA] Executável detectado - Redirecionando I/O para modo gráfico
+[2026-03-10 19:46:36] [INFO] [SISTEMA] Iniciando função principal do J.A.R.V.I.S.
+[2026-03-10 19:46:36] [INFO] [SISTEMA] Criando instância da interface GUI
+[2026-03-10 19:46:36] [INFO] [MEMÓRIA] Inicializando memória em: C:\Users\Breno\CascadeProjects\jarvis_memory.db
+[2026-03-10 19:46:36] [SUCCESS] [MEMÓRIA] Banco de dados inicializado com sucesso
+[2026-03-10 19:46:36] [INFO] [VISÃO] Executável detectado, diretório base: C:\Users\Breno\CascadeProjects
+[2026-03-10 19:46:36] [INFO] [VISÃO] Procurando .env em: C:\Users\Breno\CascadeProjects\.env
+[2026-03-10 19:46:36] [SUCCESS] [VISÃO] Arquivo .env carregado com UTF-8: C:\Users\Breno\CascadeProjects\.env
+[2026-03-10 19:46:36] [INFO] [VISÃO] API Key detectada (mascarada): AIzaSyDN...t5CM
+[2026-03-10 19:46:36] [SUCCESS] [VISÃO] Visão computacional inicializada com Gemini 1.5 Flash
+[2026-03-10 19:46:36] [ERROR] [SISTEMA] Falha ao inicializar áudio
+[2026-03-10 19:46:36] [ERROR] [SISTEMA] Detalhes: 'AudioDevice' object has no attribute 'Activate'
+[2026-03-10 19:46:36] [INFO] [SISTEMA] Controlador de sistema inicializado
+[2026-03-10 19:46:37] [INFO] [SISTEMA] Interface criada com sucesso, iniciando mainloop
+[2026-03-10 19:47:08] [INFO] [SISTEMA] Protocolo Windows executado com os.startfile: ms-settings:windowsupdate-action
