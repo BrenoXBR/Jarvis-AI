@@ -66,6 +66,15 @@ except ImportError as e:
     print("Erro de importação. O programa será encerrado.")
     sys.exit(1)
 
+# Import do módulo de controle de sistema
+try:
+    from jarvis_system_controller import SystemController
+    SYSTEM_CONTROL_AVAILABLE = True
+    print("✅ Módulo de controle de sistema importado")
+except ImportError as e:
+    print(f"⚠️ Módulo de controle de sistema não disponível: {e}")
+    SYSTEM_CONTROL_AVAILABLE = False
+
 # SISTEMA DE LOG DE ERRO GLOBAL
 class JarvisLogger:
     """Sistema de log para o J.A.R.V.I.S."""
@@ -409,6 +418,14 @@ class JarvisGUI:
         self.vision = JarvisVision(api_key=api_key)
         self.setup_voice()
         
+        # Inicializa controlador de sistema
+        if SYSTEM_CONTROL_AVAILABLE:
+            self.system_controller = SystemController(logger)
+            logger.info("Controlador de sistema inicializado", "SISTEMA")
+        else:
+            self.system_controller = None
+            logger.warning("Controlador de sistema não disponível", "SISTEMA")
+        
         # Estado da aplicação
         self.is_listening = False
         self.is_processing = False
@@ -526,6 +543,21 @@ class JarvisGUI:
         )
         self.vision_button.pack(side="left", padx=(0, 5))
         
+        # Botão de emergência - Protocolo Silêncio
+        if SYSTEM_CONTROL_AVAILABLE:
+            self.emergency_button = ctk.CTkButton(
+                button_container,
+                text="🚨",
+                width=50,
+                height=40,
+                font=ctk.CTkFont(family="Segoe UI", size=12),
+                border_color=STARK_COLORS["border"],
+                fg_color="#FF4444",  # Vermelho para emergência
+                hover_color="#CC0000",
+                command=self.emergency_silence
+            )
+            self.emergency_button.pack(side="left", padx=(0, 5))
+        
         # Botão de ouvir
         self.listen_button = ctk.CTkButton(
             button_container,
@@ -571,7 +603,20 @@ class JarvisGUI:
         self.chat_history = []
         
         # Mensagem inicial
-        self.add_message("Jarvis", "👋 Olá! Sou o J.A.R.V.I.S. com todos os módulos integrados. Posso ouvir, ver, lembrar e analisar para você!", is_jarvis=True)
+        if SYSTEM_CONTROL_AVAILABLE:
+            initial_message = "👋 Olá! Sou o J.A.R.V.I.S. com controle de sistema integrado!\n\n"
+            initial_message += "🤖 **Minhas capacidades:**\n"
+            initial_message += "• 🚨 **Protocolo Silêncio** - Emergência instantânea (botão 🚨)\n"
+            initial_message += "• 📱 Abrir aplicativos (Chrome, VS Code, Discord, etc.)\n"
+            initial_message += "• 🌐 Acessar links rápidos (YouTube, GitHub, etc.)\n"
+            initial_message += "• 🔊 Controlar volume e brilho\n"
+            initial_message += "• 👁️ Análise de tela com visão computacional\n"
+            initial_message += "• 🎤 Reconhecimento de voz\n"
+            initial_message += "• 🧠 Memória persistente\n\n"
+            initial_message += "💡 **Diga:** 'Jarvis, protocolo silêncio' para emergências!"
+            self.add_message("Jarvis", initial_message, is_jarvis=True)
+        else:
+            self.add_message("Jarvis", "👋 Olá! Sou o J.A.R.V.I.S. com todos os módulos integrados. Posso ouvir, ver, lembrar e analisar para você!", is_jarvis=True)
         
     def start_progress_animation(self):
         """Inicia animação da barra de progresso"""
@@ -714,7 +759,20 @@ class JarvisGUI:
         self.process_with_gemini(message)
     
     def process_with_gemini(self, message):
-        """Processa mensagem com Gemini e exibe com efeito typewriter"""
+        """Processa mensagem com Gemini e controle de sistema"""
+        # Primeiro, verifica se é um comando de sistema
+        if SYSTEM_CONTROL_AVAILABLE and self.system_controller:
+            command_intent = self.system_controller.detect_command_intent(message)
+            if command_intent:
+                command_type, command_data = command_intent
+                result = self.system_controller.execute_command(command_type, command_data)
+                self.add_message("Jarvis", result, is_jarvis=True)
+                
+                # Salva na memória como comando executado
+                self.memory.add_memory(f"Comando sistema: {message} → {result}", "system_command")
+                return
+        
+        # Se não for comando de sistema, processa com Gemini
         if not self.vision.api_key or self.vision.api_key == 'sua_chave_api_aqui':
             self.add_message("Jarvis", "❌ Configure sua API key do Gemini no arquivo .env para usar esta funcionalidade.", is_jarvis=True)
             return
@@ -751,12 +809,18 @@ class JarvisGUI:
                 memories = self.memory.get_recent_memories(3)
                 memory_context = "\n".join([f"- {mem[0]}" for mem in memories]) if memories else ""
                 
+                # Adiciona informações de comandos disponíveis ao contexto
+                system_commands_info = ""
+                if SYSTEM_CONTROL_AVAILABLE and self.system_controller:
+                    system_commands_info = "\n\nComandos de sistema disponíveis:\n" + \
+                                        self.system_controller.list_available_commands()
+                
                 # Detecção de pedido de detalhamento
                 needs_detail = any(keyword in message.lower() for keyword in ['mais detalhes', 'continue', 'explique melhor', 'pode detalhar', 'mais informações'])
                 
                 # Prompt otimizado com contexto da conversa
                 if needs_detail:
-                    prompt = f"""Você é J.A.R.V.I.S., assistente de IA avançada.
+                    prompt = f"""Você é J.A.R.V.I.S., assistente de IA avançada com controle de sistema.
 
 Regras para esta resposta:
 - Forneça análise profunda e técnica (ignore a regra de concisão)
@@ -768,12 +832,13 @@ Histórico da conversa recente:
 
 Memórias do sistema:
 {memory_context}
+{system_commands_info}
 
 Comando atual: {message}
 
 Responda com detalhamento técnico completo."""
                 else:
-                    prompt = f"""Você é J.A.R.V.I.S., assistente de IA avançada.
+                    prompt = f"""Você é J.A.R.V.I.S., assistente de IA avançada com controle de sistema.
 
 Regras de resposta:
 - Seja objetivo e direto, sem introduções longas
@@ -786,6 +851,7 @@ Histórico da conversa recente:
 
 Memórias do sistema:
 {memory_context}
+{system_commands_info}
 
 Comando: {message}
 
@@ -867,6 +933,33 @@ Responda de forma técnica e direta."""
         
         # Executa a thread dentro do escopo correto
         threading.Thread(target=process_and_respond, daemon=True).start()
+    
+    def emergency_silence(self):
+        """Executa Protocolo Silêncio via botão de emergência"""
+        if not SYSTEM_CONTROL_AVAILABLE or not self.system_controller:
+            self.add_message("Sistema", "❌ Controlador de sistema não disponível", is_system=True)
+            return
+        
+        # Feedback visual imediato
+        self.add_message("Sistema", "🚨 **PROTOCOLO SILÊNCIO ATIVADO!**", is_system=True)
+        self.status_label.configure(text="🚨 EMERGÊNCIA", text_color="#FF4444")
+        
+        def execute_emergency():
+            try:
+                result = self.system_controller.execute_command("emergency_silence", {})
+                self.root.after(0, lambda: self.add_message("Jarvis", result, is_jarvis=True))
+            except Exception as e:
+                logger.error(e, "Erro no Protocolo Silêncio", "EMERGÊNCIA")
+                self.root.after(0, lambda: self.add_message("Sistema", f"❌ Erro: {e}", is_system=True))
+            finally:
+                # Reseta status após 3 segundos
+                self.root.after(3000, lambda: self.status_label.configure(
+                    text="🟢 Online", 
+                    text_color=STARK_COLORS["ia_text"]
+                ))
+        
+        # Executa imediatamente em thread separada
+        threading.Thread(target=execute_emergency, daemon=True).start()
 
     def typewriter_effect(self, sender, message):
         """Efeito typewriter para mensagens do Jarvis no layout clean"""

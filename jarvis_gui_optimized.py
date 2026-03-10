@@ -14,7 +14,7 @@ import threading
 import queue
 from datetime import datetime
 from pathlib import Path
-from typing import Optional, Dict, List, Any
+from typing import Optional, Dict, List, Any, Tuple
 from contextlib import contextmanager
 from dataclasses import dataclass
 from abc import ABC, abstractmethod
@@ -31,6 +31,14 @@ try:
 except ImportError as e:
     print(f"❌ Erro crítico de importação: {e}")
     sys.exit(1)
+
+# Import do módulo de controle de sistema
+try:
+    from jarvis_system_controller import SystemController
+    SYSTEM_CONTROL_AVAILABLE = True
+except ImportError as e:
+    print(f"⚠️ Módulo de controle de sistema não disponível: {e}")
+    SYSTEM_CONTROL_AVAILABLE = False
 
 # Configuração global
 ctk.set_appearance_mode("dark")
@@ -393,6 +401,14 @@ class JarvisGUI:
         self.voice_manager = VoiceManager(self.config, self.logger)
         self.chat_manager = ChatManager(self.config, self.logger)
         
+        # Inicializa controlador de sistema
+        if SYSTEM_CONTROL_AVAILABLE:
+            self.system_controller = SystemController(self.logger)
+            self.logger.info("Controlador de sistema inicializado", "SISTEMA")
+        else:
+            self.system_controller = None
+            self.logger.warning("Controlador de sistema não disponível", "SISTEMA")
+        
         # Estado
         self.is_listening = False
         self.is_processing = False
@@ -518,6 +534,18 @@ class JarvisGUI:
         )
         self.vision_button.pack(side="left", padx=(0, 5))
         
+        # Botão de emergência - Protocolo Silêncio
+        self.emergency_button = ctk.CTkButton(
+            button_container,
+            text="🚨",
+            width=50,
+            height=40,
+            fg_color="#FF4444",  # Vermelho para emergência
+            hover_color="#CC0000",
+            command=self._emergency_silence
+        )
+        self.emergency_button.pack(side="left", padx=(0, 5))
+        
         self.listen_button = ctk.CTkButton(
             button_container,
             text="🎤 Ouvir",
@@ -546,7 +574,19 @@ class JarvisGUI:
         if memories:
             self._add_message("Sistema", f"📚 Carregadas {len(memories)} memórias recentes", "system")
         
-        self._add_message("Jarvis", "👋 Olá! Sou o J.A.R.V.I.S. otimizado. Como posso ajudar?", "jarvis")
+        # Mensagem inicial aprimorada
+        initial_message = "👋 Olá! Sou o J.A.R.V.I.S. com controle de sistema integrado!\n\n"
+        initial_message += "🤖 **Minhas capacidades:**\n"
+        initial_message += "• � **Protocolo Silêncio** - Emergência instantânea\n"
+        initial_message += "• �� Abrir aplicativos (Chrome, VS Code, Spotify, etc.)\n"
+        initial_message += "• 🌐 Acessar links rápidos (YouTube, GitHub, etc.)\n"
+        initial_message += "• 🔊 Controlar volume e brilho\n"
+        initial_message += "• 👁️ Análise de tela com visão computacional\n"
+        initial_message += "• 🎤 Reconhecimento de voz\n"
+        initial_message += "• 🧠 Memória persistente\n\n"
+        initial_message += "💡 **Diga:** 'Jarvis, protocolo silêncio' para emergências!"
+        
+        self._add_message("Jarvis", initial_message, "jarvis")
     
     def _add_message(self, sender: str, message: str, msg_type: str) -> None:
         """Adiciona mensagem ao chat"""
@@ -586,7 +626,20 @@ class JarvisGUI:
         self._process_message(message)
     
     def _process_message(self, message: str) -> None:
-        """Processa mensagem com Gemini"""
+        """Processa mensagem com Gemini e controle de sistema"""
+        # Primeiro, verifica se é um comando de sistema
+        if self.system_controller:
+            command_intent = self.system_controller.detect_command_intent(message)
+            if command_intent:
+                command_type, command_data = command_intent
+                result = self.system_controller.execute_command(command_type, command_data)
+                self._add_message("Jarvis", result, "jarvis")
+                
+                # Salva na memória como comando executado
+                self.memory_manager.add_memory(f"Comando sistema: {message} → {result}", "system_command")
+                return
+        
+        # Se não for comando de sistema, processa com Gemini
         if not self.vision_manager.api_key or self.vision_manager.api_key == 'sua_chave_api_aqui':
             self._add_message("Jarvis", "❌ Configure sua API key no arquivo .env", "jarvis")
             return
@@ -601,32 +654,57 @@ class JarvisGUI:
                 memories = self.memory_manager.get_recent_memories(3)
                 memory_context = "\n".join([f"- {mem[0]}" for mem in memories]) if memories else ""
                 
-                # Detecção de detalhamento
+                # Adiciona informações de comandos disponíveis ao contexto
+                system_commands_info = ""
+                if self.system_controller:
+                    system_commands_info = "\n\nComandos de sistema disponíveis:\n" + \
+                                        self.system_controller.list_available_commands()
+                
+                # Detecção de detalhamento ou pedido de comandos
                 needs_detail = any(keyword in message.lower() for keyword in [
                     'mais detalhes', 'continue', 'explique melhor', 'pode detalhar'
                 ])
                 
-                # Prompt
-                if needs_detail:
-                    prompt = f"""Você é J.A.R.V.I.S. Forneça análise detalhada e técnica.
+                asks_for_commands = any(keyword in message.lower() for keyword in [
+                    'comandos', 'o que você pode fazer', 'ajuda', 'help', 'funcionalidades'
+                ])
+                
+                # Prompt otimizado
+                if asks_for_commands:
+                    prompt = f"""Você é J.A.R.V.I.S. com controle de sistema integrado.
 
 Contexto da conversa:
 {context}
 
 Memórias:
 {memory_context}
+{system_commands_info}
 
 Comando: {message}
 
-Responda com detalhamento completo."""
+Responda listando suas capacidades incluindo controle de aplicativos, volume, brilho e links rápidos. Seja detalhado e técnico."""
+                elif needs_detail:
+                    prompt = f"""Você é J.A.R.V.I.S. com controle de sistema integrado. Forneça análise detalhada.
+
+Contexto da conversa:
+{context}
+
+Memórias:
+{memory_context}
+{system_commands_info}
+
+Comando: {message}
+
+Responda com detalhamento técnico completo."""
                 else:
-                    prompt = f"""Você é J.A.R.V.I.S. Seja técnico e direto.
+                    prompt = f"""Você é J.A.R.V.I.S. com controle de sistema integrado. Seja técnico e direto.
 
 Contexto:
 {context}
 
 Memórias:
 {memory_context}
+{system_commands_info}
 
 Comando: {message}
 
@@ -761,6 +839,33 @@ Responda de forma concisa e técnica."""
                 self.root.after(0, lambda: self._add_message("Sistema", f"❌ Erro: {e}", "system"))
         
         threading.Thread(target=analyze_async, daemon=True).start()
+    
+    def _emergency_silence(self) -> None:
+        """Executa Protocolo Silêncio via botão de emergência"""
+        if not self.system_controller:
+            self._add_message("Sistema", "❌ Controlador de sistema não disponível", "system")
+            return
+        
+        # Feedback visual imediato
+        self._add_message("Sistema", "🚨 **PROTOCOLO SILÊNCIO ATIVADO!**", "system")
+        self.status_label.configure(text="🚨 EMERGÊNCIA", text_color="#FF4444")
+        
+        def execute_emergency():
+            try:
+                result = self.system_controller.execute_command("emergency_silence", {})
+                self.root.after(0, lambda: self._add_message("Jarvis", result, "jarvis"))
+            except Exception as e:
+                self.logger.error(e, "Erro no Protocolo Silêncio", "EMERGÊNCIA")
+                self.root.after(0, lambda: self._add_message("Sistema", f"❌ Erro: {e}", "system"))
+            finally:
+                # Reseta status após 3 segundos
+                self.root.after(3000, lambda: self.status_label.configure(
+                    text="🟢 Online", 
+                    text_color=self.config.COLORS["ia_text"]
+                ))
+        
+        # Executa imediatamente em thread separada
+        threading.Thread(target=execute_emergency, daemon=True).start()
     
     def run(self) -> None:
         """Inicia aplicação"""
