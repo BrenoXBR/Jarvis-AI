@@ -17,3 +17,31 @@ SOLUÇÃO:
 1. Verifique se todas as dependências estão instaladas
 2. Tente executar como administrador
 3. Verifique se o arquivo .env existe e está configurado
+[2026-03-10 20:12:06] Erro ao inicializar áudio
+Erro: AttributeError: 'AudioDevice' object has no attribute 'Activate'
+Módulo: ACTIONS
+
+[2026-03-10 20:22:55] Erro ao inicializar áudio
+Erro: AttributeError: 'AudioDevice' object has no attribute 'Activate'
+Módulo: ACTIONS
+
+[2026-03-10 20:29:36] Erro ao inicializar áudio
+Erro: AttributeError: 'AudioDevice' object has no attribute 'Activate'
+Módulo: ACTIONS
+
+[2026-03-10 20:32:11] Erro ao inicializar áudio
+Erro: AttributeError: 'AudioDevice' object has no attribute 'Activate'
+Módulo: ACTIONS
+
+[2026-03-10 20:34:51] Erro ao inicializar áudio
+Erro: AttributeError: 'AudioDevice' object has no attribute 'Activate'
+Módulo: ACTIONS
+
+[2026-03-10 20:39:30] Erro ao inicializar áudio
+Erro: AttributeError: 'AudioDevice' object has no attribute 'Activate'
+Módulo: ACTIONS
+
+[2026-03-10 21:00:11] Erro ao inicializar áudio
+Erro: AttributeError: 'AudioDevice' object has no attribute 'Activate'
+Módulo: ACTIONS
+

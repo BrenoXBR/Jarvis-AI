@@ -1,0 +1,117 @@
+🖥️ J.A.R.V.I.S. - SYSTEM MONITOR
+==================================================
+
+[2026-03-10 20:12:06] INIT: Módulo de ações do sistema carregado
+[2026-03-10 20:12:06] GUI: System Monitor visível
+[2026-03-10 20:12:06] GUI: Interface profissional carregada
+[2026-03-10 20:12:48] CORE: Enviando requisição para API Gemini...
+[2026-03-10 20:12:53] CORE: Texto extraído da API: 304 caracteres
+[2026-03-10 20:12:53] CORE: Markdown limpo com sucesso
+[2026-03-10 20:12:53] CORE: Resposta recebida: 303 caracteres
+[2026-03-10 20:12:53] CORE: Iniciando efeito de digitação
+[2026-03-10 20:13:10] GUI: System Monitor oculto
+[2026-03-10 20:13:11] GUI: System Monitor visível
+[2026-03-10 20:13:20] APP: Abrindo aplicativo: blocde notas
+[2026-03-10 20:13:20] APP: Busca universal iniciada para: blocde notas
+[2026-03-10 20:13:20] APP: Buscando caminho com 'where blocde notas'
+[2026-03-10 20:13:20] APP: blocde notas não encontrado com 'where'
+[2026-03-10 20:13:20] APP: Buscando em pastas do Windows...
+[2026-03-10 20:13:51] APP: Busca por palavras-chave...
+[2026-03-10 20:13:57] APP: Tentando busca no Google para: blocde notas
+[2026-03-10 20:14:30] APP: Abrindo aplicativo: certo, agor verifique se atualizações
+[2026-03-10 20:14:30] APP: Busca universal iniciada para: certo, agor verifique se atualizações
+[2026-03-10 20:14:30] APP: Buscando caminho com 'where certo, agor verifique se atualizações'
+[2026-03-10 20:14:30] APP: certo, agor verifique se atualizações não encontrado com 'where'
+[2026-03-10 20:14:30] APP: Buscando em pastas do Windows...
+[2026-03-10 20:14:51] APP: Busca por palavras-chave...
+[2026-03-10 20:14:57] APP: Tentando busca no Google para: certo, agor verifique se atualizações
+[2026-03-10 20:15:11] CORE: Enviando requisição para API Gemini...
+[2026-03-10 20:15:13] CORE: Texto extraído da API: 428 caracteres
+[2026-03-10 20:15:13] CORE: Markdown limpo com sucesso
+[2026-03-10 20:15:13] CORE: Resposta recebida: 427 caracteres
+[2026-03-10 20:15:13] CORE: Iniciando efeito de digitação
+[2026-03-10 20:22:55] INIT: Módulo de ações do sistema carregado
+[2026-03-10 20:22:56] GUI: System Monitor visível
+[2026-03-10 20:22:56] GUI: Interface profissional carregada
+[2026-03-10 20:23:54] APP: Abrindo aplicativo: jrvis,  blcde nts
+[2026-03-10 20:23:54] APP: Busca universal iniciada para: jrvis,  blcde nts
+[2026-03-10 20:23:54] APP: Buscando caminho com 'where jrvis,  blcde nts'
+[2026-03-10 20:23:54] APP: jrvis,  blcde nts não encontrado com 'where'
+[2026-03-10 20:23:54] APP: Tentando variação: 'where jrvis,  blcde nts'
+[2026-03-10 20:23:54] APP: Tentando variação: 'where jrvis,blcdents'
+[2026-03-10 20:23:54] APP: Tentando variação: 'where jrvis,  blcde nts'
+[2026-03-10 20:23:54] APP: Tentando variação: 'where jrvis,  blcde nts'
+[2026-03-10 20:23:54] APP: Tentando variação: 'where jrvis,  blcde nts.exe'
+[2026-03-10 20:23:55] APP: Tentando variação: 'where jrvis,blcdents.exe'
+[2026-03-10 20:23:55] APP: Buscando em pastas do Windows...
+[2026-03-10 20:24:21] APP: Busca por palavras-chave...
+[2026-03-10 20:24:28] APP: Tentando busca no Google para: jrvis,  blcde nts
+[2026-03-10 20:24:44] APP: Abrindo aplicativo: s cnfigurções
+[2026-03-10 20:24:44] APP: Busca universal iniciada para: s cnfigurções
+[2026-03-10 20:24:44] APP: Buscando caminho com 'where s cnfigurções'
+[2026-03-10 20:24:44] APP: s cnfigurções não encontrado com 'where'
+[2026-03-10 20:24:44] APP: Tentando variação: 'where s cnfigurções'
+[2026-03-10 20:24:44] APP: Tentando variação: 'where scnfigurções'
+[2026-03-10 20:24:44] APP: Tentando variação: 'where s cnfigurções'
+[2026-03-10 20:24:44] APP: Tentando variação: 'where s cnfigurções'
+[2026-03-10 20:24:44] APP: Tentando variação: 'where s cnfigurções.exe'
+[2026-03-10 20:24:44] APP: Tentando variação: 'where scnfigurções.exe'
+[2026-03-10 20:24:44] APP: Buscando em pastas do Windows...
+[2026-03-10 20:25:05] APP: Busca por palavras-chave...
+[2026-03-10 20:25:11] APP: Tentando busca no Google para: s cnfigurções
+[2026-03-10 20:29:36] INIT: Módulo de ações do sistema carregado
+[2026-03-10 20:29:37] GUI: System Monitor visível
+[2026-03-10 20:29:37] GUI: Interface profissional carregada
+[2026-03-10 20:29:55] APP: Abrindo aplicativo: o bloco de notas
+[2026-03-10 20:29:55] APP: [DEBUG] Tentando abrir: o bloco de notas
+[2026-03-10 20:29:55] APP: [DEBUG] Não encontrado no dicionário, tentando nome exato: o bloco de notas
+[2026-03-10 20:29:55] APP: [DEBUG] Tentando execução exata: o bloco de notas
+[2026-03-10 20:29:55] APP: [DEBUG] Testando variação exata: o bloco de notas
+[2026-03-10 20:29:55] APP: [DEBUG] Testando variação exata: o bloco de notas.exe
+[2026-03-10 20:29:55] APP: [DEBUG] Testando variação exata: oblocodenotas.exe
+[2026-03-10 20:29:55] APP: [DEBUG] Testando variação exata: oblocodenotas
+[2026-03-10 20:29:55] APP: [DEBUG] Iniciando busca fallback para: o bloco de notas
+[2026-03-10 20:29:55] APP: [DEBUG] Último recurso: busca no Google para: o bloco de notas
+[2026-03-10 20:32:11] INIT: Módulo de ações do sistema carregado
+[2026-03-10 20:32:12] GUI: System Monitor visível
+[2026-03-10 20:32:12] GUI: Interface profissional carregada
+[2026-03-10 20:32:26] APP: Abrindo aplicativo: o bloco de notas
+[2026-03-10 20:32:26] APP: [DEBUG] Tentando abrir: o bloco de notas
+[2026-03-10 20:32:26] APP: [DEBUG] Não encontrado no dicionário, tentando nome exato: o bloco de notas
+[2026-03-10 20:32:26] APP: [DEBUG] Tentando execução exata: o bloco de notas
+[2026-03-10 20:32:26] APP: [DEBUG] Testando variação exata: o bloco de notas
+[2026-03-10 20:32:26] APP: [DEBUG] Testando variação exata: o bloco de notas.exe
+[2026-03-10 20:32:26] APP: [DEBUG] Testando variação exata: oblocodenotas.exe
+[2026-03-10 20:32:26] APP: [DEBUG] Testando variação exata: oblocodenotas
+[2026-03-10 20:32:26] APP: [DEBUG] Iniciando busca fallback para: o bloco de notas
+[2026-03-10 20:32:26] APP: [DEBUG] Último recurso: busca no Google para: o bloco de notas
+[2026-03-10 20:34:51] INIT: Módulo de ações do sistema carregado
+[2026-03-10 20:34:52] GUI: System Monitor visível
+[2026-03-10 20:34:52] GUI: Interface profissional carregada
+[2026-03-10 20:36:13] APP: Abrindo aplicativo: bloco de notas
+[2026-03-10 20:36:13] APP: [DEBUG] Comando original: 'bloco de notas'
+[2026-03-10 20:36:13] APP: [DEBUG] Nome limpo: 'blocde notas'
+[2026-03-10 20:36:13] APP: [DEBUG] Não encontrado no dicionário, tentando fallback inteligente: 'blocde notas'
+[2026-03-10 20:36:13] APP: [DEBUG] Tentando fallback inteligente com start: 'blocde notas'
+[2026-03-10 20:36:13] APP: [DEBUG] Testando variação start: 'start "blocde notas"'
+[2026-03-10 20:39:30] INIT: Módulo de ações do sistema carregado
+[2026-03-10 20:39:30] GUI: System Monitor visível
+[2026-03-10 20:39:30] GUI: Interface profissional carregada
+[2026-03-10 20:44:57] APP: Abrindo aplicativo: o bloco de notas
+[2026-03-10 20:44:57] APP: [DEBUG] Comando original: 'o bloco de notas'
+[2026-03-10 20:44:57] APP: [DEBUG] Nome processado: 'blocde notas' (palavras-chave: ['blocde', 'notas'])
+[2026-03-10 20:44:57] APP: [DEBUG] Mapeamento estrito: 'blocde notas' → 'notepad.exe'
+[2026-03-10 20:44:57] APP: [DEBUG] Executando comando direto: 'notepad.exe'
+[2026-03-10 21:00:11] INIT: Módulo de ações do sistema carregado
+[2026-03-10 21:00:12] GUI: System Monitor visível
+[2026-03-10 21:00:12] GUI: Interface profissional carregada
+[2026-03-10 21:00:25] APP: Abrindo aplicativo: a calculadora
+[2026-03-10 21:00:25] APP: [DEBUG] Comando original: 'a calculadora'
+[2026-03-10 21:00:25] APP: [DEBUG] Nome processado: 'calculadora' (palavras-chave: ['calculadora'])
+[2026-03-10 21:00:25] APP: [DEBUG] Mapeamento estrito: 'calculadora' → 'calc.exe'
+[2026-03-10 21:00:25] APP: [DEBUG] Executando comando direto: 'calc.exe'
+[2026-03-10 21:00:40] APP: Abrindo aplicativo: a microsoft store
+[2026-03-10 21:00:40] APP: [DEBUG] Comando original: 'a microsoft store'
+[2026-03-10 21:00:40] APP: [DEBUG] Nome processado: 'microsoft store' (palavras-chave: ['microsoft', 'store'])
+[2026-03-10 21:00:40] APP: [DEBUG] Palavra-chave encontrada: 'store' → 'ms-windows-store:'
+[2026-03-10 21:00:40] APP: [DEBUG] Executando comando direto: 'ms-windows-store:'

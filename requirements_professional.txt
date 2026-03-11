@@ -1,0 +1,31 @@
+# J.A.R.V.I.S. Professional - Requirements
+# Stark Industries AI Assistant
+
+# Core Dependencies
+google-generativeai>=0.3.0
+customtkinter>=5.2.0
+Pillow>=10.0.0
+
+# System Control
+pyautogui>=0.9.54
+screen-brightness-control>=0.13.0
+pycaw>=2023.2
+comtypes>=1.2.0
+wmi>=1.5.1
+
+# Voice Recognition
+SpeechRecognition>=3.10.0
+pyaudio>=0.2.11
+pyttsx3>=2.90
+
+# Data Processing
+numpy>=1.24.0
+pandas>=2.0.0
+
+# Optional: Vision (for future enhancements)
+# opencv-python>=4.8.0
+# pytesseract>=0.3.10
+
+# Development Tools
+pytest>=7.4.0
+black>=23.0.0

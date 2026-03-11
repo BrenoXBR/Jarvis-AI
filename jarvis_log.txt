@@ -987,3 +987,133 @@ Diretório: C:\Users\Breno\CascadeProjects
 [2026-03-10 19:46:36] [INFO] [SISTEMA] Controlador de sistema inicializado
 [2026-03-10 19:46:37] [INFO] [SISTEMA] Interface criada com sucesso, iniciando mainloop
 [2026-03-10 19:47:08] [INFO] [SISTEMA] Protocolo Windows executado com os.startfile: ms-settings:windowsupdate-action
+[2026-03-10 20:12:06] ERROR [ACTIONS]: Erro ao inicializar áudio
+Erro: AttributeError: 'AudioDevice' object has no attribute 'Activate'
+Traceback:
+Traceback (most recent call last):
+  File "C:\Users\Breno\CascadeProjects\actions.py", line 47, in _init_audio_control
+    interface = devices.Activate(IAudioEndpointVolume._iid_, CLSCTX_ALL, None)
+                ^^^^^^^^^^^^^^^^
+AttributeError: 'AudioDevice' object has no attribute 'Activate'
+
+--------------------------------------------------
+
+[2026-03-10 20:12:06] INFO [ACTIONS]: SystemActions inicializado
+[2026-03-10 20:12:06] INFO [CORE]: API key carregada com sucesso
+[2026-03-10 20:12:06] INFO [CORE]: API Gemini configurada com sucesso
+[2026-03-10 20:12:06] INFO [GUI]: Sistema de voz configurado
+[2026-03-10 20:12:06] INFO [GUI]: GUI inicializada com sucesso
+[2026-03-10 20:12:53] INFO [CORE]: Memória: User='Olá Jarvis, como vai?...', Jarvis='Status operacional: Nominal. Todos os módulos onli...'
+[2026-03-10 20:13:57] INFO [ACTIONS]: Busca no Google realizada para: blocde notas
+[2026-03-10 20:14:57] INFO [ACTIONS]: Busca no Google realizada para: certo, agor verifique se atualizações
+[2026-03-10 20:15:13] INFO [CORE]: Memória: User='Verifique se a atualizações...', Jarvis='Compreendido. Iniciando o protocolo de verificação...'
+[2026-03-10 20:18:24] INFO [GUI]: Interface encerrada pelo usuário
+[2026-03-10 20:22:55] ERROR [ACTIONS]: Erro ao inicializar áudio
+Erro: AttributeError: 'AudioDevice' object has no attribute 'Activate'
+Traceback:
+Traceback (most recent call last):
+  File "C:\Users\Breno\CascadeProjects\actions.py", line 47, in _init_audio_control
+    interface = devices.Activate(IAudioEndpointVolume._iid_, CLSCTX_ALL, None)
+                ^^^^^^^^^^^^^^^^
+AttributeError: 'AudioDevice' object has no attribute 'Activate'
+
+--------------------------------------------------
+
+[2026-03-10 20:22:55] INFO [ACTIONS]: SystemActions inicializado
+[2026-03-10 20:22:55] INFO [CORE]: API key carregada com sucesso
+[2026-03-10 20:22:55] INFO [CORE]: API Gemini configurada com sucesso
+[2026-03-10 20:22:55] INFO [GUI]: Sistema de voz configurado
+[2026-03-10 20:22:56] INFO [GUI]: GUI inicializada com sucesso
+[2026-03-10 20:24:28] INFO [ACTIONS]: Busca no Google realizada para: jrvis,  blcde nts
+[2026-03-10 20:25:11] INFO [ACTIONS]: Busca no Google realizada para: s cnfigurções
+[2026-03-10 20:25:29] INFO [GUI]: Interface encerrada pelo usuário
+[2026-03-10 20:29:36] ERROR [ACTIONS]: Erro ao inicializar áudio
+Erro: AttributeError: 'AudioDevice' object has no attribute 'Activate'
+Traceback:
+Traceback (most recent call last):
+  File "C:\Users\Breno\CascadeProjects\actions.py", line 47, in _init_audio_control
+    interface = devices.Activate(IAudioEndpointVolume._iid_, CLSCTX_ALL, None)
+                ^^^^^^^^^^^^^^^^
+AttributeError: 'AudioDevice' object has no attribute 'Activate'
+
+--------------------------------------------------
+
+[2026-03-10 20:29:36] INFO [ACTIONS]: SystemActions inicializado
+[2026-03-10 20:29:36] INFO [CORE]: API key carregada com sucesso
+[2026-03-10 20:29:36] INFO [CORE]: API Gemini configurada com sucesso
+[2026-03-10 20:29:36] INFO [GUI]: Sistema de voz configurado
+[2026-03-10 20:29:37] INFO [GUI]: GUI inicializada com sucesso
+[2026-03-10 20:29:55] INFO [ACTIONS]: Busca no Google realizada para: o bloco de notas
+[2026-03-10 20:30:22] INFO [GUI]: Interface encerrada pelo usuário
+[2026-03-10 20:32:11] ERROR [ACTIONS]: Erro ao inicializar áudio
+Erro: AttributeError: 'AudioDevice' object has no attribute 'Activate'
+Traceback:
+Traceback (most recent call last):
+  File "C:\Users\Breno\CascadeProjects\actions.py", line 47, in _init_audio_control
+    interface = devices.Activate(IAudioEndpointVolume._iid_, CLSCTX_ALL, None)
+                ^^^^^^^^^^^^^^^^
+AttributeError: 'AudioDevice' object has no attribute 'Activate'
+
+--------------------------------------------------
+
+[2026-03-10 20:32:11] INFO [ACTIONS]: SystemActions inicializado
+[2026-03-10 20:32:11] INFO [CORE]: API key carregada com sucesso
+[2026-03-10 20:32:11] INFO [CORE]: API Gemini configurada com sucesso
+[2026-03-10 20:32:11] INFO [GUI]: Sistema de voz configurado
+[2026-03-10 20:32:12] INFO [GUI]: GUI inicializada com sucesso
+[2026-03-10 20:32:26] INFO [ACTIONS]: Busca no Google realizada para: o bloco de notas
+[2026-03-10 20:32:41] INFO [GUI]: Interface encerrada pelo usuário
+[2026-03-10 20:34:51] ERROR [ACTIONS]: Erro ao inicializar áudio
+Erro: AttributeError: 'AudioDevice' object has no attribute 'Activate'
+Traceback:
+Traceback (most recent call last):
+  File "C:\Users\Breno\CascadeProjects\actions.py", line 47, in _init_audio_control
+    interface = devices.Activate(IAudioEndpointVolume._iid_, CLSCTX_ALL, None)
+                ^^^^^^^^^^^^^^^^
+AttributeError: 'AudioDevice' object has no attribute 'Activate'
+
+--------------------------------------------------
+
+[2026-03-10 20:34:51] INFO [ACTIONS]: SystemActions inicializado
+[2026-03-10 20:34:51] INFO [CORE]: API key carregada com sucesso
+[2026-03-10 20:34:51] INFO [CORE]: API Gemini configurada com sucesso
+[2026-03-10 20:34:52] INFO [GUI]: Sistema de voz configurado
+[2026-03-10 20:34:52] INFO [GUI]: GUI inicializada com sucesso
+[2026-03-10 20:36:13] INFO [ACTIONS]: Executado com fallback start: start "blocde notas"
+[2026-03-10 20:37:16] INFO [GUI]: Interface encerrada pelo usuário
+[2026-03-10 20:39:30] ERROR [ACTIONS]: Erro ao inicializar áudio
+Erro: AttributeError: 'AudioDevice' object has no attribute 'Activate'
+Traceback:
+Traceback (most recent call last):
+  File "C:\Users\Breno\CascadeProjects\actions.py", line 48, in _init_audio_control
+    interface = devices.Activate(IAudioEndpointVolume._iid_, CLSCTX_ALL, None)
+                ^^^^^^^^^^^^^^^^
+AttributeError: 'AudioDevice' object has no attribute 'Activate'
+
+--------------------------------------------------
+
+[2026-03-10 20:39:30] INFO [ACTIONS]: SystemActions inicializado
+[2026-03-10 20:39:30] INFO [CORE]: API key carregada com sucesso
+[2026-03-10 20:39:30] INFO [CORE]: API Gemini configurada com sucesso
+[2026-03-10 20:39:30] INFO [GUI]: Sistema de voz configurado
+[2026-03-10 20:39:30] INFO [GUI]: GUI inicializada com sucesso
+[2026-03-10 20:44:57] INFO [ACTIONS]: Executável encontrado no PATH: C:\Windows\System32\notepad.exe
+[2026-03-10 20:45:05] INFO [GUI]: Interface encerrada pelo usuário
+[2026-03-10 21:00:11] ERROR [ACTIONS]: Erro ao inicializar áudio
+Erro: AttributeError: 'AudioDevice' object has no attribute 'Activate'
+Traceback:
+Traceback (most recent call last):
+  File "actions.py", line 48, in _init_audio_control
+    interface = devices.Activate(IAudioEndpointVolume._iid_, CLSCTX_ALL, None)
+                ^^^^^^^^^^^^^^^^
+AttributeError: 'AudioDevice' object has no attribute 'Activate'
+
+--------------------------------------------------
+
+[2026-03-10 21:00:11] INFO [ACTIONS]: SystemActions inicializado
+[2026-03-10 21:00:11] WARNING [CORE]: API key inválida ou não encontrada
+[2026-03-10 21:00:11] WARNING [CORE]: API key não encontrada
+[2026-03-10 21:00:11] INFO [GUI]: Sistema de voz configurado
+[2026-03-10 21:00:12] INFO [GUI]: GUI inicializada com sucesso
+[2026-03-10 21:00:26] INFO [ACTIONS]: Executável encontrado no PATH: C:\Windows\System32\calc.exe
+[2026-03-10 21:00:40] INFO [ACTIONS]: Deep Link executado: ms-windows-store:
