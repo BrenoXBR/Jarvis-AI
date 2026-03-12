@@ -115,3 +115,152 @@
 [2026-03-10 21:00:40] APP: [DEBUG] Nome processado: 'microsoft store' (palavras-chave: ['microsoft', 'store'])
 [2026-03-10 21:00:40] APP: [DEBUG] Palavra-chave encontrada: 'store' → 'ms-windows-store:'
 [2026-03-10 21:00:40] APP: [DEBUG] Executando comando direto: 'ms-windows-store:'
+[2026-03-10 21:25:08] INIT: Módulo de ações do sistema carregado
+[2026-03-10 21:25:08] GUI: System Monitor visível
+[2026-03-10 21:25:08] GUI: Interface profissional carregada
+[2026-03-10 21:25:22] APP: Abrindo aplicativo: o bloco de notas
+[2026-03-10 21:25:22] APP: [DEBUG] Comando original: 'o bloco de notas'
+[2026-03-10 21:25:22] APP: [DEBUG] Nome processado: 'blocde notas' (palavras-chave: ['blocde', 'notas'])
+[2026-03-10 21:25:22] APP: [DEBUG] Mapeamento estrito: 'blocde notas' → 'notepad.exe'
+[2026-03-10 21:25:22] APP: [DEBUG] Executando comando direto: 'notepad.exe'
+[2026-03-10 21:25:38] APP: Abrindo aplicativo: a microsoft store
+[2026-03-10 21:25:38] APP: [DEBUG] Comando original: 'a microsoft store'
+[2026-03-10 21:25:38] APP: [DEBUG] Nome processado: 'microsoft store' (palavras-chave: ['microsoft', 'store'])
+[2026-03-10 21:25:38] APP: [DEBUG] Palavra-chave encontrada: 'store' → 'ms-windows-store:'
+[2026-03-10 21:25:38] APP: [DEBUG] Executando comando direto: 'ms-windows-store:'
+[2026-03-10 21:26:46] APP: Abrindo aplicativo: a calculadora
+[2026-03-10 21:26:46] APP: [DEBUG] Comando original: 'a calculadora'
+[2026-03-10 21:26:46] APP: [DEBUG] Nome processado: 'calculadora' (palavras-chave: ['calculadora'])
+[2026-03-10 21:26:46] APP: [DEBUG] Mapeamento estrito: 'calculadora' → 'calc.exe'
+[2026-03-10 21:26:46] APP: [DEBUG] Executando comando direto: 'calc.exe'
+[2026-03-10 21:26:58] APP: Abrindo aplicativo: o cmd
+[2026-03-10 21:26:58] APP: [DEBUG] Comando original: 'o cmd'
+[2026-03-10 21:26:58] APP: [DEBUG] Nome processado: 'cmd' (palavras-chave: ['cmd'])
+[2026-03-10 21:26:58] APP: [DEBUG] Mapeamento estrito: 'cmd' → 'cmd.exe'
+[2026-03-10 21:26:58] APP: [DEBUG] Executando comando direto: 'cmd.exe'
+[2026-03-10 21:27:08] APP: Abrindo aplicativo: o powershell
+[2026-03-10 21:27:08] APP: [DEBUG] Comando original: 'o powershell'
+[2026-03-10 21:27:08] APP: [DEBUG] Nome processado: 'powershell' (palavras-chave: ['powershell'])
+[2026-03-10 21:27:08] APP: [DEBUG] Mapeamento estrito: 'powershell' → 'powershell.exe'
+[2026-03-10 21:27:08] APP: [DEBUG] Executando comando direto: 'powershell.exe'
+[2026-03-10 21:27:27] APP: Abrindo aplicativo: atualizações
+[2026-03-10 21:27:27] APP: [DEBUG] Comando original: 'atualizações'
+[2026-03-10 21:27:27] APP: [DEBUG] Nome processado: 'atualizações' (palavras-chave: ['atualizações'])
+[2026-03-10 21:27:27] APP: [DEBUG] Não encontrado no mapeamento, tentando fallback: 'atualizações'
+[2026-03-10 21:27:27] APP: [DEBUG] Tentando fallback inteligente: 'atualizações'
+[2026-03-10 21:27:27] APP: [DEBUG] Testando variação: 'atualizações'
+[2026-03-10 21:27:27] APP: [DEBUG] Testando variação: 'atualizações.exe'
+[2026-03-10 21:27:28] APP: [DEBUG] Testando variação: 'atualizações.exe'
+[2026-03-10 21:27:28] APP: [DEBUG] Testando variação: 'atualizações'
+[2026-03-10 21:27:28] APP: [DEBUG] Iniciando busca fallback para: atualizações
+[2026-03-10 21:27:28] APP: [DEBUG] Último recurso: busca no Google para: atualizações
+[2026-03-10 21:28:18] APP: Abrindo aplicativo: as configurações, e abra a aba windows update
+[2026-03-10 21:28:18] APP: [DEBUG] Comando original: 'as configurações, e abra a aba windows update'
+[2026-03-10 21:28:18] APP: [DEBUG] Nome processado: 'as configurações, ebrabwindows update' (palavras-chave: ['as', 'configurações,', 'ebrabwindows', 'update'])
+[2026-03-10 21:28:18] APP: [DEBUG] Palavra-chave encontrada: 'update' → 'ms-settings:windowsupdate-action'
+[2026-03-10 21:28:18] APP: [DEBUG] Executando comando direto: 'ms-settings:windowsupdate-action'
+[2026-03-10 21:28:37] APP: Abrindo aplicativo: o windows update
+[2026-03-10 21:28:37] APP: [DEBUG] Comando original: 'o windows update'
+[2026-03-10 21:28:37] APP: [DEBUG] Nome processado: 'windows update' (palavras-chave: ['windows', 'update'])
+[2026-03-10 21:28:37] APP: [DEBUG] Palavra-chave encontrada: 'update' → 'ms-settings:windowsupdate-action'
+[2026-03-10 21:28:37] APP: [DEBUG] Executando comando direto: 'ms-settings:windowsupdate-action'
+[2026-03-10 21:30:12] APP: Abrindo aplicativo: aves  o bloco de notas
+[2026-03-10 21:30:12] APP: [DEBUG] Comando original: 'aves  o bloco de notas'
+[2026-03-10 21:30:12] APP: [DEBUG] Nome processado: 'aves blocde notas' (palavras-chave: ['aves', 'blocde', 'notas'])
+[2026-03-10 21:30:12] APP: [DEBUG] Palavra-chave encontrada: 'notas' → 'notepad.exe'
+[2026-03-10 21:30:12] APP: [DEBUG] Executando comando direto: 'notepad.exe'
+[2026-03-12 19:28:12] INIT: Módulo de ações do sistema carregado
+[2026-03-12 19:28:13] GUI: System Monitor visível
+[2026-03-12 19:28:13] GUI: Interface profissional carregada
+[2026-03-12 19:30:51] INIT: Módulo de ações do sistema carregado
+[2026-03-12 19:30:51] GUI: System Monitor visível
+[2026-03-12 19:30:51] GUI: Interface profissional carregada
+[2026-03-12 19:32:51] INIT: Módulo de ações do sistema carregado
+[2026-03-12 19:32:51] GUI: System Monitor visível
+[2026-03-12 19:32:51] GUI: Interface profissional carregada
+[2026-03-12 19:39:29] INIT: Módulo de ações do sistema carregado
+[2026-03-12 19:39:29] CORE: [DEBUG] Buscando .env em: C:\Users\Breno\.env
+[2026-03-12 19:39:29] GUI: System Monitor visível
+[2026-03-12 19:39:29] GUI: Interface profissional carregada
+[2026-03-12 19:44:03] INIT: Módulo de ações do sistema carregado
+[2026-03-12 19:44:03] CORE: [DEBUG] Buscando .env em: C:\Users\Breno\AppData\Local\Temp\.env
+[2026-03-12 19:44:04] GUI: System Monitor visível
+[2026-03-12 19:44:04] GUI: Interface profissional carregada
+[2026-03-12 19:46:23] INIT: Módulo de ações do sistema carregado
+[2026-03-12 19:46:23] CORE: [DEBUG] Buscando .env em: C:\Users\Breno\.env
+[2026-03-12 19:46:24] GUI: System Monitor visível
+[2026-03-12 19:46:24] GUI: Interface profissional carregada
+[2026-03-12 19:49:20] INIT: Módulo de ações do sistema carregado
+[2026-03-12 19:49:20] CORE: [DEBUG] Buscando .env em: C:\Users\Breno\CascadeProjects\.env
+[2026-03-12 19:49:20] CORE: [SUCCESS] .env encontrado na pasta do projeto.
+[2026-03-12 19:49:20] CORE: [DEBUG] API Key encontrada: AIza... (comprimento: 39)
+[2026-03-12 19:49:20] GUI: System Monitor visível
+[2026-03-12 19:49:20] GUI: Interface profissional carregada
+[2026-03-12 19:49:40] CORE: Enviando requisição para API Gemini...
+[2026-03-12 19:49:48] CORE: Texto extraído da API: 362 caracteres
+[2026-03-12 19:49:48] CORE: Markdown limpo com sucesso
+[2026-03-12 19:49:48] CORE: Resposta recebida: 361 caracteres
+[2026-03-12 19:49:48] CORE: Iniciando efeito de digitação
+[2026-03-12 20:05:58] INIT: Módulo de ações do sistema carregado
+[2026-03-12 20:05:58] CORE: [DEBUG] Buscando .env em: C:\Users\Breno\CascadeProjects\.env
+[2026-03-12 20:05:58] CORE: [SUCCESS] .env encontrado na pasta do projeto.
+[2026-03-12 20:05:58] CORE: [DEBUG] API Key encontrada: AIza... (comprimento: 39)
+[2026-03-12 20:05:58] GUI: System Monitor visível
+[2026-03-12 20:05:58] GUI: Interface profissional carregada
+[2026-03-12 20:14:34] INIT: Módulo de ações do sistema carregado
+[2026-03-12 20:14:34] CORE: [DEBUG] Buscando .env em: C:\Users\Breno\CascadeProjects\.env
+[2026-03-12 20:14:34] CORE: [SUCCESS] .env encontrado na pasta do projeto.
+[2026-03-12 20:14:34] CORE: [DEBUG] API Key encontrada: AIza... (comprimento: 39)
+[2026-03-12 20:14:35] GUI: System Monitor visível
+[2026-03-12 20:14:35] GUI: Interface profissional carregada
+[2026-03-12 20:14:54] CORE: Enviando requisição para API Gemini...
+[2026-03-12 20:15:03] CORE: Texto extraído da API: 606 caracteres
+[2026-03-12 20:15:03] CORE: Markdown limpo com sucesso
+[2026-03-12 20:15:03] CORE: Resposta recebida: 599 caracteres
+[2026-03-12 20:15:03] CORE: Iniciando efeito de digitação
+[2026-03-12 20:15:29] CORE: Enviando requisição para API Gemini...
+[2026-03-12 20:15:32] CORE: Texto extraído da API: 691 caracteres
+[2026-03-12 20:15:32] CORE: Markdown limpo com sucesso
+[2026-03-12 20:15:32] CORE: Resposta recebida: 689 caracteres
+[2026-03-12 20:15:32] CORE: Iniciando efeito de digitação
+[2026-03-12 20:46:00] INIT: Módulo de ações do sistema carregado
+[2026-03-12 20:46:00] ACTIONS: [PROD] Buscando clima para: Votorantim
+[2026-03-12 20:46:00] ACTIONS: [PROD] Buscando notícias principais...
+[2026-03-12 20:46:00] INIT: Módulo de ações do sistema carregado
+[2026-03-12 20:46:01] ACTIONS: [PROD] Notícias obtidas com sucesso
+[2026-03-12 20:46:01] ACTIONS: [PROD] Buscando cotação: USD/BRL
+[2026-03-12 20:46:01] ACTIONS: [HARDWARE] CPU: 20.2% | RAM: 75.8% | Disco: 63.5%
+[2026-03-12 20:46:01] ACTIONS: [PROD] Listando processos mais consumidos...
+[2026-03-12 20:46:02] ACTIONS: [PROD] Lista de processos obtida
+[2026-03-12 20:46:02] ACTIONS: [UTILS] Senha gerada: 12 caracteres
+[2026-03-12 20:46:02] INIT: Módulo de ações do sistema carregado
+[2026-03-12 20:46:02] ACTIONS: [PROD] Buscando música: test music
+[2026-03-12 20:46:02] ACTIONS: [PROD] Iniciando Pomodoro: Teste
+[2026-03-12 20:46:02] ACTIONS: [PROD] Busca iniciada: test music
+[2026-03-12 20:46:04] ACTIONS: [PROD] Cotação obtida: USD/BRL = R$ 5.2305
+[2026-03-12 20:54:41] INIT: Módulo de ações do sistema carregado
+[2026-03-12 20:54:41] CORE: [DEBUG] Buscando .env em: C:\Users\Breno\CascadeProjects\.env
+[2026-03-12 20:54:41] CORE: [SUCCESS] .env encontrado na pasta do projeto.
+[2026-03-12 20:54:41] CORE: [DEBUG] API Key encontrada: AIza... (comprimento: 39)
+[2026-03-12 20:54:41] GUI: System Monitor visível
+[2026-03-12 20:54:41] GUI: Interface profissional carregada
+[2026-03-12 20:54:54] ACTIONS: [PROD] Buscando cotação: USD/BRL
+[2026-03-12 20:54:55] ACTIONS: [PROD] Cotação obtida: USD/BRL = R$ 5.2305
+[2026-03-12 20:55:18] ACTIONS: [PROD] Buscando cotação: USD/BRL
+[2026-03-12 20:55:18] ACTIONS: [PROD] Cotação obtida: USD/BRL = R$ 5.2305
+[2026-03-12 20:55:28] CORE: Enviando requisição para API Gemini...
+[2026-03-12 20:55:34] CORE: Texto extraído da API: 514 caracteres
+[2026-03-12 20:55:34] CORE: Markdown limpo com sucesso
+[2026-03-12 20:55:34] CORE: Resposta recebida: 513 caracteres
+[2026-03-12 20:55:34] CORE: Iniciando efeito de digitação
+[2026-03-12 20:56:02] ACTIONS: [HARDWARE] CPU: 9.1% | RAM: 76.9% | Disco: 63.6%
+[2026-03-12 20:56:07] CORE: Enviando requisição para API Gemini...
+[2026-03-12 20:56:14] CORE: Texto extraído da API: 707 caracteres
+[2026-03-12 20:56:14] CORE: Markdown limpo com sucesso
+[2026-03-12 20:56:14] CORE: Resposta recebida: 694 caracteres
+[2026-03-12 20:56:14] CORE: Iniciando efeito de digitação
+[2026-03-12 20:56:40] CORE: Enviando requisição para API Gemini...
+[2026-03-12 20:56:45] CORE: Texto extraído da API: 591 caracteres
+[2026-03-12 20:56:45] CORE: Markdown limpo com sucesso
+[2026-03-12 20:56:45] CORE: Resposta recebida: 587 caracteres
+[2026-03-12 20:56:45] CORE: Iniciando efeito de digitação

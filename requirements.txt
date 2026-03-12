@@ -1,4 +1,4 @@
-# J.A.R.V.I.S. - Dependências Otimizadas
+# J.A.R.V.I.S. - Dependências Otimizadas - Mark 13 Final
 # Interface Gráfica
 customtkinter==5.2.2
 
@@ -10,22 +10,40 @@ Pillow==12.1.1
 SpeechRecognition==3.10.4
 pyttsx3==2.90
 pycaw>=20230407
+comtypes>=1.2.0
 
-# Controle de Sistema
+# Controle de Sistema e Hardware - Mark 13
 pyautogui==0.9.54
 screen-brightness-control>=0.1
+psutil==7.2.2
+
+# Utilitários do Sistema - Mark 13
+pyperclip>=1.8.2
+
+# Produtividade - Mark 13 Fase 2
+googletrans==4.0.1
+yfinance>=0.2.18
+requests>=2.31.0
+threading>=1.0
+
+# Web e Scraping - Mark 13 Final
+beautifulsoup4>=4.12.3
+lxml>=4.9.3
+selenium>=4.15.2
+webbrowser>=1.0
 
 # Banco de Dados e Ambiente
 python-dotenv==1.0.1
-
-# Utilitários do Sistema
-psutil==7.2.2
 
 # Comunicação (opcional)
 python-telegram-bot==22.6
 
 # Processamento Numérico
 numpy==2.4.2
+
+# Sistema Windows
+wmi>=1.5.1
+pywin32>=306
 
 # Visualização de Dados (opcional)
 pyqtgraph==0.14.0

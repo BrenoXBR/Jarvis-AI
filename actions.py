@@ -8,11 +8,19 @@ import subprocess
 import webbrowser
 import glob
 import shutil
-from datetime import datetime
-from typing import Optional, Dict, List
+import time
+import random
+import string
+import psutil
 import pyautogui
+import threading
+import requests
+from datetime import datetime, timedelta
+from typing import Optional, Dict, List
 import screen_brightness_control as sbc
 import re
+from bs4 import BeautifulSoup
+import webbrowser
 try:
     import pycaw
     from comtypes import CLSCTX_ALL
@@ -37,6 +45,9 @@ class SystemActions:
         # Inicializa controle de áudio se disponível
         if self.audio_available:
             self._init_audio_control()
+        
+        # Inicializa lista de lembretes
+        self.reminders = []
         
         self.logger.info("SystemActions inicializado", "ACTIONS")
         self.logger.system("Módulo de ações do sistema carregado", "INIT")
@@ -870,3 +881,774 @@ class SystemActions:
             result += f"\n⚠️ Erros: {'; '.join(errors)}"
         
         return result
+    
+    # ==================== MÓDULO DE HARDWARE - MARK 13 ====================
+    
+    def set_volume(self, volume_percent: str) -> str:
+        """Ajusta o volume do sistema em percentagem usando pycaw"""
+        try:
+            # Extrai número da string
+            import re
+            match = re.search(r'\d+', volume_percent)
+            if not match:
+                return "❌ Por favor, especifique um número de 0 a 100."
+            
+            volume = int(match.group())
+            
+            # Validação
+            if volume < 0 or volume > 100:
+                return "❌ O volume deve estar entre 0 e 100."
+            
+            if not AUDIO_AVAILABLE:
+                return "❌ Biblioteca de áudio não disponível. Instale pycaw."
+            
+            # Obtém dispositivo de áudio padrão
+            devices = AudioUtilities.GetSpeakers()
+            interface = devices.Activate(IAudioEndpointVolume._iid_, CLSCTX_ALL, None)
+            volume_control = interface.QueryInterface(IAudioEndpointVolume)
+            
+            # Define o volume
+            volume_control.SetMasterVolumeLevelScalar(volume / 100.0, None)
+            
+            self.logger.system(f"[HARDWARE] Volume ajustado para {volume}%", "ACTIONS")
+            return f"🔊 Volume ajustado para {volume}%, senhor."
+            
+        except Exception as e:
+            self.logger.error(e, "Erro ao ajustar volume", "HARDWARE")
+            return f"❌ Erro ao ajustar volume: {e}"
+    
+    def get_system_status(self) -> str:
+        """Retorna status completo do sistema (CPU, RAM, Disco)"""
+        try:
+            # Uso da CPU
+            cpu_percent = psutil.cpu_percent(interval=1)
+            
+            # Uso de Memória RAM
+            memory = psutil.virtual_memory()
+            ram_percent = memory.percent
+            ram_used = memory.used / (1024**3)  # GB
+            ram_total = memory.total / (1024**3)  # GB
+            
+            # Uso de Disco
+            disk = psutil.disk_usage('/')
+            disk_percent = (disk.used / disk.total) * 100
+            disk_used = disk.used / (1024**3)  # GB
+            disk_total = disk.total / (1024**3)  # GB
+            
+            # Monta status
+            status = f"""📊 **STATUS DO SISTEMA**
+            
+🖥️ **CPU**: {cpu_percent:.1f}%
+🧠 **RAM**: {ram_percent:.1f}% ({ram_used:.1f}GB / {ram_total:.1f}GB)
+💾 **Disco**: {disk_percent:.1f}% ({disk_used:.1f}GB / {disk_total:.1f}GB)
+⏰ **Atualizado**: {datetime.now().strftime('%H:%M:%S')}"""
+            
+            # Registra no System Monitor
+            self.logger.system(f"[HARDWARE] CPU: {cpu_percent:.1f}% | RAM: {ram_percent:.1f}% | Disco: {disk_percent:.1f}%", "ACTIONS")
+            
+            return status
+            
+        except Exception as e:
+            self.logger.error(e, "Erro ao obter status do sistema", "HARDWARE")
+            return f"❌ Erro ao obter status: {e}"
+    
+    def take_screenshot(self, filename: str = None) -> str:
+        """Captura a tela e salva na pasta capturas"""
+        try:
+            # Cria pasta capturas se não existir
+            capturas_dir = os.path.join(os.getcwd(), "capturas")
+            os.makedirs(capturas_dir, exist_ok=True)
+            
+            # Gera nome do arquivo
+            if not filename:
+                timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+                filename = f"captura_{timestamp}.png"
+            elif not filename.endswith('.png'):
+                filename += '.png'
+            
+            # Caminho completo
+            filepath = os.path.join(capturas_dir, filename)
+            
+            # Captura a tela
+            screenshot = pyautogui.screenshot()
+            screenshot.save(filepath)
+            
+            self.logger.system(f"[HARDWARE] Screenshot salvo: {filepath}", "ACTIONS")
+            return f"📸 Screenshot salvo em: {filepath}"
+            
+        except Exception as e:
+            self.logger.error(e, "Erro ao capturar tela", "HARDWARE")
+            return f"❌ Erro ao capturar tela: {e}"
+    
+    def generate_password(self, length: int = 16, include_symbols: bool = True) -> str:
+        """Gera uma senha forte e segura"""
+        try:
+            # Define caracteres
+            lowercase = string.ascii_lowercase
+            uppercase = string.ascii_uppercase
+            digits = string.digits
+            symbols = "!@#$%^&*()_+-=[]{}|;:,.<>?" if include_symbols else ""
+            
+            # Combina todos os caracteres
+            all_chars = lowercase + uppercase + digits + symbols
+            
+            # Garante pelo menos um de cada tipo
+            password = [
+                random.choice(lowercase),
+                random.choice(uppercase),
+                random.choice(digits),
+            ]
+            
+            if include_symbols:
+                password.append(random.choice(symbols))
+            
+            # Preenche o resto
+            remaining_length = length - len(password)
+            password.extend(random.choices(all_chars, k=remaining_length))
+            
+            # Embaralha
+            random.shuffle(password)
+            
+            # Converte para string
+            final_password = ''.join(password)
+            
+            # Tenta copiar para clipboard
+            try:
+                import pyperclip
+                pyperclip.copy(final_password)
+                clipboard_msg = " (copiada para área de transferência)"
+            except ImportError:
+                clipboard_msg = ""
+            
+            self.logger.system(f"[UTILS] Senha gerada: {len(final_password)} caracteres", "ACTIONS")
+            return f"🔐 **Senha forte gerada**{clipboard_msg}:\n`{final_password}`\n\n📏 **Comprimento**: {len(final_password)} caracteres\n🔒 **Segurança**: Alta"
+            
+        except Exception as e:
+            self.logger.error(e, "Erro ao gerar senha", "UTILS")
+            return f"❌ Erro ao gerar senha: {e}"
+    
+    def get_hardware_commands(self) -> Dict[str, str]:
+        """Retorna dicionário de comandos de hardware disponíveis"""
+        return {
+            "volume": "Ajusta volume do sistema (ex: 'volume em 50')",
+            "status do sistema": "Mostra uso de CPU, RAM e disco",
+            "print": "Captura a tela e salva na pasta capturas",
+            "screenshot": "Captura a tela e salva na pasta capturas",
+            "gerar senha": "Gera uma senha forte e segura",
+            "captura": "Captura a tela e salva na pasta capturas"
+        }
+    
+    # ==================== MÓDULO DE PRODUTIVIDADE - MARK 13 FASE 2 ====================
+    
+    def translate_text(self, text: str, target_lang: str = 'en') -> str:
+        """Traduz texto instantaneamente usando googletrans em thread separada"""
+        def translate_thread():
+            try:
+                from googletrans import Translator
+                translator = Translator()
+                
+                self.logger.system("[PROD] Iniciando tradução: '" + text[:50] + "...'", "ACTIONS")
+                
+                # Traduz para o inglês
+                result = translator.translate(text, dest=target_lang)
+                translated_text = result.text
+                
+                # Detecta idioma original
+                original_lang = result.src
+                
+                self.logger.system(f"[PROD] Tradução concluída: {original_lang} → {target_lang}", "ACTIONS")
+                
+                # Atualiza resultado na interface através de callback
+                if hasattr(self, 'translation_callback'):
+                    self.translation_callback(f"🌍 **Tradução** ({original_lang} → {target_lang}):\n\n**Original:** {text}\n\n**Tradução:** {translated_text}")
+                
+            except Exception as e:
+                self.logger.error(e, "Erro na tradução", "PROD")
+                if hasattr(self, 'translation_callback'):
+                    self.translation_callback(f"❌ Erro ao traduzir: {e}")
+        
+        try:
+            # Executa em thread para não travar a interface
+            thread = threading.Thread(target=translate_thread)
+            thread.start()
+            
+            return "🔄 Traduzindo texto, aguarde..."
+            
+        except ImportError:
+            return "❌ Biblioteca googletrans não disponível. Instale com: pip install googletrans==4.0.1"
+    
+    def set_reminder(self, time_str: str, task: str) -> str:
+        """Define um lembrete rápido em thread separada"""
+        def reminder_thread():
+            try:
+                # Extrai minutos da string
+                match = re.search(r'(\d+)', time_str)
+                if not match:
+                    self.logger.error("Tempo inválido", "Erro no lembrete", "PROD")
+                    return
+                
+                minutes = int(match.group())
+                
+                # Calcula tempo de disparo
+                reminder_time = datetime.now() + timedelta(minutes=minutes)
+                
+                # Adiciona à lista de lembretes
+                reminder_id = len(self.reminders) + 1
+                self.reminders.append({
+                    'id': reminder_id,
+                    'task': task,
+                    'time': reminder_time,
+                    'minutes': minutes
+                })
+                
+                self.logger.system(f"[PROD] Lembrete definido: '{task}' em {minutes} minutos", "ACTIONS")
+                
+                # Aguarda o tempo
+                time.sleep(minutes * 60)
+                
+                # Dispara o lembrete
+                self.trigger_reminder(reminder_id)
+                
+            except Exception as e:
+                self.logger.error(e, "Erro no lembrete", "PROD")
+        
+        try:
+            # Executa em thread
+            thread = threading.Thread(target=reminder_thread)
+            thread.start()
+            
+            return f"⏰ **Lembrete definido**: '{task}' em {time_str}"
+            
+        except Exception as e:
+            self.logger.error(e, "Erro ao definir lembrete", "PROD")
+            return f"❌ Erro ao definir lembrete: {e}"
+    
+    def trigger_reminder(self, reminder_id: int):
+        """Dispara um lembrete específico"""
+        try:
+            # Encontra o lembrete
+            reminder = None
+            for r in self.reminders:
+                if r['id'] == reminder_id:
+                    reminder = r
+                    break
+            
+            if not reminder:
+                return
+            
+            # Remove da lista de ativos
+            self.reminders = [r for r in self.reminders if r['id'] != reminder_id]
+            
+            # Log especial no System Monitor
+            self.logger.warning(f"⏰ **LEMBRETE**: {reminder['task']} (definido há {reminder['minutes']} minutos)", "PROD")
+            
+            # Tenta mostrar notificação visual
+            try:
+                import pyautogui
+                pyautogui.alert(f"⏰ Lembrete: {reminder['task']}", "J.A.R.V.I.S. - Lembrete")
+            except:
+                pass
+            
+        except Exception as e:
+            self.logger.error(e, "Erro ao disparar lembrete", "PROD")
+    
+    def get_currency_rate(self, from_currency: str = 'USD', to_currency: str = 'BRL') -> str:
+        """Obtém taxa de câmbio usando yfinance em thread separada"""
+        def currency_thread():
+            try:
+                import yfinance as yf
+                
+                self.logger.system(f"[PROD] Buscando cotação: {from_currency}/{to_currency}", "ACTIONS")
+                
+                # Obtém cotação
+                ticker = f"{from_currency}{to_currency}=X"
+                data = yf.Ticker(ticker).history(period="1d")
+                
+                if not data.empty:
+                    rate = data['Close'].iloc[-1]
+                    
+                    # Formatação brasileira
+                    if to_currency == 'BRL':
+                        formatted_rate = f"R$ {rate:.4f}"
+                    else:
+                        formatted_rate = f"{rate:.4f} {to_currency}"
+                    
+                    self.logger.system(f"[PROD] Cotação obtida: {from_currency}/{to_currency} = {formatted_rate}", "ACTIONS")
+                    
+                    # Atualiza através de callback
+                    if hasattr(self, 'currency_callback'):
+                        self.currency_callback(f"💱 **Cotação Atual**:\n\n**1 {from_currency} = {formatted_rate}**\n\n📊 **Atualizado:** {datetime.now().strftime('%H:%M:%S')}")
+                else:
+                    if hasattr(self, 'currency_callback'):
+                        self.currency_callback(f"❌ Não foi possível obter cotação de {from_currency}/{to_currency}")
+                        
+            except Exception as e:
+                self.logger.error(e, "Erro na cotação", "PROD")
+                if hasattr(self, 'currency_callback'):
+                    self.currency_callback(f"❌ Erro ao obter cotação: {e}")
+        
+        try:
+            # Executa em thread
+            thread = threading.Thread(target=currency_thread)
+            thread.start()
+            
+            return "💱 Buscando cotação, aguarde..."
+            
+        except ImportError:
+            return "❌ Biblioteca yfinance não disponível. Instale com: pip install yfinance"
+    
+    def get_weather(self, city: str = "Votorantim") -> str:
+        """Obtém previsão do tempo usando OpenWeatherMap API em thread separada"""
+        def weather_thread():
+            try:
+                # API key do OpenWeatherMap (gratuita)
+                API_KEY = "bd5e378503939157ee9252cb5c08c2bb"
+                BASE_URL = "http://api.openweathermap.org/data/2.5/weather"
+                
+                self.logger.system(f"[PROD] Buscando clima para: {city}", "ACTIONS")
+                
+                # Requisição
+                url = f"{BASE_URL}?q={city}&appid={API_KEY}&units=metric&lang=pt_br"
+                response = requests.get(url, timeout=10)
+                
+                if response.status_code == 200:
+                    data = response.json()
+                    
+                    # Extrai informações
+                    temp = data['main']['temp']
+                    feels_like = data['main']['feels_like']
+                    humidity = data['main']['humidity']
+                    description = data['weather'][0]['description']
+                    city_name = data['name']
+                    
+                    # Formatação
+                    weather_info = f"""🌤️ **Clima Atual - {city_name}**
+                    
+🌡️ **Temperatura:** {temp}°C (sensação de {feels_like}°C)
+💧 **Umidade:** {humidity}%
+☁️ **Condição:** {description.title()}
+🕐 **Atualizado:** {datetime.now().strftime('%H:%M:%S')}"""
+                    
+                    self.logger.system(f"[PROD] Clima obtido: {temp}°C em {city_name}", "ACTIONS")
+                    return weather_info
+                else:
+                    return f"❌ Não foi possível obter clima para {city}"
+                    
+            except Exception as e:
+                self.logger.error(e, "Erro ao obter clima", "PROD")
+                return f"❌ Erro ao obter clima: {e}"
+        
+        try:
+            # Executa em thread
+            thread = threading.Thread(target=weather_thread)
+            thread.start()
+            
+            return f"🌤️ Buscando clima para {city}, aguarde..."
+            
+        except Exception as e:
+            self.logger.error(e, "Erro ao iniciar busca de clima", "PROD")
+            return f"❌ Erro ao buscar clima: {e}"
+    
+    def get_productivity_commands(self) -> Dict[str, str]:
+        """Retorna dicionário de comandos de produtividade disponíveis"""
+        return {
+            "traduzir": "Traduz texto para inglês (ex: 'traduzir hello world')",
+            "me lembre": "Define lembrete (ex: 'me lembre em 30 minutos de reunião')",
+            "quanto está o dólar": "Mostra cotação atual USD/BRL",
+            "tempo hoje": "Mostra previsão do tempo para Votorantim",
+            "clima": "Mostra clima atual (ex: 'clima São Paulo')"
+        }
+    
+    # ==================== MÓDULO WEB E SISTEMA AVANÇADO - MARK 13 FINAL ====================
+    
+    def get_weather_votorantim(self) -> str:
+        """Obtém clima de Votorantim usando OpenWeatherMap API em thread separada"""
+        def weather_thread():
+            try:
+                # API key do OpenWeatherMap (gratuita)
+                API_KEY = "bd5e378503939157ee9252cb5c08c2bb"
+                BASE_URL = "http://api.openweathermap.org/data/2.5/weather"
+                
+                self.logger.system(f"[PROD] Buscando clima para: Votorantim", "ACTIONS")
+                
+                # Requisição com timeout
+                url = f"{BASE_URL}?q=Votorantim,BR&appid={API_KEY}&units=metric&lang=pt_br"
+                response = requests.get(url, timeout=10)
+                
+                if response.status_code == 200:
+                    data = response.json()
+                    
+                    # Extrai informações
+                    temp = data['main']['temp']
+                    feels_like = data['main']['feels_like']
+                    humidity = data['main']['humidity']
+                    description = data['weather'][0]['description']
+                    city_name = data['name']
+                    
+                    weather_info = f"""🌤️ **Clima Atual - {city_name}**
+                    
+🌡️ **Temperatura:** {temp}°C (sensação de {feels_like}°C)
+💧 **Umidade:** {humidity}%
+☁️ **Condição:** {description.title()}
+🕐 **Atualizado:** {datetime.now().strftime('%H:%M:%S')}"""
+                    
+                    self.logger.system(f"[PROD] Clima obtido: {temp}°C em {city_name}", "ACTIONS")
+                    
+                    # Atualiza através de callback
+                    if hasattr(self, 'weather_callback'):
+                        self.weather_callback(weather_info)
+                else:
+                    if hasattr(self, 'weather_callback'):
+                        self.weather_callback(f"❌ Não foi possível obter clima para Votorantim")
+                    
+            except Exception as e:
+                self.logger.error(e, "Erro ao obter clima", "PROD")
+                if hasattr(self, 'weather_callback'):
+                    self.weather_callback(f"❌ Erro ao obter clima: {e}")
+        
+        try:
+            # Executa em thread
+            thread = threading.Thread(target=weather_thread)
+            thread.start()
+            
+            return f"🌤️ Buscando clima para Votorantim, aguarde..."
+            
+        except Exception as e:
+            self.logger.error(e, "Erro ao iniciar busca de clima", "PROD")
+            return f"❌ Erro ao buscar clima: {e}"
+    
+    def get_currency_final(self, currency: str) -> str:
+        """Obtém cotação de moeda específica usando yfinance em thread separada"""
+        def currency_thread():
+            try:
+                import yfinance as yf
+                
+                # Mapeamento de moedas
+                currency_map = {
+                    'dólar': 'USD',
+                    'dolar': 'USD',
+                    'euro': 'EUR',
+                    'bitcoin': 'BTC',
+                    'real': 'BRL',
+                    'peso': 'MXN',
+                    'libra': 'GBP'
+                }
+                
+                # Normaliza o nome da moeda
+                currency_lower = currency.lower()
+                from_currency = currency_map.get(currency_lower, currency.upper())
+                
+                self.logger.system(f"[PROD] Buscando cotação: {from_currency}/BRL", "ACTIONS")
+                
+                # Obtém cotação
+                ticker = f"{from_currency}BRL=X"
+                data = yf.Ticker(ticker).history(period="1d")
+                
+                if not data.empty:
+                    rate = data['Close'].iloc[-1]
+                    
+                    # Formatação brasileira
+                    formatted_rate = f"R$ {rate:.4f}"
+                    
+                    self.logger.system(f"[PROD] Cotação obtida: {from_currency}/BRL = {formatted_rate}", "ACTIONS")
+                    
+                    # Atualiza através de callback
+                    if hasattr(self, 'currency_callback'):
+                        self.currency_callback(f"💱 **Cotação Atual - {from_currency.upper()}**:\n\n**1 {from_currency.upper()} = {formatted_rate}**\n\n📊 **Atualizado:** {datetime.now().strftime('%H:%M:%S')}")
+                else:
+                    if hasattr(self, 'currency_callback'):
+                        self.currency_callback(f"❌ Não foi possível obter cotação de {from_currency}")
+                    
+            except Exception as e:
+                self.logger.error(e, "Erro na cotação", "PROD")
+                if hasattr(self, 'currency_callback'):
+                    self.currency_callback(f"❌ Erro ao obter cotação: {e}")
+        
+        try:
+            # Executa em thread
+            thread = threading.Thread(target=currency_thread)
+            thread.start()
+            
+            return f"💱 Buscando cotação de {currency}, aguarde..."
+            
+        except Exception as e:
+            self.logger.error(e, "Erro ao iniciar busca de cotação", "PROD")
+            return f"❌ Erro ao buscar cotação: {e}"
+    
+    def get_news_headlines(self) -> str:
+        """Obtém as 3 principais manchetes do dia usando scraping do G1"""
+        def news_thread():
+            try:
+                self.logger.system("[PROD] Buscando notícias principais...", "ACTIONS")
+                
+                # URL do G1
+                url = "https://g1.globo.com/"
+                headers = {
+                    'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36'
+                }
+                
+                response = requests.get(url, headers=headers, timeout=10)
+                
+                if response.status_code == 200:
+                    soup = BeautifulSoup(response.content, 'html.parser')
+                    
+                    # Busca manchetes principais
+                    headlines = []
+                    
+                    # Tenta encontrar manchetes em diferentes seleções
+                    selectors = [
+                        '.feed-post-body-title',
+                        '.feed-post-link',
+                        'h2 a',
+                        '.title a',
+                        '[data-area="noticias"] h2 a'
+                    ]
+                    
+                    for selector in selectors:
+                        try:
+                            elements = soup.select(selector)[:3]
+                            for element in elements:
+                                title = element.get_text(strip=True)
+                                if title and len(title) > 10:
+                                    headlines.append(f"📰 {title}")
+                                    if len(headlines) >= 3:
+                                        break
+                            if len(headlines) >= 3:
+                                break
+                        except:
+                            continue
+                        
+                        if len(headlines) >= 3:
+                            break
+                    
+                    if not headlines:
+                        headlines = ["📰 Não foi possível carregar as manchetes"]
+                    
+                    news_info = f"""📰 **Principais Notícias do Dia**
+                    
+{chr(10).join(headlines[:3])}
+
+📊 **Fonte:** G1
+🕐 **Atualizado:** {datetime.now().strftime('%H:%M:%S')}"""
+                    
+                    self.logger.system("[PROD] Notícias obtidas com sucesso", "ACTIONS")
+                    
+                    # Atualiza através de callback
+                    if hasattr(self, 'news_callback'):
+                        self.news_callback(news_info)
+                else:
+                    if hasattr(self, 'news_callback'):
+                        self.news_callback("❌ Não foi possível carregar as notícias")
+                    
+            except Exception as e:
+                self.logger.error(e, "Erro ao buscar notícias", "PROD")
+                if hasattr(self, 'news_callback'):
+                    self.news_callback(f"❌ Erro ao buscar notícias: {e}")
+        
+        try:
+            # Executa em thread
+            thread = threading.Thread(target=news_thread)
+            thread.start()
+            
+            return "📰 Buscando notícias principais, aguarde..."
+            
+        except Exception as e:
+            self.logger.error(e, "Erro ao iniciar busca de notícias", "PROD")
+            return f"❌ Erro ao buscar notícias: {e}"
+    
+    def empty_recycle_bin(self) -> str:
+        """Esvazia a lixeira do Windows"""
+        try:
+            self.logger.system("[PROD] Esvaziando lixeira...", "ACTIONS")
+            
+            # Caminho da lixeira
+            import os
+            recycle_bin = os.path.join(os.environ.get('USERPROFILE', ''), 'Desktop', 'Recycle Bin')
+            
+            if os.path.exists(recycle_bin):
+                # Limpa a lixeira
+                import shutil
+                shutil.rmtree(recycle_bin)
+                
+                self.logger.system("[PROD] Lixeira esvaziada com sucesso", "ACTIONS")
+                return "🗑️ **Lixeira esvaziada** com sucesso!"
+            else:
+                return "❌ Lixeira não encontrada"
+                
+        except Exception as e:
+            self.logger.error(e, "Erro ao esvaziar lixeira", "PROD")
+            return f"❌ Erro ao esvaziar lixeira: {e}"
+    
+    def adjust_brightness(self, action: str) -> str:
+        """Controla o brilho da tela"""
+        try:
+            self.logger.system(f"[PROD] Ajustando brilho: {action}", "ACTIONS")
+            
+            if action.lower() in ['aumentar', 'aumentar brilho', 'mais brilho', 'bright']:
+                # Aumenta brilho
+                current = sbc.get_brightness()
+                new_brightness = min(100, current + 10)
+                sbc.set_brightness(new_brightness)
+                
+                self.logger.system(f"[PROD] Brilho aumentado para {new_brightness}%", "ACTIONS")
+                return f"💡 **Brilho aumentado** para {new_brightness}%"
+                
+            elif action.lower() in ['diminuir', 'diminuir brilho', 'menos brilho', 'dark']:
+                # Diminui brilho
+                current = sbc.get_brightness()
+                new_brightness = max(0, current - 10)
+                sbc.set_brightness(new_brightness)
+                
+                self.logger.system(f"[PROD] Brilho diminuído para {new_brightness}%", "ACTIONS")
+                return f"🔅 **Brilho diminuído** para {new_brightness}%"
+                
+            else:
+                return "❌ Comando inválido. Use 'aumentar brilho' ou 'diminuir brilho'"
+                
+        except Exception as e:
+            self.logger.error(e, "Erro ao ajustar brilho", "PROD")
+            return f"❌ Erro ao ajustar brilho: {e}"
+    
+    def get_top_processes(self) -> str:
+        """Lista os 5 processos que mais consomem memória"""
+        try:
+            self.logger.system("[PROD] Listando processos mais consumidos...", "ACTIONS")
+            
+            # Obtém todos os processos
+            processes = []
+            
+            for proc in psutil.process_iter(['pid', 'name', 'memory_info']):
+                try:
+                    mem_info = proc.memory_info()
+                    if mem_info:
+                        memory_mb = mem_info.rss / (1024 * 1024)  # Convert to MB
+                        processes.append({
+                            'name': proc.info['name'],
+                            'memory': memory_mb,
+                            'pid': proc.info['pid']
+                        })
+                except:
+                    continue
+            
+            # Ordena por consumo de memória (maior para menor)
+            processes.sort(key=lambda x: x['memory'], reverse=True)
+            
+            # Pega os 5 maiores
+            top_5 = processes[:5]
+            
+            process_info = f"""📊 **Top 5 Processos (Consumo de RAM)**
+            
+"""
+            
+            for i, proc in enumerate(top_5, 1):
+                process_info += f"{i}. **{proc['name']}** - {proc['memory']:.1f} MB (PID: {proc['pid']})\n"
+            
+            process_info += f"""
+📊 **Total RAM em uso:** {psutil.virtual_memory().percent:.1f}%
+🕐 **Atualizado:** {datetime.now().strftime('%H:%M:%S')}"""
+            
+            self.logger.system("[PROD] Lista de processos obtida", "ACTIONS")
+            return process_info
+            
+        except Exception as e:
+            self.logger.error(e, "Erro ao listar processos", "PROD")
+            return f"❌ Erro ao listar processos: {e}"
+    
+    def play_music(self, query: str) -> str:
+        """Abre navegador com busca de música no YouTube/Spotify"""
+        def music_thread():
+            try:
+                self.logger.system(f"[PROD] Buscando música: {query}", "ACTIONS")
+                
+                # Busca no YouTube
+                search_url = f"https://www.youtube.com/results?search_query={query.replace(' ', '+')}"
+                
+                # Tenta abrir no navegador padrão
+                import webbrowser
+                webbrowser.open(search_url)
+                
+                self.logger.system(f"[PROD] Busca iniciada: {query}", "ACTIONS")
+                
+                return f"""🎵 **Buscando música**: {query}
+
+🔍 **YouTube**: {search_url}
+
+🎶 **Navegador aberto** com resultados da busca"""
+                
+            except Exception as e:
+                self.logger.error(e, "Erro ao buscar música", "PROD")
+                return f"❌ Erro ao buscar música: {e}"
+        
+        try:
+            # Executa em thread
+            thread = threading.Thread(target=music_thread)
+            thread.start()
+            
+            return f"🎵 Buscando música: {query}, aguarde..."
+            
+        except Exception as e:
+            self.logger.error(e, "Erro ao iniciar busca de música", "PROD")
+            return f"❌ Erro ao buscar música: {e}"
+    
+    def start_pomodoro_timer(self, task: str = "Estudo") -> str:
+        """Inicia um timer Pomodoro de 25 minutos"""
+        def pomodoro_thread():
+            try:
+                self.logger.system(f"[PROD] Iniciando Pomodoro: {task}", "ACTIONS")
+                
+                # Timer de 25 minutos
+                minutes = 25
+                seconds = minutes * 60
+                
+                # Aguarda o tempo
+                time.sleep(seconds)
+                
+                # Dispara o alarme
+                self.logger.warning(f"⏰ **POMODORO**: {task} - 25 minutos concluídos!", "PROD")
+                
+                # Alerta visual
+                try:
+                    import pyautogui
+                    pyautogui.alert(f"⏰ Pomodoro Concluído!", f"{task} - 25 minutos")
+                except:
+                    pass
+                
+                return f"⏰ **Pomodoro concluído**: {task}"
+                
+            except Exception as e:
+                self.logger.error(e, "Erro no Pomodoro", "PROD")
+                return f"❌ Erro no Pomodoro: {e}"
+        
+        try:
+            # Executa em thread
+            thread = threading.Thread(target=pomodoro_thread)
+            thread.start()
+            
+            return f"⏰ **Pomodoro iniciado**: {task} - 25 minutos"
+            
+        except Exception as e:
+            self.logger.error(e, "Erro ao iniciar Pomodoro", "PROD")
+            return f"❌ Erro ao iniciar Pomodoro: {e}"
+    
+    def get_final_commands(self) -> Dict[str, str]:
+        """Retorna dicionário de comandos finais disponíveis"""
+        return {
+            # Web
+            "tempo hoje": "Mostra clima de Votorantim",
+            "notícias": "Mostra 3 principais manchetes do dia",
+            
+            # Moedas
+            "dólar": "Mostra cotação do dólar",
+            "euro": "Mostra cotação do euro",
+            "bitcoin": "Mostra cotação do bitcoin",
+            
+            # Sistema Avançado
+            "limpar lixeira": "Esvazia a lixeira do Windows",
+            "aumentar brilho": "Aumenta o brilho da tela",
+            "diminuir brilho": "Diminui o brilho da tela",
+            "processos": "Lista os 5 apps que mais consomem RAM",
+            
+            # Entretenimento
+            "tocar": "Busca e abre música no YouTube",
+            "pomodoro": "Inicia timer de estudo de 25 minutos"
+        }

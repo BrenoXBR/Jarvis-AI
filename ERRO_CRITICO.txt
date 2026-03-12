@@ -1,10 +1,10 @@
 🤖 J.A.R.V.I.S. - ERRO CRÍTICO
 ==================================================
 
-Data/Hora: 2026-03-10 19:46:36
+Data/Hora: 2026-03-12 19:32:10
 Sistema: win32
 Python: 3.13.12 (tags/v3.13.12:1cbe481, Feb  3 2026, 18:22:25) [MSC v.1944 64 bit (AMD64)]
-Executável: True
+Executável: False
 Diretório: C:\Users\Breno\CascadeProjects
 
 ERRO:
@@ -17,31 +17,59 @@ SOLUÇÃO:
 1. Verifique se todas as dependências estão instaladas
 2. Tente executar como administrador
 3. Verifique se o arquivo .env existe e está configurado
-[2026-03-10 20:12:06] Erro ao inicializar áudio
+[2026-03-12 19:32:51] Erro ao inicializar áudio
 Erro: AttributeError: 'AudioDevice' object has no attribute 'Activate'
 Módulo: ACTIONS
 
-[2026-03-10 20:22:55] Erro ao inicializar áudio
+[2026-03-12 19:39:29] Erro ao inicializar áudio
 Erro: AttributeError: 'AudioDevice' object has no attribute 'Activate'
 Módulo: ACTIONS
 
-[2026-03-10 20:29:36] Erro ao inicializar áudio
+[2026-03-12 19:39:29] CORE
+Erro: str: [DEBUG] Arquivo .env não encontrado em: C:\Users\Breno\.env
+Módulo: GERAL
+
+[2026-03-12 19:44:03] Erro ao inicializar áudio
 Erro: AttributeError: 'AudioDevice' object has no attribute 'Activate'
 Módulo: ACTIONS
 
-[2026-03-10 20:32:11] Erro ao inicializar áudio
+[2026-03-12 19:44:03] CORE
+Erro: str: [DEBUG] Arquivo .env não encontrado em: C:\Users\Breno\AppData\Local\Temp\.env
+Módulo: GERAL
+
+[2026-03-12 19:46:23] Erro ao inicializar áudio
 Erro: AttributeError: 'AudioDevice' object has no attribute 'Activate'
 Módulo: ACTIONS
 
-[2026-03-10 20:34:51] Erro ao inicializar áudio
+[2026-03-12 19:46:23] CORE
+Erro: str: [DEBUG] Arquivo .env não encontrado em: C:\Users\Breno\.env
+Módulo: GERAL
+
+[2026-03-12 19:49:20] Erro ao inicializar áudio
 Erro: AttributeError: 'AudioDevice' object has no attribute 'Activate'
 Módulo: ACTIONS
 
-[2026-03-10 20:39:30] Erro ao inicializar áudio
+[2026-03-12 20:05:58] Erro ao inicializar áudio
 Erro: AttributeError: 'AudioDevice' object has no attribute 'Activate'
 Módulo: ACTIONS
 
-[2026-03-10 21:00:11] Erro ao inicializar áudio
+[2026-03-12 20:14:34] Erro ao inicializar áudio
+Erro: AttributeError: 'AudioDevice' object has no attribute 'Activate'
+Módulo: ACTIONS
+
+[2026-03-12 20:46:00] Erro ao inicializar áudio
+Erro: AttributeError: 'AudioDevice' object has no attribute 'Activate'
+Módulo: ACTIONS
+
+[2026-03-12 20:46:00] Erro ao inicializar áudio
+Erro: AttributeError: 'AudioDevice' object has no attribute 'Activate'
+Módulo: ACTIONS
+
+[2026-03-12 20:46:02] Erro ao inicializar áudio
+Erro: AttributeError: 'AudioDevice' object has no attribute 'Activate'
+Módulo: ACTIONS
+
+[2026-03-12 20:54:41] Erro ao inicializar áudio
 Erro: AttributeError: 'AudioDevice' object has no attribute 'Activate'
 Módulo: ACTIONS
 

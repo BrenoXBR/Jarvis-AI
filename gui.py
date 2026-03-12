@@ -435,18 +435,156 @@ Estou online e pronto para ajudar!"""
             self.add_message("Jarvis", result, is_jarvis=True)
             return True
         
-        # Comandos de abrir aplicativos (sem limpeza agressiva)
-        if any(keyword in message_lower for keyword in ["abra", "abrir", "abre", "iniciar", "start", "open", "execute", "executar"]):
-            # Extrai nome do aplicativo sem limpeza agressiva
-            for keyword in ["abra", "abrir", "abre", "iniciar", "start", "open", "execute", "executar"]:
+        # Comandos de Hardware - Mark 13
+        if any(keyword in message_lower for keyword in ["volume", "som", "áudio", "audio"]):
+            # Extrai número da mensagem
+            import re
+            match = re.search(r'\d+', message_lower)
+            if match:
+                volume = match.group()
+                result = self.actions.set_volume(volume)
+            else:
+                result = "🔊 Por favor, especifique o volume (ex: 'volume em 50')."
+            self.add_message("Jarvis", result, is_jarvis=True)
+            return True
+        
+        if any(keyword in message_lower for keyword in ["status do sistema", "sistema status", "status sistema", "uso do sistema", "performance"]):
+            result = self.actions.get_system_status()
+            self.add_message("Jarvis", result, is_jarvis=True)
+            return True
+        
+        if any(keyword in message_lower for keyword in ["print", "screenshot", "captura", "capturar tela", "print screen", "printar"]):
+            result = self.actions.take_screenshot()
+            self.add_message("Jarvis", result, is_jarvis=True)
+            return True
+        
+        if any(keyword in message_lower for keyword in ["gerar senha", "criar senha", "senha forte", "password", "gerar password"]):
+            # Verifica se especificou comprimento
+            import re
+            match = re.search(r'\d+', message_lower)
+            if match:
+                length = int(match.group())
+                result = self.actions.generate_password(length)
+            else:
+                result = self.actions.generate_password()
+            self.add_message("Jarvis", result, is_jarvis=True)
+            return True
+        
+        if any(keyword in message_lower for keyword in ["me lembre", "lembrete", "lembrar"]):
+            # Extrai tempo
+            import re
+            time_match = re.search(r'(\d+)\s*(?:minuto| minutos|min|mins)', message_lower)
+            if time_match:
+                time_str = time_match.group()
+            else:
+                time_str = "30"  # default 30 minutos
+            
+            # Encontra a tarefa (após "de")
+            task_match = re.search(r'(?:de|em)\s+(.+)', message_lower)
+            task = task_match.group(1) if task_match else "tarefa não especificada"
+            
+            result = self.actions.set_reminder(time_str, task)
+            self.add_message("Jarvis", result, is_jarvis=True)
+            return True
+        
+        # Web - Clima
+        if any(keyword in message_lower for keyword in ["tempo hoje", "clima hoje", "previsão do tempo", "tempo agora", "clima agora"]):
+            result = self.actions.get_weather_votorantim()
+            self.add_message("Jarvis", result, is_jarvis=True)
+            return True
+        
+        # Web - Notícias
+        if any(keyword in message_lower for keyword in ["notícias", "manchetes", "notícia do dia", "jornal"]):
+            result = self.actions.get_news_headlines()
+            self.add_message("Jarvis", result, is_jarvis=True)
+            return True
+        
+        # Web - Cotações (específico)
+        if any(keyword in message_lower for keyword in ["quanto está o dólar", "cotação do dólar", "dólar hoje", "usd brl"]):
+            result = self.actions.get_currency_rate('USD', 'BRL')
+            self.add_message("Jarvis", result, is_jarvis=True)
+            return True
+        
+        # Web - Cotações (genérico)
+        if any(keyword in message_lower for keyword in ["dólar", "dolar", "euro", "bitcoin", "real", "peso", "libra"]):
+            # Encontra a moeda mencionada
+            currency = None
+            currencies = ["dólar", "dolar", "euro", "bitcoin", "real", "peso", "libra"]
+            for coin in currencies:
+                if coin in message_lower:
+                    currency = coin
+                    break
+            
+            if currency:
+                result = self.actions.get_currency_final(currency)
+            else:
+                result = self.actions.get_currency_final("dólar")  # Default para dólar
+            
+            self.add_message("Jarvis", result, is_jarvis=True)
+            return True
+        
+        # Sistema - Limpar Lixeira
+        if any(keyword in message_lower for keyword in ["limpar lixeira", "esvaziar lixeira"]):
+            result = self.actions.empty_recycle_bin()
+            self.add_message("Jarvis", result, is_jarvis=True)
+            return True
+        
+        # Sistema - Brilho
+        if any(keyword in message_lower for keyword in ["aumentar brilho", "mais brilho", "bright"]):
+            result = self.actions.adjust_brightness("aumentar")
+            self.add_message("Jarvis", result, is_jarvis=True)
+            return True
+        
+        if any(keyword in message_lower for keyword in ["diminuir brilho", "menos brilho", "dark", "escurecer"]):
+            result = self.actions.adjust_brightness("diminuir")
+            self.add_message("Jarvis", result, is_jarvis=True)
+            return True
+        
+        # Sistema - Processos
+        if any(keyword in message_lower for keyword in ["processos", "processos ativos", "apps mais consumidos", "top processos", "uso de memória"]):
+            result = self.actions.get_top_processes()
+            self.add_message("Jarvis", result, is_jarvis=True)
+            return True
+        
+        # Foco - Música
+        if any(keyword in message_lower for keyword in ["tocar", "play", "música", "youtube", "spotify", "ouvir"]):
+            # Extrai nome da música/artista
+            import re
+            music_query = message_lower
+            for keyword in ["tocar", "play", "música", "youtube", "spotify", "ouvir"]:
                 if keyword in message_lower:
-                    # Apenas remove a palavra-chave, mantém o resto intacto
-                    app_name = message_lower.replace(keyword, "", 1).strip()
-                    
-                    if app_name:
-                        result = self.actions.open_application(app_name)
-                        self.add_message("Jarvis", result, is_jarvis=True)
-                        return True
+                    music_query = message_lower.replace(keyword, "", 1).strip()
+                    break
+            
+            if music_query:
+                result = self.actions.play_music(music_query)
+                self.add_message("Jarvis", result, is_jarvis=True)
+                return True
+        
+        # Foco - Pomodoro
+        if any(keyword in message_lower for keyword in ["pomodoro", "timer", "cronômetro", "cronometro", "estudar", "foco"]):
+            # Extrai tarefa
+            task = "Estudo"
+            for keyword in ["estudar", "foco"]:
+                if keyword in message_lower:
+                    task = keyword.title()
+                    break
+            
+            result = self.actions.start_pomodoro_timer(task)
+            self.add_message("Jarvis", result, is_jarvis=True)
+            return True
+        
+        # Comandos de aplicativos
+        # Extrai nome do aplicativo sem limpeza agressiva
+        for keyword in ["abra", "abrir", "abre", "iniciar", "start", "open", "execute", "executar"]:
+            if keyword in message_lower:
+                # Apenas remove a palavra-chave, mantém o resto intacto
+                app_name = message_lower.replace(keyword, "", 1).strip()
+                
+                if app_name:
+                    result = self.actions.open_application(app_name)
+                    self.add_message("Jarvis", result, is_jarvis=True)
+                    return True
         
         # Comandos diretos sem palavra-chave (ex: "notepad", "calculadora")
         direct_apps = [

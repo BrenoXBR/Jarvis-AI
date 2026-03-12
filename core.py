@@ -4,11 +4,13 @@ Lógica de integração com a API do Gemini e processamento
 """
 
 import os
+import sys
 import re
 import threading
 import google.generativeai as genai
 from typing import Optional, Dict, List, Tuple
 from datetime import datetime
+from dotenv import load_dotenv
 
 class JarvisCore:
     """Núcleo de processamento do J.A.R.V.I.S."""
@@ -37,24 +39,95 @@ class JarvisCore:
             self.logger.warning("API key não encontrada", "CORE")
     
     def _load_api_key(self):
-        """Carrega API key do arquivo .env"""
+        """Carrega API key do arquivo .env na pasta atual do projeto com os.getcwd()"""
         try:
-            # Tenta carregar do arquivo .env
-            env_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), '.env')
+            # Usa a pasta atual onde o programa está rodando
+            current_dir = os.getcwd()
+            env_path = os.path.join(current_dir, '.env')
             
+            self.logger.system(f"[DEBUG] Buscando .env em: {env_path}", "CORE")
+            
+            # Verifica se o arquivo .env existe na pasta atual
             if os.path.exists(env_path):
-                with open(env_path, 'r', encoding='utf-8') as f:
-                    for line in f:
-                        line = line.strip()
-                        if line.startswith('GEMINI_API_KEY='):
-                            self.api_key = line.split('=', 1)[1].strip()
-                            break
-            
-            if self.api_key and self.api_key != 'sua_chave_api_aqui':
-                self.logger.info("API key carregada com sucesso", "CORE")
+                self.logger.system("[SUCCESS] .env encontrado na pasta do projeto.", "CORE")
+                
+                # Força o carregamento do .env da pasta atual
+                load_dotenv(env_path, override=True)
+                
+                # Tenta obter do ambiente (após load_dotenv)
+                self.api_key = os.getenv('GEMINI_API_KEY')
+                
+                # Debug mascarado - mostra apenas os 4 primeiros dígitos
+                if self.api_key:
+                    key_preview = self.api_key[:4] + "..." if len(self.api_key) > 4 else "CURTA"
+                    self.logger.system(f"[DEBUG] API Key encontrada: {key_preview} (comprimento: {len(self.api_key)})", "CORE")
+                    
+                    # Verificação de espaços extras ou aspas
+                    cleaned_key = self.api_key.strip().strip('"\'')
+                    if cleaned_key != self.api_key:
+                        self.logger.warning("[DEBUG] Removidos espaços/aspas da API key", "CORE")
+                        self.api_key = cleaned_key
+                        key_preview = self.api_key[:4] + "..." if len(self.api_key) > 4 else "CURTA"
+                        self.logger.system(f"[DEBUG] API Key limpa: {key_preview} (comprimento: {len(self.api_key)})", "CORE")
+                    
+                    # Verificação de chave padrão/inválida
+                    if self.api_key and self.api_key != 'sua_chave_api_aqui' and len(self.api_key) > 10:
+                        self.logger.info("API key carregada com sucesso", "CORE")
+                    else:
+                        self.logger.warning("API key parece ser padrão ou muito curta", "CORE")
+                        self.api_key = None
+                else:
+                    self.logger.warning("[DEBUG] API key não encontrada no environment após load_dotenv", "CORE")
+                    
+                    # Fallback: leitura manual do arquivo
+                    self.logger.system("[DEBUG] Tentando leitura manual do .env", "CORE")
+                    with open(env_path, 'r', encoding='utf-8') as f:
+                        for line_num, line in enumerate(f, 1):
+                            line = line.strip()
+                            if line.startswith('GEMINI_API_KEY='):
+                                self.api_key = line.split('=', 1)[1].strip().strip('"\'')
+                                key_preview = self.api_key[:4] + "..." if len(self.api_key) > 4 else "CURTA"
+                                self.logger.system(f"[DEBUG] API key manual (linha {line_num}): {key_preview}", "CORE")
+                                
+                                if self.api_key and self.api_key != 'sua_chave_api_aqui' and len(self.api_key) > 10:
+                                    self.logger.info("API key carregada via leitura manual", "CORE")
+                                else:
+                                    self.logger.warning("API key manual inválida ou padrão", "CORE")
+                                    self.api_key = None
+                                break
             else:
-                self.logger.warning("API key inválida ou não encontrada", "CORE")
-                self.api_key = None
+                self.logger.error(f"[ERROR] Arquivo .env não encontrado na pasta atual: {env_path}", "CORE")
+                
+                # Tenta caminho alternativo (pasta do script/executável)
+                if getattr(sys, 'frozen', False):
+                    # Se for o .exe, pega a pasta do executável
+                    alt_dir = os.path.dirname(sys.executable)
+                else:
+                    # Se for o script .py, pega a pasta do script
+                    alt_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+                
+                alt_env_path = os.path.join(alt_dir, '.env')
+                self.logger.system(f"[DEBUG] Tentando caminho alternativo: {alt_env_path}", "CORE")
+                
+                if os.path.exists(alt_env_path):
+                    self.logger.system("[SUCCESS] .env encontrado no caminho alternativo.", "CORE")
+                    load_dotenv(alt_env_path, override=True)
+                    self.api_key = os.getenv('GEMINI_API_KEY')
+                    
+                    if self.api_key:
+                        key_preview = self.api_key[:4] + "..." if len(self.api_key) > 4 else "CURTA"
+                        self.logger.system(f"[DEBUG] API Key encontrada (alt): {key_preview} (comprimento: {len(self.api_key)})", "CORE")
+                        
+                        if self.api_key and self.api_key != 'sua_chave_api_aqui' and len(self.api_key) > 10:
+                            self.logger.info("API key carregada com sucesso (caminho alternativo)", "CORE")
+                        else:
+                            self.logger.warning("API key alternativa inválida ou padrão", "CORE")
+                            self.api_key = None
+                    else:
+                        self.logger.error("[ERROR] API key não encontrada mesmo no caminho alternativo", "CORE")
+                else:
+                    self.logger.error(f"[ERROR] Arquivo .env não encontrado em nenhum caminho", "CORE")
+                    self.api_key = None
                 
         except Exception as e:
             self.logger.error(e, "Erro ao carregar API key", "CORE")
