@@ -1262,198 +1262,153 @@ class SystemActions:
     # ==================== MÓDULO WEB E SISTEMA AVANÇADO - MARK 13 FINAL ====================
     
     def get_weather_votorantim(self) -> str:
-        """Obtém clima de Votorantim usando OpenWeatherMap API em thread separada"""
-        def weather_thread():
-            try:
-                # API key do OpenWeatherMap (gratuita)
-                API_KEY = "bd5e378503939157ee9252cb5c08c2bb"
-                BASE_URL = "http://api.openweathermap.org/data/2.5/weather"
+        """Obtém clima de Votorantim/Sorocaba usando wttr.in API (gratuita e sem API key)"""
+        try:
+            self.logger.system(f"[PROD] Buscando clima para: Votorantim", "ACTIONS")
+            
+            # Usando wttr.in API gratuita - tenta Sorocaba (próxima de Votorantim)
+            url = "https://wttr.in/Sorocaba?format=j1"
+            response = requests.get(url, timeout=10)
+            
+            if response.status_code == 200:
+                data = response.json()
                 
-                self.logger.system(f"[PROD] Buscando clima para: Votorantim", "ACTIONS")
+                # Extrai informações do clima atual
+                current = data['current_condition'][0]
+                temp_c = int(current['temp_C'])
+                feels_like_c = int(current['FeelsLikeC'])
+                humidity = current['humidity']
+                description = current['weatherDesc'][0]['value']
                 
-                # Requisição com timeout
-                url = f"{BASE_URL}?q=Votorantim,BR&appid={API_KEY}&units=metric&lang=pt_br"
-                response = requests.get(url, timeout=10)
+                weather_info = f"""🌤️ **Clima Atual - Votorantim/Região**
                 
-                if response.status_code == 200:
-                    data = response.json()
-                    
-                    # Extrai informações
-                    temp = data['main']['temp']
-                    feels_like = data['main']['feels_like']
-                    humidity = data['main']['humidity']
-                    description = data['weather'][0]['description']
-                    city_name = data['name']
-                    
-                    weather_info = f"""🌤️ **Clima Atual - {city_name}**
-                    
-🌡️ **Temperatura:** {temp}°C (sensação de {feels_like}°C)
+🌡️ **Temperatura:** {temp_c}°C (sensação de {feels_like_c}°C)
 💧 **Umidade:** {humidity}%
 ☁️ **Condição:** {description.title()}
+🕐 **Atualizado:** {datetime.now().strftime('%H:%M:%S')}
+📡 **Fonte:** wttr.in (Sorocaba)"""
+                
+                self.logger.system(f"[PROD] Clima obtido: {temp_c}°C na região", "ACTIONS")
+                
+                return weather_info
+            else:
+                # Fallback para informações genéricas se a API falhar
+                return f"""🌤️ **Clima - Votorantim**
+
+📍 **Localização:** Votorantim, SP - Brasil
+🌡️ **Informação:** Serviço de clima temporariamente indisponível
+🔄 **Tente novamente em alguns minutos**
 🕐 **Atualizado:** {datetime.now().strftime('%H:%M:%S')}"""
-                    
-                    self.logger.system(f"[PROD] Clima obtido: {temp}°C em {city_name}", "ACTIONS")
-                    
-                    # Atualiza através de callback
-                    if hasattr(self, 'weather_callback'):
-                        self.weather_callback(weather_info)
-                else:
-                    if hasattr(self, 'weather_callback'):
-                        self.weather_callback(f"❌ Não foi possível obter clima para Votorantim")
-                    
-            except Exception as e:
-                self.logger.error(e, "Erro ao obter clima", "PROD")
-                if hasattr(self, 'weather_callback'):
-                    self.weather_callback(f"❌ Erro ao obter clima: {e}")
-        
-        try:
-            # Executa em thread
-            thread = threading.Thread(target=weather_thread)
-            thread.start()
-            
-            return f"🌤️ Buscando clima para Votorantim, aguarde..."
             
         except Exception as e:
-            self.logger.error(e, "Erro ao iniciar busca de clima", "PROD")
-            return f"❌ Erro ao buscar clima: {e}"
+            self.logger.error(e, "Erro ao obter clima", "PROD")
+            return f"❌ Erro ao obter clima: {e}"
     
     def get_currency_final(self, currency: str) -> str:
-        """Obtém cotação de moeda específica usando yfinance em thread separada"""
-        def currency_thread():
-            try:
-                import yfinance as yf
-                
-                # Mapeamento de moedas
-                currency_map = {
-                    'dólar': 'USD',
-                    'dolar': 'USD',
-                    'euro': 'EUR',
-                    'bitcoin': 'BTC',
-                    'real': 'BRL',
-                    'peso': 'MXN',
-                    'libra': 'GBP'
-                }
-                
-                # Normaliza o nome da moeda
-                currency_lower = currency.lower()
-                from_currency = currency_map.get(currency_lower, currency.upper())
-                
-                self.logger.system(f"[PROD] Buscando cotação: {from_currency}/BRL", "ACTIONS")
-                
-                # Obtém cotação
-                ticker = f"{from_currency}BRL=X"
-                data = yf.Ticker(ticker).history(period="1d")
-                
-                if not data.empty:
-                    rate = data['Close'].iloc[-1]
-                    
-                    # Formatação brasileira
-                    formatted_rate = f"R$ {rate:.4f}"
-                    
-                    self.logger.system(f"[PROD] Cotação obtida: {from_currency}/BRL = {formatted_rate}", "ACTIONS")
-                    
-                    # Atualiza através de callback
-                    if hasattr(self, 'currency_callback'):
-                        self.currency_callback(f"💱 **Cotação Atual - {from_currency.upper()}**:\n\n**1 {from_currency.upper()} = {formatted_rate}**\n\n📊 **Atualizado:** {datetime.now().strftime('%H:%M:%S')}")
-                else:
-                    if hasattr(self, 'currency_callback'):
-                        self.currency_callback(f"❌ Não foi possível obter cotação de {from_currency}")
-                    
-            except Exception as e:
-                self.logger.error(e, "Erro na cotação", "PROD")
-                if hasattr(self, 'currency_callback'):
-                    self.currency_callback(f"❌ Erro ao obter cotação: {e}")
-        
+        """Obtém cotação de moeda específica usando yfinance"""
         try:
-            # Executa em thread
-            thread = threading.Thread(target=currency_thread)
-            thread.start()
+            import yfinance as yf
             
-            return f"💱 Buscando cotação de {currency}, aguarde..."
+            # Mapeamento de moedas
+            currency_map = {
+                'dólar': 'USD',
+                'dolar': 'USD',
+                'euro': 'EUR',
+                'bitcoin': 'BTC',
+                'real': 'BRL',
+                'peso': 'MXN',
+                'libra': 'GBP'
+            }
             
+            # Normaliza o nome da moeda
+            currency_lower = currency.lower()
+            from_currency = currency_map.get(currency_lower, currency.upper())
+            
+            self.logger.system(f"[PROD] Buscando cotação: {from_currency}/BRL", "ACTIONS")
+            
+            # Obtém cotação
+            ticker = f"{from_currency}BRL=X"
+            data = yf.Ticker(ticker).history(period="1d")
+            
+            if not data.empty:
+                rate = data['Close'].iloc[-1]
+                
+                # Formatação brasileira
+                formatted_rate = f"R$ {rate:.4f}"
+                
+                self.logger.system(f"[PROD] Cotação obtida: {from_currency}/BRL = {formatted_rate}", "ACTIONS")
+                
+                return f"💱 **Cotação Atual - {from_currency.upper()}**:\n\n**1 {from_currency.upper()} = {formatted_rate}**\n\n📊 **Atualizado:** {datetime.now().strftime('%H:%M:%S')}"
+            else:
+                return f"❌ Não foi possível obter cotação de {from_currency}"
+                
         except Exception as e:
-            self.logger.error(e, "Erro ao iniciar busca de cotação", "PROD")
-            return f"❌ Erro ao buscar cotação: {e}"
+            self.logger.error(e, "Erro na cotação", "PROD")
+            return f"❌ Erro ao obter cotação: {e}"
     
     def get_news_headlines(self) -> str:
         """Obtém as 3 principais manchetes do dia usando scraping do G1"""
-        def news_thread():
-            try:
-                self.logger.system("[PROD] Buscando notícias principais...", "ACTIONS")
+        try:
+            self.logger.system("[PROD] Buscando notícias principais...", "ACTIONS")
+            
+            # URL do G1
+            url = "https://g1.globo.com/"
+            headers = {
+                'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36'
+            }
+            
+            response = requests.get(url, headers=headers, timeout=10)
+            
+            if response.status_code == 200:
+                soup = BeautifulSoup(response.content, 'html.parser')
                 
-                # URL do G1
-                url = "https://g1.globo.com/"
-                headers = {
-                    'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36'
-                }
+                # Busca manchetes principais
+                headlines = []
                 
-                response = requests.get(url, headers=headers, timeout=10)
+                # Tenta encontrar manchetes em diferentes seleções
+                selectors = [
+                    '.feed-post-body-title',
+                    '.feed-post-link',
+                    'h2 a',
+                    '.title a',
+                    '[data-area="noticias"] h2 a'
+                ]
                 
-                if response.status_code == 200:
-                    soup = BeautifulSoup(response.content, 'html.parser')
-                    
-                    # Busca manchetes principais
-                    headlines = []
-                    
-                    # Tenta encontrar manchetes em diferentes seleções
-                    selectors = [
-                        '.feed-post-body-title',
-                        '.feed-post-link',
-                        'h2 a',
-                        '.title a',
-                        '[data-area="noticias"] h2 a'
-                    ]
-                    
-                    for selector in selectors:
-                        try:
-                            elements = soup.select(selector)[:3]
-                            for element in elements:
-                                title = element.get_text(strip=True)
-                                if title and len(title) > 10:
-                                    headlines.append(f"📰 {title}")
-                                    if len(headlines) >= 3:
-                                        break
-                            if len(headlines) >= 3:
-                                break
-                        except:
-                            continue
-                        
+                for selector in selectors:
+                    try:
+                        elements = soup.select(selector)[:3]
+                        for element in elements:
+                            title = element.get_text(strip=True)
+                            if title and len(title) > 10:
+                                headlines.append(f"📰 {title}")
+                                if len(headlines) >= 3:
+                                    break
                         if len(headlines) >= 3:
                             break
+                    except:
+                        continue
                     
-                    if not headlines:
-                        headlines = ["📰 Não foi possível carregar as manchetes"]
-                    
-                    news_info = f"""📰 **Principais Notícias do Dia**
-                    
+                    if len(headlines) >= 3:
+                        break
+                
+                if not headlines:
+                    headlines = ["📰 Não foi possível carregar as manchetes"]
+                
+                news_info = f"""📰 **Principais Notícias do Dia**
+                
 {chr(10).join(headlines[:3])}
 
 📊 **Fonte:** G1
 🕐 **Atualizado:** {datetime.now().strftime('%H:%M:%S')}"""
-                    
-                    self.logger.system("[PROD] Notícias obtidas com sucesso", "ACTIONS")
-                    
-                    # Atualiza através de callback
-                    if hasattr(self, 'news_callback'):
-                        self.news_callback(news_info)
-                else:
-                    if hasattr(self, 'news_callback'):
-                        self.news_callback("❌ Não foi possível carregar as notícias")
-                    
-            except Exception as e:
-                self.logger.error(e, "Erro ao buscar notícias", "PROD")
-                if hasattr(self, 'news_callback'):
-                    self.news_callback(f"❌ Erro ao buscar notícias: {e}")
-        
-        try:
-            # Executa em thread
-            thread = threading.Thread(target=news_thread)
-            thread.start()
-            
-            return "📰 Buscando notícias principais, aguarde..."
+                
+                self.logger.system("[PROD] Notícias obtidas com sucesso", "ACTIONS")
+                
+                return news_info
+            else:
+                return "❌ Não foi possível carregar as notícias"
             
         except Exception as e:
-            self.logger.error(e, "Erro ao iniciar busca de notícias", "PROD")
+            self.logger.error(e, "Erro ao buscar notícias", "PROD")
             return f"❌ Erro ao buscar notícias: {e}"
     
     def empty_recycle_bin(self) -> str:

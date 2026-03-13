@@ -73,3 +73,55 @@ Módulo: ACTIONS
 Erro: AttributeError: 'AudioDevice' object has no attribute 'Activate'
 Módulo: ACTIONS
 
+[2026-03-12 21:10:10] Erro ao inicializar áudio
+Erro: AttributeError: 'AudioDevice' object has no attribute 'Activate'
+Módulo: ACTIONS
+
+[2026-03-12 21:10:16] Erro ao inicializar áudio
+Erro: AttributeError: 'AudioDevice' object has no attribute 'Activate'
+Módulo: ACTIONS
+
+[2026-03-12 21:10:34] Erro ao inicializar áudio
+Erro: AttributeError: 'AudioDevice' object has no attribute 'Activate'
+Módulo: ACTIONS
+
+[2026-03-12 21:10:35] Erro ao obter clima
+Erro: JSONDecodeError: Expecting value: line 1 column 1 (char 0)
+Módulo: PROD
+
+[2026-03-12 21:10:53] Erro ao inicializar áudio
+Erro: AttributeError: 'AudioDevice' object has no attribute 'Activate'
+Módulo: ACTIONS
+
+[2026-03-12 21:10:58] Erro ao inicializar áudio
+Erro: AttributeError: 'AudioDevice' object has no attribute 'Activate'
+Módulo: ACTIONS
+
+[2026-03-12 21:16:06] Erro ao inicializar áudio
+Erro: AttributeError: 'AudioDevice' object has no attribute 'Activate'
+Módulo: ACTIONS
+
+[2026-03-12 21:18:18] Erro ao inicializar áudio
+Erro: AttributeError: 'AudioDevice' object has no attribute 'Activate'
+Módulo: ACTIONS
+
+[2026-03-12 21:18:42] Erro ao inicializar áudio
+Erro: AttributeError: 'AudioDevice' object has no attribute 'Activate'
+Módulo: ACTIONS
+
+[2026-03-12 21:18:47] Erro ao inicializar áudio
+Erro: AttributeError: 'AudioDevice' object has no attribute 'Activate'
+Módulo: ACTIONS
+
+[2026-03-12 21:19:01] Erro ao inicializar áudio
+Erro: AttributeError: 'AudioDevice' object has no attribute 'Activate'
+Módulo: ACTIONS
+
+[2026-03-12 21:19:21] Erro ao inicializar áudio
+Erro: AttributeError: 'AudioDevice' object has no attribute 'Activate'
+Módulo: ACTIONS
+
+[2026-03-12 21:19:30] Erro ao inicializar áudio
+Erro: AttributeError: 'AudioDevice' object has no attribute 'Activate'
+Módulo: ACTIONS
+

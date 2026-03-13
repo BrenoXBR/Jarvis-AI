@@ -19,18 +19,21 @@ import base64
 class JarvisGUI:
     """Interface principal do J.A.R.V.I.S. - Professional Version"""
     
-    # Cores tema Stark Industries
-    STARK_COLORS = {
-        "background": "#0a0a0a",
-        "surface": "#1a1a1a",
-        "primary": "#0066cc",
-        "secondary": "#ff4444",
-        "success": "#00cc66",
-        "warning": "#ffaa00",
-        "ia_text": "#00d2ff",
-        "user_text": "#ffffff",
-        "system_text": "#ff9900",
-        "border": "#333333"
+    # Cores tema J.A.R.V.I.S. Mark 13 - Deep Charcoal & Electric Blue
+    M13_COLORS = {
+        "background": "#121212",  # Deep Charcoal
+        "surface": "#1e1e1e",     # Charcoal médio
+        "primary": "#00FBFF",     # Electric Blue
+        "secondary": "#FF006E",    # Neon Pink/Rosa
+        "success": "#00FF88",      # Verde neon suave
+        "warning": "#FFAA00",     # Amarelo neon
+        "ia_text": "#00FBFF",     # Electric Blue para J.A.R.V.I.S.
+        "user_text": "#FFFFFF",   # Branco puro
+        "system_text": "#FFB700",  # Dourado neon
+        "border": "#00FBFF",      # Electric Blue para bordas
+        "neon_green": "#00FF88",  # Verde neon para botões
+        "neon_blue": "#00D4FF",   # Azul vibrante para botões
+        "dark_border": "#2a2a2a"   # Bordas escuras
     }
     
     def __init__(self, logger, actions, core):
@@ -85,9 +88,9 @@ class JarvisGUI:
         
         # Janela principal
         self.root = ctk.CTk()
-        self.root.title("🤖 J.A.R.V.I.S. - Stark Industries Professional")
+        self.root.title("🤖 J.A.R.V.I.S. - M-13 OMNI")
         self.root.geometry("1200x800")
-        self.root.configure(fg_color=self.STARK_COLORS["background"])
+        self.root.configure(fg_color=self.M13_COLORS["background"])
         
         # Layout principal
         self._create_main_layout()
@@ -105,25 +108,31 @@ class JarvisGUI:
         main_container = ctk.CTkFrame(self.root, fg_color="transparent")
         main_container.pack(fill="both", expand=True, padx=10, pady=10)
         
-        # Frame superior (cabeçalho)
-        header_frame = ctk.CTkFrame(main_container, fg_color=self.STARK_COLORS["surface"], corner_radius=10)
+        # Frame superior (cabeçalho) com borda neon
+        header_frame = ctk.CTkFrame(
+            main_container, 
+            fg_color=self.M13_COLORS["surface"], 
+            corner_radius=10,
+            border_width=2,
+            border_color=self.M13_COLORS["border"]
+        )
         header_frame.pack(fill="x", pady=(0, 10))
         
-        # Título
+        # Título com ícone de processamento
         title_label = ctk.CTkLabel(
             header_frame,
-            text="🤖 J.A.R.V.I.S. - Professional Assistant",
-            font=ctk.CTkFont(size=20, weight="bold"),
-            text_color=self.STARK_COLORS["ia_text"]
+            text="⚡ J.A.R.V.I.S. - M-13 OMNI",
+            font=ctk.CTkFont(size=22, weight="bold"),
+            text_color=self.M13_COLORS["ia_text"]
         )
         title_label.pack(pady=10)
         
         # Barra de status
         self.status_label = ctk.CTkLabel(
             header_frame,
-            text="🟢 Online",
+            text="🟢 Systems Online",
             font=ctk.CTkFont(size=12),
-            text_color=self.STARK_COLORS["success"]
+            text_color=self.M13_COLORS["success"]
         )
         self.status_label.pack(pady=(0, 10))
         
@@ -135,16 +144,28 @@ class JarvisGUI:
         content_grid = ctk.CTkFrame(content_frame, fg_color="transparent")
         content_grid.pack(fill="both", expand=True)
         
-        # Coluna esquerda - Chat
-        chat_frame = ctk.CTkFrame(content_grid, fg_color=self.STARK_COLORS["surface"], corner_radius=10)
+        # Coluna esquerda - Chat com borda neon
+        chat_frame = ctk.CTkFrame(
+            content_grid, 
+            fg_color=self.M13_COLORS["surface"], 
+            corner_radius=10,
+            border_width=2,
+            border_color=self.M13_COLORS["border"]
+        )
         chat_frame.grid(row=0, column=0, sticky="nsew", padx=(0, 5), pady=5)
         content_grid.grid_columnconfigure(0, weight=3)
         content_grid.grid_rowconfigure(0, weight=1)  # Chat ocupa todo o espaço vertical
         
         self._create_chat_area(chat_frame)
         
-        # Coluna direita - System Monitor
-        monitor_frame = ctk.CTkFrame(content_grid, fg_color=self.STARK_COLORS["surface"], corner_radius=10)
+        # Coluna direita - System Monitor com borda neon
+        monitor_frame = ctk.CTkFrame(
+            content_grid, 
+            fg_color=self.M13_COLORS["surface"], 
+            corner_radius=10,
+            border_width=2,
+            border_color=self.M13_COLORS["border"]
+        )
         monitor_frame.grid(row=0, column=1, sticky="nsew", padx=(5, 0), pady=5)
         content_grid.grid_columnconfigure(1, weight=1)
         content_grid.grid_rowconfigure(0, weight=1)  # Monitor também ocupa todo espaço vertical
@@ -169,19 +190,19 @@ class JarvisGUI:
         # Display de mensagens (ocupa 100% do frame do chat)
         self.chat_display = ctk.CTkTextbox(
             chat_frame,
-            font=ctk.CTkFont(size=12),
-            text_color=self.STARK_COLORS["user_text"],
-            fg_color=self.STARK_COLORS["background"],
-            border_width=1,
-            border_color=self.STARK_COLORS["border"],
+            font=ctk.CTkFont(family="Segoe UI", size=12),
+            text_color=self.M13_COLORS["user_text"],
+            fg_color=self.M13_COLORS["background"],
+            border_width=2,
+            border_color=self.M13_COLORS["dark_border"],
             wrap="word"
         )
         self.chat_display.pack(fill="both", expand=True)
         
         # Configura tags para cores
-        self.chat_display.tag_config("jarvis", foreground=self.STARK_COLORS["ia_text"])
-        self.chat_display.tag_config("user", foreground=self.STARK_COLORS["user_text"])
-        self.chat_display.tag_config("system", foreground=self.STARK_COLORS["system_text"])
+        self.chat_display.tag_config("jarvis", foreground=self.M13_COLORS["ia_text"])
+        self.chat_display.tag_config("user", foreground=self.M13_COLORS["user_text"])
+        self.chat_display.tag_config("system", foreground=self.M13_COLORS["system_text"])
         
         # Frame de entrada (fixo no rodapé - weight=0)
         input_frame = ctk.CTkFrame(main_container, fg_color="transparent")
@@ -190,35 +211,35 @@ class JarvisGUI:
         # Campo de texto
         self.text_input = ctk.CTkEntry(
             input_frame,
-            font=ctk.CTkFont(size=12),
-            text_color=self.STARK_COLORS["user_text"],
-            fg_color=self.STARK_COLORS["surface"],
-            border_width=1,
-            border_color=self.STARK_COLORS["border"],
+            font=ctk.CTkFont(family="Segoe UI", size=12),
+            text_color=self.M13_COLORS["user_text"],
+            fg_color=self.M13_COLORS["surface"],
+            border_width=2,
+            border_color=self.M13_COLORS["dark_border"],
             placeholder_text="Digite sua mensagem aqui..."
         )
         self.text_input.pack(side="left", fill="x", expand=True, padx=(0, 10))
         
-        # Botão de voz
+        # Botão de voz (azul vibrante)
         self.voice_button = ctk.CTkButton(
             input_frame,
             text="🎤",
             width=40,
             font=ctk.CTkFont(size=16),
-            fg_color=self.STARK_COLORS["primary"],
-            hover_color="#0052a3",
+            fg_color=self.M13_COLORS["neon_blue"],
+            hover_color="#00A8CC",
             command=self._toggle_listening
         )
         self.voice_button.pack(side="left", padx=(0, 5))
         
-        # Botão de envio
+        # Botão de envio (verde neon suave)
         self.send_button = ctk.CTkButton(
             input_frame,
             text="Enviar",
             width=80,
-            font=ctk.CTkFont(size=12, weight="bold"),
-            fg_color=self.STARK_COLORS["success"],
-            hover_color="#00a352",
+            font=ctk.CTkFont(family="Segoe UI", size=12, weight="bold"),
+            fg_color=self.M13_COLORS["neon_green"],
+            hover_color="#00CC70",
             command=self.send_message
         )
         self.send_button.pack(side="left")
@@ -231,19 +252,20 @@ class JarvisGUI:
         
         title_label = ctk.CTkLabel(
             monitor_header,
-            text="🖥️ System Monitor",
-            font=ctk.CTkFont(size=16, weight="bold"),
-            text_color=self.STARK_COLORS["ia_text"]
+            text="🖥️ SYSTEM MONITOR",
+            font=ctk.CTkFont(family="Consolas", size=16, weight="bold"),
+            text_color=self.M13_COLORS["ia_text"]
         )
         title_label.pack()
         
         # Botão de toggle
         toggle_button = ctk.CTkButton(
             monitor_header,
-            text="👁️ Mostrar/Ocultar",
+            text="👁️ SHOW/HIDE",
             width=120,
-            font=ctk.CTkFont(size=10),
-            fg_color=self.STARK_COLORS["primary"],
+            font=ctk.CTkFont(family="Consolas", size=10),
+            fg_color=self.M13_COLORS["primary"],
+            hover_color=self.M13_COLORS["neon_blue"],
             command=self._toggle_monitor
         )
         toggle_button.pack(pady=5)
@@ -252,14 +274,14 @@ class JarvisGUI:
         self.system_log_frame = ctk.CTkFrame(parent, fg_color="transparent")
         self.system_log_frame.pack(fill="both", expand=True, padx=10, pady=(0, 10))
         
-        # Display de logs
+        # Display de logs com fonte futurista
         self.system_log_text = ctk.CTkTextbox(
             self.system_log_frame,
-            font=ctk.CTkFont(size=10, family="Consolas"),
-            text_color="#00ff00",
-            fg_color="#000000",
-            border_width=1,
-            border_color=self.STARK_COLORS["border"],
+            font=ctk.CTkFont(family="Consolas", size=9),
+            text_color="#00FF88",  # Verde neon para texto terminal
+            fg_color="#0a0a0a",    # Preto profundo para fundo
+            border_width=2,
+            border_color=self.M13_COLORS["border"],
             wrap="word"
         )
         self.system_log_text.pack(fill="both", expand=True)
@@ -270,10 +292,11 @@ class JarvisGUI:
         # Botão de limpar logs
         clear_button = ctk.CTkButton(
             self.system_log_frame,
-            text="🗑️ Limpar Logs",
+            text="🗑️ CLEAR LOGS",
             width=100,
-            font=ctk.CTkFont(size=10),
-            fg_color=self.STARK_COLORS["secondary"],
+            font=ctk.CTkFont(family="Consolas", size=10),
+            fg_color=self.M13_COLORS["secondary"],
+            hover_color="#CC0055",
             command=self._clear_system_logs
         )
         clear_button.pack(pady=(5, 0))
@@ -336,21 +359,24 @@ class JarvisGUI:
     
     def _show_welcome_message(self):
         """Exibe mensagem de boas-vindas"""
-        welcome_msg = """👋 Olá! Sou o J.A.R.V.I.S. Professional Edition.
+        welcome_msg = """⚡ J.A.R.V.I.S. Mark 13 - OMNI SYSTEM ONLINE
 
-🔧 Recursos disponíveis:
-• 🎤 Comandos de voz
-• 🖥️ System Monitor em tempo real
-• 🚀 Deep Links para Windows
-• ⚡ Protocolos de energia
-• 🤖 Integração com Gemini AI
+🔧 **Core Systems Activated:**
+• 🎤 Voice Command Interface
+• 🖥️ Real-Time System Monitor  
+• 🚀 Windows Deep Links Integration
+• ⚡ Advanced Energy Protocols
+• 🤖 Gemini AI Neural Interface
+• 💱 Web APIs (Clima, Cotações, Notícias)
+• 🎯 Focus Mode (Pomodoro, Music)
 
-💡 Comandos rápidos:
-• "verificar atualizações" - Windows Update direto
-• "desligar" - Com confirmação
-• "abrir [app]" - Aplicativos universais
+💡 **Quick Commands:**
+• "dólar" - Cotação em tempo real
+• "tempo hoje" - Clima Votorantim
+• "processos" - Top 5 consumo RAM
+• "pomodoro" - Timer de 25 min
 
-Estou online e pronto para ajudar!"""
+**OMNI PROTOCOLS ENGAGED** 🚀"""
         
         self.add_message("Jarvis", welcome_msg, is_jarvis=True)
     
@@ -365,7 +391,7 @@ Estou online e pronto para ajudar!"""
         
         # Limpa campo e atualiza status
         self.text_input.delete(0, "end")
-        self._update_status("🟡 Processando...", self.STARK_COLORS["warning"])
+        self._update_status("🟡 Processando...", self.M13_COLORS["warning"])
         
         # Adiciona mensagem do usuário
         self.add_message("Você", message, is_user=True)
@@ -382,7 +408,7 @@ Estou online e pronto para ajudar!"""
                 # Tenta detectar comando de sistema primeiro
                 command_result = self._detect_system_command(message)
                 if command_result:
-                    self._update_status("🟢 Online", self.STARK_COLORS["success"])
+                    self._update_status("🟢 Online", self.M13_COLORS["success"])
                     return
                 
                 # Se não for comando de sistema, processa com Gemini
@@ -405,7 +431,7 @@ Estou online e pronto para ajudar!"""
                 self.add_message("Jarvis", f"❌ Erro ao processar: {e}", is_jarvis=True)
             finally:
                 self.is_processing = False
-                self._update_status("🟢 Online", self.STARK_COLORS["success"])
+                self._update_status("🟢 Online", self.M13_COLORS["success"])
         
         # Executa em thread separada
         thread = threading.Thread(target=process_in_thread, daemon=True)
@@ -609,7 +635,7 @@ Estou online e pronto para ajudar!"""
         confirm_window = ctk.CTkToplevel(self.root)
         confirm_window.title("🔌 Confirmação de Energia")
         confirm_window.geometry("400x200")
-        confirm_window.configure(fg_color=self.STARK_COLORS["surface"])
+        confirm_window.configure(fg_color=self.M13_COLORS["surface"])
         confirm_window.transient(self.root)
         confirm_window.grab_set()
         
@@ -631,7 +657,7 @@ Estou online e pronto para ajudar!"""
             main_frame,
             text=f"🔌 {action_name} do Sistema\n\nSenhor, os sistemas serão encerrados.\nConfirma o protocolo?",
             font=ctk.CTkFont(size=14, weight="bold"),
-            text_color=self.STARK_COLORS["ia_text"],
+            text_color=self.M13_COLORS["ia_text"],
             wraplength=350
         )
         message_label.pack(pady=(20, 10))
@@ -765,7 +791,7 @@ Estou online e pronto para ajudar!"""
         self.is_listening = True
         self.voice_button.configure(
             text="🔴",
-            fg_color=self.STARK_COLORS["secondary"]
+            fg_color=self.M13_COLORS["secondary"]
         )
         
         def listen():
@@ -800,7 +826,7 @@ Estou online e pronto para ajudar!"""
         self.is_listening = False
         self.voice_button.configure(
             text="🎤",
-            fg_color=self.STARK_COLORS["primary"]
+            fg_color=self.M13_COLORS["primary"]
         )
     
     def _process_voice_command(self, text: str):
