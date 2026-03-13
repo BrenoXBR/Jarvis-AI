@@ -1,21 +1,52 @@
 """
-J.A.R.V.I.S. - Core Module
-Lógica de integração com a API do Gemini e processamento
+J.A.R.V.I.S. Mark 13 - Core Module
+Núcleo de processamento do assistente com integração à API Gemini AI
+e efeito de digitação em tempo real.
 """
 
+# ==================== BIBLIOTECAS PADRÃO ====================
 import os
 import sys
 import re
 import threading
-import google.generativeai as genai
-from typing import Optional, Dict, List, Tuple
 from datetime import datetime
+from typing import Optional, Dict, List, Tuple
+
+# ==================== BIBLIOTECAS DE TERCEIROS ====================
+import google.generativeai as genai
 from dotenv import load_dotenv
 
+# ==================== MÓDULOS PRÓPRIOS ====================
+from config import Config
+
 class JarvisCore:
-    """Núcleo de processamento do J.A.R.V.I.S."""
+    """Núcleo de processamento do J.A.R.V.I.S. Mark 13 M-13 OMNI.
+    
+    Esta classe é responsável pelo processamento de linguagem natural,
+    integração com a API Gemini AI e efeitos de digitação em tempo real.
+    Implementa o sistema de memória contextual e tratamento de comandos.
+    
+    Attributes:
+        logger: Instância do logger para registrar eventos
+        api_key (str): Chave de API do Google Gemini
+        vision_enabled (bool): Indica se a visão computacional está ativa
+        model: Modelo de IA Gemini configurado
+        typing_active (bool): Indica se efeito de digitação está ativo
+        typing_callbacks (list): Lista de callbacks para efeito de digitação
+    """
     
     def __init__(self, logger):
+        """Inicializa o núcleo de processamento J.A.R.V.I.S.
+        
+        Configura a API Gemini, sistema de digitação e memória contextual.
+        Valida a disponibilidade dos serviços e registra o status inicial.
+        
+        Args:
+            logger: Instância do logger para registrar eventos do sistema
+            
+        Raises:
+            Exception: Caso ocorra erro na configuração da API Gemini
+        """
         self.logger = logger
         self.api_key = None
         self.vision_enabled = False
@@ -29,7 +60,7 @@ class JarvisCore:
         if self.api_key:
             try:
                 genai.configure(api_key=self.api_key)
-                self.model = genai.GenerativeModel('gemini-2.5-flash')
+                self.model = genai.GenerativeModel(Config.AI_MODEL)
                 self.vision_enabled = True
                 self.logger.info("API Gemini configurada com sucesso", "CORE")
             except Exception as e:

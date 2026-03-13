@@ -1,42 +1,70 @@
 """
-J.A.R.V.I.S. - GUI Module
-Interface CustomTkinter profissional com System Monitor
+J.A.R.V.I.S. Mark 13 - GUI Module
+Interface CustomTkinter profissional com System Monitor e tema Deep Charcoal & Electric Blue.
 """
 
+# ==================== BIBLIOTECAS PADRÃO ====================
 import os
 import sys
 import threading
 import time
+from typing import List, Dict, Optional, Callable
+
+# ==================== BIBLIOTECAS DE TERCEIROS ====================
 import customtkinter as ctk
 from tkinter import messagebox, scrolledtext
-from typing import List, Dict, Optional, Callable
 import speech_recognition as sr
 import pyautogui
 from PIL import Image, ImageTk
 import io
 import base64
 
+# ==================== MÓDULOS PRÓPRIOS ====================
+from config import Config
+
 class JarvisGUI:
-    """Interface principal do J.A.R.V.I.S. - Professional Version"""
+    """Interface principal do J.A.R.V.I.S. Mark 13 M-13 OMNI.
     
-    # Cores tema J.A.R.V.I.S. Mark 13 - Deep Charcoal & Electric Blue
-    M13_COLORS = {
-        "background": "#121212",  # Deep Charcoal
-        "surface": "#1e1e1e",     # Charcoal médio
-        "primary": "#00FBFF",     # Electric Blue
-        "secondary": "#FF006E",    # Neon Pink/Rosa
-        "success": "#00FF88",      # Verde neon suave
-        "warning": "#FFAA00",     # Amarelo neon
-        "ia_text": "#00FBFF",     # Electric Blue para J.A.R.V.I.S.
-        "user_text": "#FFFFFF",   # Branco puro
-        "system_text": "#FFB700",  # Dourado neon
-        "border": "#00FBFF",      # Electric Blue para bordas
-        "neon_green": "#00FF88",  # Verde neon para botões
-        "neon_blue": "#00D4FF",   # Azul vibrante para botões
-        "dark_border": "#2a2a2a"   # Bordas escuras
-    }
+    Esta classe implementa a interface gráfica do assistente J.A.R.V.I.S.,
+    incluindo chat em tempo real, system monitor, comandos de voz
+    e integração com todas as funcionalidades do sistema.
+    
+    Attributes:
+        logger: Instância do logger para registrar eventos
+        actions: Instância do SystemActions para executar comandos
+        core: Instância do Core para processamento de IA
+        root: Janela principal da aplicação
+        chat_display: Widget de exibição do chat
+        text_input: Campo de entrada de texto do usuário
+        voice_button: Botão de ativação de voz
+        send_button: Botão de envio de mensagens
+        system_log_text: Widget de exibição dos logs do sistema
+        is_processing: Flag indicando processamento em andamento
+        is_listening: Flag indicando modo de escuta ativo
+        voice_enabled: Flag indicando disponibilidade de voz
+        typing_active: Flag indicando efeito de digitação em andamento
+        chat_history: Histórico de mensagens do chat
+        current_response: Resposta atual sendo processada
+        monitor_visible: Flag indicando visibilidade do System Monitor
+    """
     
     def __init__(self, logger, actions, core):
+        """Inicializa a interface gráfica J.A.R.V.I.S. Mark 13.
+        
+        Configura todos os componentes da interface, incluindo:
+        - Sistema de voz e reconhecimento
+        - Layout principal com chat e system monitor
+        - Cores e fontes do tema M-13
+        - Componentes interativos
+        
+        Args:
+            logger: Instância do logger para registrar eventos
+            actions: Instância do SystemActions para executar comandos
+            core: Instância do Core para processamento de IA
+            
+        Raises:
+            Exception: Caso ocorra erro na inicialização da interface
+        """
         self.logger = logger
         self.actions = actions
         self.core = core
@@ -67,7 +95,7 @@ class JarvisGUI:
         self._setup_gui()
         
         self.logger.info("GUI inicializada com sucesso", "GUI")
-        self.logger.system("Interface profissional carregada", "GUI")
+        self.logger.system("Interface profissional M-13 carregada", "GUI")
     
     def _setup_voice(self):
         """Configura sistema de voz"""
@@ -90,7 +118,7 @@ class JarvisGUI:
         self.root = ctk.CTk()
         self.root.title("🤖 J.A.R.V.I.S. - M-13 OMNI")
         self.root.geometry("1200x800")
-        self.root.configure(fg_color=self.M13_COLORS["background"])
+        self.root.configure(fg_color=Config.get_color("background"))
         
         # Layout principal
         self._create_main_layout()
@@ -111,10 +139,10 @@ class JarvisGUI:
         # Frame superior (cabeçalho) com borda neon
         header_frame = ctk.CTkFrame(
             main_container, 
-            fg_color=self.M13_COLORS["surface"], 
+            fg_color=Config.get_color("surface"), 
             corner_radius=10,
             border_width=2,
-            border_color=self.M13_COLORS["border"]
+            border_color=Config.get_color("border")
         )
         header_frame.pack(fill="x", pady=(0, 10))
         
@@ -123,7 +151,7 @@ class JarvisGUI:
             header_frame,
             text="⚡ J.A.R.V.I.S. - M-13 OMNI",
             font=ctk.CTkFont(size=22, weight="bold"),
-            text_color=self.M13_COLORS["ia_text"]
+            text_color=Config.get_color("ia_text")
         )
         title_label.pack(pady=10)
         
@@ -132,7 +160,7 @@ class JarvisGUI:
             header_frame,
             text="🟢 Systems Online",
             font=ctk.CTkFont(size=12),
-            text_color=self.M13_COLORS["success"]
+            text_color=Config.get_color("success")
         )
         self.status_label.pack(pady=(0, 10))
         
@@ -147,10 +175,10 @@ class JarvisGUI:
         # Coluna esquerda - Chat com borda neon
         chat_frame = ctk.CTkFrame(
             content_grid, 
-            fg_color=self.M13_COLORS["surface"], 
+            fg_color=Config.get_color("surface"), 
             corner_radius=10,
             border_width=2,
-            border_color=self.M13_COLORS["border"]
+            border_color=Config.get_color("border")
         )
         chat_frame.grid(row=0, column=0, sticky="nsew", padx=(0, 5), pady=5)
         content_grid.grid_columnconfigure(0, weight=3)
@@ -161,10 +189,10 @@ class JarvisGUI:
         # Coluna direita - System Monitor com borda neon
         monitor_frame = ctk.CTkFrame(
             content_grid, 
-            fg_color=self.M13_COLORS["surface"], 
+            fg_color=Config.get_color("surface"), 
             corner_radius=10,
             border_width=2,
-            border_color=self.M13_COLORS["border"]
+            border_color=Config.get_color("border")
         )
         monitor_frame.grid(row=0, column=1, sticky="nsew", padx=(5, 0), pady=5)
         content_grid.grid_columnconfigure(1, weight=1)
@@ -191,18 +219,18 @@ class JarvisGUI:
         self.chat_display = ctk.CTkTextbox(
             chat_frame,
             font=ctk.CTkFont(family="Segoe UI", size=12),
-            text_color=self.M13_COLORS["user_text"],
-            fg_color=self.M13_COLORS["background"],
+            text_color=Config.get_color("user_text"),
+            fg_color=Config.get_color("background"),
             border_width=2,
-            border_color=self.M13_COLORS["dark_border"],
+            border_color=Config.get_color("dark_border"),
             wrap="word"
         )
         self.chat_display.pack(fill="both", expand=True)
         
         # Configura tags para cores
-        self.chat_display.tag_config("jarvis", foreground=self.M13_COLORS["ia_text"])
-        self.chat_display.tag_config("user", foreground=self.M13_COLORS["user_text"])
-        self.chat_display.tag_config("system", foreground=self.M13_COLORS["system_text"])
+        self.chat_display.tag_config("jarvis", foreground=Config.get_color("ia_text"))
+        self.chat_display.tag_config("user", foreground=Config.get_color("user_text"))
+        self.chat_display.tag_config("system", foreground=Config.get_color("system_text"))
         
         # Frame de entrada (fixo no rodapé - weight=0)
         input_frame = ctk.CTkFrame(main_container, fg_color="transparent")
@@ -212,10 +240,10 @@ class JarvisGUI:
         self.text_input = ctk.CTkEntry(
             input_frame,
             font=ctk.CTkFont(family="Segoe UI", size=12),
-            text_color=self.M13_COLORS["user_text"],
-            fg_color=self.M13_COLORS["surface"],
+            text_color=Config.get_color("user_text"),
+            fg_color=Config.get_color("surface"),
             border_width=2,
-            border_color=self.M13_COLORS["dark_border"],
+            border_color=Config.get_color("dark_border"),
             placeholder_text="Digite sua mensagem aqui..."
         )
         self.text_input.pack(side="left", fill="x", expand=True, padx=(0, 10))
@@ -226,7 +254,7 @@ class JarvisGUI:
             text="🎤",
             width=40,
             font=ctk.CTkFont(size=16),
-            fg_color=self.M13_COLORS["neon_blue"],
+            fg_color=Config.get_color("neon_blue"),
             hover_color="#00A8CC",
             command=self._toggle_listening
         )
@@ -238,7 +266,7 @@ class JarvisGUI:
             text="Enviar",
             width=80,
             font=ctk.CTkFont(family="Segoe UI", size=12, weight="bold"),
-            fg_color=self.M13_COLORS["neon_green"],
+            fg_color=Config.get_color("neon_green"),
             hover_color="#00CC70",
             command=self.send_message
         )
@@ -254,7 +282,7 @@ class JarvisGUI:
             monitor_header,
             text="🖥️ SYSTEM MONITOR",
             font=ctk.CTkFont(family="Consolas", size=16, weight="bold"),
-            text_color=self.M13_COLORS["ia_text"]
+            text_color=Config.get_color("ia_text")
         )
         title_label.pack()
         
@@ -264,8 +292,8 @@ class JarvisGUI:
             text="👁️ SHOW/HIDE",
             width=120,
             font=ctk.CTkFont(family="Consolas", size=10),
-            fg_color=self.M13_COLORS["primary"],
-            hover_color=self.M13_COLORS["neon_blue"],
+            fg_color=Config.get_color("primary"),
+            hover_color=Config.get_color("neon_blue"),
             command=self._toggle_monitor
         )
         toggle_button.pack(pady=5)
@@ -281,7 +309,7 @@ class JarvisGUI:
             text_color="#00FF88",  # Verde neon para texto terminal
             fg_color="#0a0a0a",    # Preto profundo para fundo
             border_width=2,
-            border_color=self.M13_COLORS["border"],
+            border_color=Config.get_color("border"),
             wrap="word"
         )
         self.system_log_text.pack(fill="both", expand=True)
@@ -295,7 +323,7 @@ class JarvisGUI:
             text="🗑️ CLEAR LOGS",
             width=100,
             font=ctk.CTkFont(family="Consolas", size=10),
-            fg_color=self.M13_COLORS["secondary"],
+            fg_color=Config.get_color("secondary"),
             hover_color="#CC0055",
             command=self._clear_system_logs
         )
@@ -391,7 +419,7 @@ class JarvisGUI:
         
         # Limpa campo e atualiza status
         self.text_input.delete(0, "end")
-        self._update_status("🟡 Processando...", self.M13_COLORS["warning"])
+        self._update_status("🟡 Processando...", Config.get_color("warning"))
         
         # Adiciona mensagem do usuário
         self.add_message("Você", message, is_user=True)
@@ -408,7 +436,7 @@ class JarvisGUI:
                 # Tenta detectar comando de sistema primeiro
                 command_result = self._detect_system_command(message)
                 if command_result:
-                    self._update_status("🟢 Online", self.M13_COLORS["success"])
+                    self._update_status("🟢 Online", Config.get_color("success"))
                     return
                 
                 # Se não for comando de sistema, processa com Gemini
@@ -431,7 +459,7 @@ class JarvisGUI:
                 self.add_message("Jarvis", f"❌ Erro ao processar: {e}", is_jarvis=True)
             finally:
                 self.is_processing = False
-                self._update_status("🟢 Online", self.M13_COLORS["success"])
+                self._update_status("🟢 Online", Config.get_color("success"))
         
         # Executa em thread separada
         thread = threading.Thread(target=process_in_thread, daemon=True)
@@ -635,7 +663,7 @@ class JarvisGUI:
         confirm_window = ctk.CTkToplevel(self.root)
         confirm_window.title("🔌 Confirmação de Energia")
         confirm_window.geometry("400x200")
-        confirm_window.configure(fg_color=self.M13_COLORS["surface"])
+        confirm_window.configure(fg_color=Config.get_color("surface"))
         confirm_window.transient(self.root)
         confirm_window.grab_set()
         
@@ -657,7 +685,7 @@ class JarvisGUI:
             main_frame,
             text=f"🔌 {action_name} do Sistema\n\nSenhor, os sistemas serão encerrados.\nConfirma o protocolo?",
             font=ctk.CTkFont(size=14, weight="bold"),
-            text_color=self.M13_COLORS["ia_text"],
+            text_color=Config.get_color("ia_text"),
             wraplength=350
         )
         message_label.pack(pady=(20, 10))
@@ -791,7 +819,7 @@ class JarvisGUI:
         self.is_listening = True
         self.voice_button.configure(
             text="🔴",
-            fg_color=self.M13_COLORS["secondary"]
+            fg_color=Config.get_color("secondary")
         )
         
         def listen():
@@ -826,7 +854,7 @@ class JarvisGUI:
         self.is_listening = False
         self.voice_button.configure(
             text="🎤",
-            fg_color=self.M13_COLORS["primary"]
+            fg_color=Config.get_color("primary")
         )
     
     def _process_voice_command(self, text: str):

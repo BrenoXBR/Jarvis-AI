@@ -1593,3 +1593,4 @@ AttributeError: 'AudioDevice' object has no attribute 'Activate'
 [2026-03-12 21:19:30] INFO [CORE]: API Gemini configurada com sucesso
 [2026-03-12 21:19:30] INFO [GUI]: Sistema de voz configurado
 [2026-03-12 21:19:30] INFO [GUI]: GUI inicializada com sucesso
+[2026-03-12 21:20:16] INFO [GUI]: Interface encerrada pelo usuário

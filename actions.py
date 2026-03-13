@@ -1,8 +1,9 @@
 """
-J.A.R.V.I.S. - System Actions Module
-Funções de controle do Windows e aplicações
+J.A.R.V.I.S. Mark 13 - System Actions Module
+Módulo responsável por todas as ações do sistema Windows, APIs web e funcionalidades de hardware.
 """
 
+# ==================== BIBLIOTECAS PADRÃO ====================
 import os
 import subprocess
 import webbrowser
@@ -11,16 +12,20 @@ import shutil
 import time
 import random
 import string
-import psutil
-import pyautogui
+import re
 import threading
-import requests
 from datetime import datetime, timedelta
 from typing import Optional, Dict, List
+
+# ==================== BIBLIOTECAS DE TERCEIROS ====================
+import psutil
+import pyautogui
+import requests
 import screen_brightness_control as sbc
-import re
 from bs4 import BeautifulSoup
-import webbrowser
+
+# ==================== MÓDULOS PRÓPRIOS ====================
+from config import Config
 try:
     import pycaw
     from comtypes import CLSCTX_ALL
@@ -28,6 +33,7 @@ try:
     AUDIO_AVAILABLE = True
 except ImportError:
     AUDIO_AVAILABLE = False
+
 try:
     import wmi
     WMI_AVAILABLE = True
@@ -35,9 +41,32 @@ except ImportError:
     WMI_AVAILABLE = False
 
 class SystemActions:
-    """Classe responsável por todas as ações do sistema"""
+    """Classe responsável por todas as ações do sistema J.A.R.V.I.S. Mark 13.
+    
+    Esta classe centraliza todas as funcionalidades do sistema, incluindo:
+    - Controle de aplicativos Windows
+    - APIs web (clima, cotações, notícias)
+    - Hardware (volume, brilho, screenshots)
+    - Produtividade (Pomodoro, lembretes)
+    - Sistema (processos, limpeza)
+    
+    Attributes:
+        logger: Instância do logger para registrar eventos
+        audio_available (bool): Indica se controle de áudio está disponível
+        wmi_available (bool): Indica se WMI está disponível
+        volume: Controle de volume do sistema (se disponível)
+        reminders (list): Lista de lembretes ativos
+    """
     
     def __init__(self, logger):
+        """Inicializa a classe SystemActions.
+        
+        Args:
+            logger: Instância do logger para registrar eventos do sistema
+            
+        Raises:
+            Exception: Caso ocorra erro na inicialização do controle de áudio
+        """
         self.logger = logger
         self.audio_available = AUDIO_AVAILABLE
         self.wmi_available = WMI_AVAILABLE
@@ -53,7 +82,14 @@ class SystemActions:
         self.logger.system("Módulo de ações do sistema carregado", "INIT")
     
     def _init_audio_control(self):
-        """Inicializa controle de áudio"""
+        """Inicializa o controle de áudio do sistema.
+        
+        Configura a interface de controle de volume usando pycaw.
+        Registra no logger o sucesso ou falha da inicialização.
+        
+        Raises:
+            Exception: Caso ocorra erro ao inicializar o controle de áudio
+        """
         try:
             devices = AudioUtilities.GetSpeakers()
             interface = devices.Activate(IAudioEndpointVolume._iid_, CLSCTX_ALL, None)
@@ -1262,23 +1298,49 @@ class SystemActions:
     # ==================== MÓDULO WEB E SISTEMA AVANÇADO - MARK 13 FINAL ====================
     
     def get_weather_votorantim(self) -> str:
-        """Obtém clima de Votorantim/Sorocaba usando wttr.in API (gratuita e sem API key)"""
+        """Obtém informações climáticas da região de Votorantim usando API wttr.in.
+        
+        Esta função consulta o serviço wttr.in para obter dados meteorológicos
+        da cidade de Sorocaba (próxima a Votorantim), incluindo temperatura,
+        umidade e condições do tempo.
+        
+        Returns:
+            str: String formatada com informações do clima ou mensagem de erro
+            
+        Raises:
+            requests.RequestException: Erro de conexão com a API
+            ValueError: Erro ao processar dados da API
+            KeyError: Dados da API em formato inesperado
+        """
         try:
             self.logger.system(f"[PROD] Buscando clima para: Votorantim", "ACTIONS")
             
-            # Usando wttr.in API gratuita - tenta Sorocaba (próxima de Votorantim)
-            url = "https://wttr.in/Sorocaba?format=j1"
-            response = requests.get(url, timeout=10)
+            # Configurações da API
+            config = Config.WEATHER_CONFIG
+            url = f"https://wttr.in/{config['fallback_city']}?format=j1"
+            
+            # Requisição HTTP com timeout
+            response = requests.get(url, timeout=config['timeout'])
             
             if response.status_code == 200:
                 data = response.json()
                 
-                # Extrai informações do clima atual
+                # Extrai informações do clima atual com validação
+                if 'current_condition' not in data or not data['current_condition']:
+                    raise ValueError("Dados da API não contêm informações de clima atual")
+                
                 current = data['current_condition'][0]
+                
+                # Validação dos campos obrigatórios
+                required_fields = ['temp_C', 'FeelsLikeC', 'humidity', 'weatherDesc']
+                for field in required_fields:
+                    if field not in current:
+                        raise ValueError(f"Campo obrigatório '{field}' não encontrado nos dados")
+                
                 temp_c = int(current['temp_C'])
                 feels_like_c = int(current['FeelsLikeC'])
                 humidity = current['humidity']
-                description = current['weatherDesc'][0]['value']
+                description = current['weatherDesc'][0]['value'] if current['weatherDesc'] else 'N/A'
                 
                 weather_info = f"""🌤️ **Clima Atual - Votorantim/Região**
                 
@@ -1286,30 +1348,59 @@ class SystemActions:
 💧 **Umidade:** {humidity}%
 ☁️ **Condição:** {description.title()}
 🕐 **Atualizado:** {datetime.now().strftime('%H:%M:%S')}
-📡 **Fonte:** wttr.in (Sorocaba)"""
+📡 **Fonte:** wttr.in ({config['fallback_city']})"""
                 
                 self.logger.system(f"[PROD] Clima obtido: {temp_c}°C na região", "ACTIONS")
-                
                 return weather_info
             else:
-                # Fallback para informações genéricas se a API falhar
-                return f"""🌤️ **Clima - Votorantim**
+                self.logger.warning(f"API retornou status {response.status_code}", "PROD")
+                return self._get_weather_fallback()
+            
+        except requests.RequestException as e:
+            self.logger.error(e, f"Erro de conexão com API wttr.in: {str(e)}", "PROD")
+            return Config.ERROR_MESSAGES["network_error"]
+        except (ValueError, KeyError) as e:
+            self.logger.error(e, f"Erro ao processar dados do clima: {str(e)}", "PROD")
+            return Config.ERROR_MESSAGES["parse_error"]
+        except Exception as e:
+            self.logger.error(e, "Erro inesperado ao obter clima", "PROD")
+            return Config.ERROR_MESSAGES["weather_error"]
+    
+    def _get_weather_fallback(self) -> str:
+        """Retorna mensagem de fallback quando o serviço de clima está indisponível.
+        
+        Returns:
+            str: Mensagem informativa para o usuário
+        """
+        return f"""🌤️ **Clima - Votorantim**
 
 📍 **Localização:** Votorantim, SP - Brasil
 🌡️ **Informação:** Serviço de clima temporariamente indisponível
 🔄 **Tente novamente em alguns minutos**
 🕐 **Atualizado:** {datetime.now().strftime('%H:%M:%S')}"""
-            
-        except Exception as e:
-            self.logger.error(e, "Erro ao obter clima", "PROD")
-            return f"❌ Erro ao obter clima: {e}"
     
     def get_currency_final(self, currency: str) -> str:
-        """Obtém cotação de moeda específica usando yfinance"""
+        """Obtém cotação de moeda específica em relação ao Real Brasileiro.
+        
+        Consulta a API Yahoo Finance através da biblioteca yfinance para obter
+        a cotação atual da moeda especificada em relação ao BRL.
+        
+        Args:
+            currency (str): Nome da moeda (ex: 'dólar', 'euro', 'bitcoin')
+            
+        Returns:
+            str: String formatada com a cotação atual ou mensagem de erro
+            
+        Raises:
+            ImportError: Se a biblioteca yfinance não estiver disponível
+            requests.RequestException: Erro de conexão com a API
+            ValueError: Erro ao processar dados da API
+            KeyError: Dados da API em formato inesperado
+        """
         try:
             import yfinance as yf
             
-            # Mapeamento de moedas
+            # Mapeamento de moedas com validação
             currency_map = {
                 'dólar': 'USD',
                 'dolar': 'USD',
@@ -1326,90 +1417,143 @@ class SystemActions:
             
             self.logger.system(f"[PROD] Buscando cotação: {from_currency}/BRL", "ACTIONS")
             
-            # Obtém cotação
+            # Configurações da API
+            config = Config.CURRENCY_CONFIG
             ticker = f"{from_currency}BRL=X"
-            data = yf.Ticker(ticker).history(period="1d")
             
-            if not data.empty:
-                rate = data['Close'].iloc[-1]
-                
-                # Formatação brasileira
-                formatted_rate = f"R$ {rate:.4f}"
-                
-                self.logger.system(f"[PROD] Cotação obtida: {from_currency}/BRL = {formatted_rate}", "ACTIONS")
-                
-                return f"💱 **Cotação Atual - {from_currency.upper()}**:\n\n**1 {from_currency.upper()} = {formatted_rate}**\n\n📊 **Atualizado:** {datetime.now().strftime('%H:%M:%S')}"
-            else:
-                return f"❌ Não foi possível obter cotação de {from_currency}"
-                
+            # Obtém cotação com tratamento de erro
+            try:
+                data = yf.Ticker(ticker).history(period=config['period'], timeout=config['timeout'])
+            except Exception as api_error:
+                raise requests.RequestException(f"Erro na API yfinance: {str(api_error)}")
+            
+            if data.empty:
+                self.logger.warning(f"Nenhum dado encontrado para {ticker}", "PROD")
+                return Config.ERROR_MESSAGES["currency_error"]
+            
+            # Extrai e valida o valor da cotação
+            if 'Close' not in data.columns:
+                raise ValueError("Coluna 'Close' não encontrada nos dados da API")
+            
+            rate = data['Close'].iloc[-1]
+            
+            # Validação do valor
+            if not isinstance(rate, (int, float)) or rate <= 0:
+                raise ValueError(f"Valor de cotação inválido: {rate}")
+            
+            # Formatação brasileira
+            formatted_rate = f"R$ {rate:.4f}"
+            
+            currency_info = f"""💱 **Cotação Atual - {from_currency.upper()}**
+
+**1 {from_currency.upper()} = {formatted_rate}**
+
+📊 **Atualizado:** {datetime.now().strftime('%H:%M:%S')}
+📡 **Fonte:** Yahoo Finance"""
+            
+            self.logger.system(f"[PROD] Cotação obtida: {from_currency}/BRL = {formatted_rate}", "ACTIONS")
+            return currency_info
+            
+        except ImportError:
+            self.logger.error("Biblioteca yfinance não disponível", "PROD")
+            return "❌ Biblioteca yfinance não disponível. Instale com: pip install yfinance"
+        except requests.RequestException as e:
+            self.logger.error(e, f"Erro de conexão com API de cotação: {str(e)}", "PROD")
+            return Config.ERROR_MESSAGES["network_error"]
+        except (ValueError, KeyError) as e:
+            self.logger.error(e, f"Erro ao processar dados de cotação: {str(e)}", "PROD")
+            return Config.ERROR_MESSAGES["parse_error"]
         except Exception as e:
-            self.logger.error(e, "Erro na cotação", "PROD")
-            return f"❌ Erro ao obter cotação: {e}"
+            self.logger.error(e, "Erro inesperado ao obter cotação", "PROD")
+            return Config.ERROR_MESSAGES["currency_error"]
     
     def get_news_headlines(self) -> str:
-        """Obtém as 3 principais manchetes do dia usando scraping do G1"""
+        """Obtém as principais manchetes do dia através de web scraping do portal G1.
+        
+        Esta função utiliza web scraping para extrair as 3 principais notícias
+        do portal G1, fornecendo um resumo atualizado dos acontecimentos
+        mais relevantes do dia.
+        
+        Returns:
+            str: String formatada com as 3 principais manchetes ou mensagem de erro
+            
+        Raises:
+            requests.RequestException: Erro de conexão com o site G1
+            ValueError: Erro ao processar HTML da página
+            Exception: Erro inesperado durante o scraping
+        """
         try:
             self.logger.system("[PROD] Buscando notícias principais...", "ACTIONS")
             
-            # URL do G1
-            url = "https://g1.globo.com/"
-            headers = {
-                'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36'
-            }
+            # Configurações da API
+            config = Config.NEWS_CONFIG
+            url = config['url']
+            headers = {'User-Agent': config['user_agent']}
             
-            response = requests.get(url, headers=headers, timeout=10)
+            # Requisição HTTP com timeout
+            response = requests.get(url, headers=headers, timeout=config['timeout'])
             
-            if response.status_code == 200:
-                soup = BeautifulSoup(response.content, 'html.parser')
-                
-                # Busca manchetes principais
-                headlines = []
-                
-                # Tenta encontrar manchetes em diferentes seleções
-                selectors = [
-                    '.feed-post-body-title',
-                    '.feed-post-link',
-                    'h2 a',
-                    '.title a',
-                    '[data-area="noticias"] h2 a'
-                ]
-                
-                for selector in selectors:
-                    try:
-                        elements = soup.select(selector)[:3]
-                        for element in elements:
-                            title = element.get_text(strip=True)
-                            if title and len(title) > 10:
-                                headlines.append(f"📰 {title}")
-                                if len(headlines) >= 3:
+            if response.status_code != 200:
+                self.logger.warning(f"Portal G1 retornou status {response.status_code}", "PROD")
+                return Config.ERROR_MESSAGES["news_error"]
+            
+            # Parse do HTML
+            soup = BeautifulSoup(response.content, 'html.parser')
+            
+            # Busca manchetes principais com múltiplos seletores
+            headlines = []
+            selectors = [
+                '.feed-post-body-title',
+                '.feed-post-link',
+                'h2 a',
+                '.title a',
+                '[data-area="noticias"] h2 a'
+            ]
+            
+            for selector in selectors:
+                try:
+                    elements = soup.select(selector)[:config['max_headlines']]
+                    for element in elements:
+                        title = element.get_text(strip=True)
+                        # Validação do título
+                        if title and len(title) > 10 and len(title) < 200:
+                            # Remove caracteres problemáticos
+                            clean_title = re.sub(r'[^\w\s\-.,!?;:]', '', title).strip()
+                            if clean_title:
+                                headlines.append(f"📰 {clean_title}")
+                                if len(headlines) >= config['max_headlines']:
                                     break
-                        if len(headlines) >= 3:
-                            break
-                    except:
-                        continue
-                    
-                    if len(headlines) >= 3:
+                    if len(headlines) >= config['max_headlines']:
                         break
-                
-                if not headlines:
-                    headlines = ["📰 Não foi possível carregar as manchetes"]
-                
-                news_info = f"""📰 **Principais Notícias do Dia**
-                
-{chr(10).join(headlines[:3])}
+                except Exception as selector_error:
+                    self.logger.warning(f"Erro no seletor {selector}: {str(selector_error)}", "PROD")
+                    continue
+            
+            # Validação das manchetes encontradas
+            if not headlines:
+                self.logger.warning("Nenhuma manchete válida encontrada", "PROD")
+                return Config.ERROR_MESSAGES["news_error"]
+            
+            # Formatação do resultado
+            news_info = f"""📰 **Principais Notícias do Dia**
+            
+{chr(10).join(headlines[:config['max_headlines']])}
 
 📊 **Fonte:** G1
 🕐 **Atualizado:** {datetime.now().strftime('%H:%M:%S')}"""
-                
-                self.logger.system("[PROD] Notícias obtidas com sucesso", "ACTIONS")
-                
-                return news_info
-            else:
-                return "❌ Não foi possível carregar as notícias"
             
+            self.logger.system("[PROD] Notícias obtidas com sucesso", "ACTIONS")
+            return news_info
+            
+        except requests.RequestException as e:
+            self.logger.error(e, f"Erro de conexão com portal G1: {str(e)}", "PROD")
+            return Config.ERROR_MESSAGES["network_error"]
+        except ValueError as e:
+            self.logger.error(e, f"Erro ao processar HTML do G1: {str(e)}", "PROD")
+            return Config.ERROR_MESSAGES["parse_error"]
         except Exception as e:
-            self.logger.error(e, "Erro ao buscar notícias", "PROD")
-            return f"❌ Erro ao buscar notícias: {e}"
+            self.logger.error(e, "Erro inesperado ao buscar notícias", "PROD")
+            return Config.ERROR_MESSAGES["news_error"]
     
     def empty_recycle_bin(self) -> str:
         """Esvazia a lixeira do Windows"""
