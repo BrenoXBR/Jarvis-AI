@@ -4,3 +4,23 @@
 __pycache__/
 jarvis_logs/
 *.db
+
+# Executáveis e builds
+*.exe
+build/
+dist/
+*.spec
+
+# Python cache
+*.pyc
+*.pyo
+*.pyd
+.Python
+
+# IDE files
+.vscode/
+*.swp
+*.swo
+
+# Capturas de tela
+capturas/
