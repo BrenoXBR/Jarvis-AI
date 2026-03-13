@@ -125,3 +125,15 @@ Módulo: ACTIONS
 Erro: AttributeError: 'AudioDevice' object has no attribute 'Activate'
 Módulo: ACTIONS
 
+[2026-03-13 20:05:36] Erro ao inicializar áudio
+Erro: AttributeError: 'AudioDevice' object has no attribute 'Activate'
+Módulo: ACTIONS
+
+[2026-03-13 20:09:40] ACTIONS
+Erro: str: Erro ao inicializar áudio: 'AudioDevice' object has no attribute 'Activate'
+Módulo: GERAL
+
+[2026-03-13 20:10:29] Erro ao falar texto
+Erro: OSError: [WinError -2147221008] CoInitialize não foi chamado
+Módulo: GUI
+

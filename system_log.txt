@@ -314,3 +314,44 @@
 [2026-03-12 21:19:30] CORE: [DEBUG] API Key encontrada: AIza... (comprimento: 39)
 [2026-03-12 21:19:30] GUI: System Monitor visível
 [2026-03-12 21:19:30] GUI: Interface profissional carregada
+[2026-03-13 20:05:36] INIT: Módulo de ações do sistema carregado
+[2026-03-13 20:05:36] CORE: [DEBUG] Buscando .env em: C:\Users\Breno\CascadeProjects\.env
+[2026-03-13 20:05:36] CORE: [SUCCESS] .env encontrado na pasta do projeto.
+[2026-03-13 20:05:36] CORE: [DEBUG] API Key encontrada: AIza... (comprimento: 39)
+[2026-03-13 20:05:36] GUI: System Monitor visível
+[2026-03-13 20:05:36] GUI: Interface profissional carregada
+[2026-03-13 20:05:49] CORE: Enviando requisição para API Gemini...
+[2026-03-13 20:05:53] CORE: Texto extraído da API: 795 caracteres
+[2026-03-13 20:05:53] CORE: Markdown limpo com sucesso
+[2026-03-13 20:05:53] CORE: Resposta recebida: 793 caracteres
+[2026-03-13 20:05:53] CORE: Iniciando efeito de digitação
+[2026-03-13 20:09:40] INIT: Módulo de ações do sistema carregado
+[2026-03-13 20:09:40] CORE: [DEBUG] Buscando .env em: C:\Users\Breno\CascadeProjects\.env
+[2026-03-13 20:09:40] CORE: [SUCCESS] .env encontrado na pasta do projeto.
+[2026-03-13 20:09:40] CORE: [DEBUG] API Key encontrada: AIza... (comprimento: 39)
+[2026-03-13 20:09:41] GUI: System Monitor visível
+[2026-03-13 20:09:41] GUI: Interface profissional M-13 carregada
+[2026-03-13 20:10:28] ACTIONS: [PROD] Buscando cotação: USD/BRL
+[2026-03-13 20:10:29] ACTIONS: [PROD] Cotação obtida: USD/BRL = R$ 5.3292
+[2026-03-13 20:10:42] CORE: Enviando requisição para API Gemini...
+[2026-03-13 20:10:46] CORE: Texto extraído da API: 226 caracteres
+[2026-03-13 20:10:46] CORE: Markdown limpo com sucesso
+[2026-03-13 20:10:46] CORE: Resposta recebida: 221 caracteres
+[2026-03-13 20:10:46] CORE: Iniciando efeito de digitação
+[2026-03-13 20:11:19] APP: Abrindo aplicativo: a microsoft store
+[2026-03-13 20:11:19] APP: [DEBUG] Comando original: 'a microsoft store'
+[2026-03-13 20:11:19] APP: [DEBUG] Nome processado: 'microsoft store' (palavras-chave: ['microsoft', 'store'])
+[2026-03-13 20:11:19] APP: [DEBUG] Palavra-chave encontrada: 'store' → 'ms-windows-store:'
+[2026-03-13 20:11:19] APP: [DEBUG] Executando comando direto: 'ms-windows-store:'
+[2026-03-13 20:12:56] CORE: Enviando requisição para API Gemini...
+[2026-03-13 20:12:58] CORE: Texto extraído da API: 305 caracteres
+[2026-03-13 20:12:58] CORE: Markdown limpo com sucesso
+[2026-03-13 20:12:58] CORE: Resposta recebida: 304 caracteres
+[2026-03-13 20:12:58] CORE: Iniciando efeito de digitação
+[2026-03-13 20:14:06] ACTIONS: [PROD] Listando processos mais consumidos...
+[2026-03-13 20:14:06] ACTIONS: [PROD] Lista de processos obtida
+[2026-03-13 20:14:56] CORE: Enviando requisição para API Gemini...
+[2026-03-13 20:15:01] CORE: Texto extraído da API: 436 caracteres
+[2026-03-13 20:15:01] CORE: Markdown limpo com sucesso
+[2026-03-13 20:15:01] CORE: Resposta recebida: 435 caracteres
+[2026-03-13 20:15:01] CORE: Iniciando efeito de digitação

@@ -52,6 +52,7 @@ class JarvisCore:
         self.vision_enabled = False
         self.typing_active = False
         self.typing_callbacks = []
+        self.auth_error_message = None
         
         # Carrega API key
         self._load_api_key()
@@ -64,10 +65,18 @@ class JarvisCore:
                 self.vision_enabled = True
                 self.logger.info("API Gemini configurada com sucesso", "CORE")
             except Exception as e:
-                self.logger.error(e, "Erro ao configurar API Gemini", "CORE")
-                self.vision_enabled = False
+                error_str = str(e).lower()
+                if any(keyword in error_str for keyword in ['permission', 'forbidden', 'unauthorized', 'invalid', 'blocked']):
+                    self.logger.error("API KEY BLOQUEADA OU INVÁLIDA", "CORE")
+                    self.vision_enabled = False
+                    self.auth_error_message = "Senhor, houve um erro de autenticação com os protocolos de IA. Verifique sua chave de acesso."
+                else:
+                    self.logger.error(e, "Erro ao configurar API Gemini", "CORE")
+                    self.vision_enabled = False
+                    self.auth_error_message = None
         else:
             self.logger.warning("API key não encontrada", "CORE")
+            self.auth_error_message = "Senhor, houve um erro de autenticação com os protocolos de IA. Verifique sua chave de acesso."
     
     def _load_api_key(self):
         """Carrega API key do arquivo .env na pasta atual do projeto com os.getcwd()"""
@@ -164,9 +173,29 @@ class JarvisCore:
             self.logger.error(e, "Erro ao carregar API key", "CORE")
             self.api_key = None
     
+    def has_auth_error(self) -> bool:
+        """Verifica se há erro de autenticação
+        
+        Returns:
+            bool: True se houver erro de autenticação
+        """
+        return self.auth_error_message is not None
+    
+    def get_auth_error_message(self) -> str:
+        """Obtém mensagem de erro de autenticação
+        
+        Returns:
+            str: Mensagem de erro ou None se não houver erro
+        """
+        return self.auth_error_message
+    
     def is_available(self) -> bool:
-        """Verifica se a API está disponível"""
-        return self.vision_enabled and self.api_key is not None
+        """Verifica se a API Gemini está disponível
+        
+        Returns:
+            bool: True se a API estiver disponível
+        """
+        return self.vision_enabled and not self.has_auth_error() and self.api_key is not None
     
     def process_message(self, message: str, conversation_history: List[Dict], memories: List[str], system_commands_info: str = "") -> str:
         """Processa mensagem com Gemini e retorna resposta"""

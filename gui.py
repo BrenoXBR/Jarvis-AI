@@ -452,7 +452,12 @@ class JarvisGUI:
                     # Exibe com efeito de digitação
                     self._display_with_typing("Jarvis", response)
                 else:
-                    self.add_message("Jarvis", "❌ API Gemini não disponível. Verifique sua configuração.", is_jarvis=True)
+                    # Verifica se há erro de autenticação específico
+                    if self.core.has_auth_error():
+                        error_msg = self.core.get_auth_error_message()
+                        self._show_jarvis_response(error_msg, speak=True)
+                    else:
+                        self.add_message("Jarvis", "❌ API Gemini não está disponível. Verifique sua API key no arquivo .env.", is_jarvis=True)
                 
             except Exception as e:
                 self.logger.error(e, "Erro ao processar mensagem", "GUI")
@@ -544,13 +549,13 @@ class JarvisGUI:
         # Web - Clima
         if any(keyword in message_lower for keyword in ["tempo hoje", "clima hoje", "previsão do tempo", "tempo agora", "clima agora"]):
             result = self.actions.get_weather_votorantim()
-            self.add_message("Jarvis", result, is_jarvis=True)
+            self._show_jarvis_response(result, speak=True)
             return True
         
         # Web - Notícias
         if any(keyword in message_lower for keyword in ["notícias", "manchetes", "notícia do dia", "jornal"]):
             result = self.actions.get_news_headlines()
-            self.add_message("Jarvis", result, is_jarvis=True)
+            self._show_jarvis_response(result, speak=True)
             return True
         
         # Web - Cotações (específico)
@@ -574,7 +579,7 @@ class JarvisGUI:
             else:
                 result = self.actions.get_currency_final("dólar")  # Default para dólar
             
-            self.add_message("Jarvis", result, is_jarvis=True)
+            self._show_jarvis_response(result, speak=True)
             return True
         
         # Sistema - Limpar Lixeira
@@ -784,8 +789,17 @@ class JarvisGUI:
         except Exception as e:
             self.logger.error(e, "Erro no callback de digitação", "GUI")
     
-    def add_message(self, sender: str, message: str, is_user: bool = False, is_jarvis: bool = False, is_system: bool = False):
-        """Adiciona mensagem ao chat"""
+    def add_message(self, sender: str, message: str, is_user: bool = False, is_jarvis: bool = False, is_system: bool = False, speak: bool = False):
+        """Adiciona mensagem ao chat e opcionalmente fala
+        
+        Args:
+            sender (str): Nome do remetente
+            message (str): Conteúdo da mensagem
+            is_user (bool): Se é mensagem do usuário
+            is_jarvis (bool): Se é mensagem do J.A.R.V.I.S.
+            is_system (bool): Se é mensagem do sistema
+            speak (bool): Se deve falar a mensagem (apenas para mensagens do J.A.R.V.I.S.)
+        """
         # Adiciona ao histórico
         self.chat_history.append({
             'sender': sender,
@@ -802,6 +816,44 @@ class JarvisGUI:
         self.chat_display.insert("end", f"{message}\n")
         self.chat_display.see("end")
         self.chat_display.configure(state="disabled")
+        
+        # Fala a mensagem se for do J.A.R.V.I.S. e solicitado
+        if is_jarvis and speak:
+            self._speak(message)
+    
+    def _speak(self, text: str):
+        """Fala o texto usando síntese de voz do Windows
+        
+        Args:
+            text (str): Texto para ser falado
+        """
+        try:
+            import pyttsx3
+            engine = pyttsx3.init()
+            
+            # Configurações de voz
+            engine.setProperty('rate', 150)  # Velocidade
+            engine.setProperty('volume', 0.9)  # Volume
+            
+            # Fala o texto
+            engine.say(text)
+            engine.runAndWait()
+            
+            self.logger.info(f"Texto falado: {text[:50]}...", "GUI")
+            
+        except ImportError:
+            self.logger.warning("pyttsx3 não disponível para síntese de voz", "GUI")
+        except Exception as e:
+            self.logger.error(e, "Erro ao falar texto", "GUI")
+    
+    def _show_jarvis_response(self, message: str, speak: bool = True):
+        """Exibe mensagem do J.A.R.V.I.S. e opcionalmente fala
+        
+        Args:
+            message (str): Mensagem do J.A.R.V.I.S.
+            speak (bool): Se deve falar a mensagem
+        """
+        self.add_message("Jarvis", message, is_jarvis=True, speak=speak)
     
     def _toggle_listening(self):
         """Alterna modo de escuta de voz"""

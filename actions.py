@@ -78,25 +78,32 @@ class SystemActions:
         # Inicializa lista de lembretes
         self.reminders = []
         
-        self.logger.info("SystemActions inicializado", "ACTIONS")
-        self.logger.system("Módulo de ações do sistema carregado", "INIT")
+        if self.logger:
+            self.logger.info("SystemActions inicializado", "ACTIONS")
+            self.logger.system("Módulo de ações do sistema carregado", "INIT")
     
     def _init_audio_control(self):
-        """Inicializa o controle de áudio do sistema.
-        
-        Configura a interface de controle de volume usando pycaw.
-        Registra no logger o sucesso ou falha da inicialização.
-        
-        Raises:
-            Exception: Caso ocorra erro ao inicializar o controle de áudio
-        """
+        """Inicializa controle de áudio do sistema com tratamento robusto de erros"""
         try:
+            import pycaw
+            from ctypes import cast, POINTER
+            from comtypes import CLSCTX_ALL
+            from pycaw.pycaw import AudioUtilities, IAudioEndpointVolume
+            
+            # Obtém dispositivo de áudio padrão
             devices = AudioUtilities.GetSpeakers()
             interface = devices.Activate(IAudioEndpointVolume._iid_, CLSCTX_ALL, None)
             self.volume = interface.QueryInterface(IAudioEndpointVolume)
-            self.logger.info("Controle de áudio inicializado", "ACTIONS")
+            self.audio_available = True
+            if self.logger:
+                self.logger.info("Controle de áudio inicializado com sucesso", "ACTIONS")
+        except ImportError:
+            if self.logger:
+                self.logger.warning("pycaw não disponível - controle de volume desabilitado", "ACTIONS")
+            self.audio_available = False
         except Exception as e:
-            self.logger.error(e, "Erro ao inicializar áudio", "ACTIONS")
+            if self.logger:
+                self.logger.error(f"Erro ao inicializar áudio: {str(e)}", "ACTIONS")
             self.audio_available = False
     
     def open_application(self, app_name: str) -> str:
@@ -1415,7 +1422,8 @@ class SystemActions:
             currency_lower = currency.lower()
             from_currency = currency_map.get(currency_lower, currency.upper())
             
-            self.logger.system(f"[PROD] Buscando cotação: {from_currency}/BRL", "ACTIONS")
+            if self.logger:
+                self.logger.system(f"[PROD] Buscando cotação: {from_currency}/BRL", "ACTIONS")
             
             # Configurações da API
             config = Config.CURRENCY_CONFIG
@@ -1461,10 +1469,12 @@ class SystemActions:
             self.logger.error(e, f"Erro de conexão com API de cotação: {str(e)}", "PROD")
             return Config.ERROR_MESSAGES["network_error"]
         except (ValueError, KeyError) as e:
-            self.logger.error(e, f"Erro ao processar dados de cotação: {str(e)}", "PROD")
+            if self.logger:
+                self.logger.error(e, f"Erro ao processar dados de cotação: {str(e)}", "PROD")
             return Config.ERROR_MESSAGES["parse_error"]
         except Exception as e:
-            self.logger.error(e, "Erro inesperado ao obter cotação", "PROD")
+            if self.logger:
+                self.logger.error(e, "Erro inesperado ao obter cotação", "PROD")
             return Config.ERROR_MESSAGES["currency_error"]
     
     def get_news_headlines(self) -> str:

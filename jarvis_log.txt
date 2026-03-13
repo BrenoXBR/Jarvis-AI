@@ -1594,3 +1594,82 @@ AttributeError: 'AudioDevice' object has no attribute 'Activate'
 [2026-03-12 21:19:30] INFO [GUI]: Sistema de voz configurado
 [2026-03-12 21:19:30] INFO [GUI]: GUI inicializada com sucesso
 [2026-03-12 21:20:16] INFO [GUI]: Interface encerrada pelo usuário
+[2026-03-13 20:05:36] ERROR [ACTIONS]: Erro ao inicializar áudio
+Erro: AttributeError: 'AudioDevice' object has no attribute 'Activate'
+Traceback:
+Traceback (most recent call last):
+  File "actions.py", line 54, in _init_audio_control
+    logger: Instância do logger para registrar eventos
+                   ^^^^^^^^^^^^^^^^
+AttributeError: 'AudioDevice' object has no attribute 'Activate'
+
+--------------------------------------------------
+
+[2026-03-13 20:05:36] INFO [ACTIONS]: SystemActions inicializado
+[2026-03-13 20:05:36] INFO [CORE]: API key carregada com sucesso
+[2026-03-13 20:05:36] INFO [CORE]: API Gemini configurada com sucesso
+[2026-03-13 20:05:36] INFO [GUI]: Sistema de voz configurado
+[2026-03-13 20:05:36] INFO [GUI]: GUI inicializada com sucesso
+[2026-03-13 20:05:53] INFO [CORE]: Memória: User='Qual o valor do dólar?...', Jarvis='Minha arquitetura primária está focada em controle...'
+[2026-03-13 20:06:25] INFO [GUI]: Interface encerrada pelo usuário
+[2026-03-13 20:09:40] ERROR [GERAL]: ACTIONS
+Erro: str: Erro ao inicializar áudio: 'AudioDevice' object has no attribute 'Activate'
+Traceback:
+Traceback (most recent call last):
+  File "C:\Users\Breno\CascadeProjects\actions.py", line 95, in _init_audio_control
+    interface = devices.Activate(IAudioEndpointVolume._iid_, CLSCTX_ALL, None)
+                ^^^^^^^^^^^^^^^^
+AttributeError: 'AudioDevice' object has no attribute 'Activate'
+
+--------------------------------------------------
+
+[2026-03-13 20:09:40] INFO [ACTIONS]: SystemActions inicializado
+[2026-03-13 20:09:40] INFO [CORE]: API key carregada com sucesso
+[2026-03-13 20:09:40] INFO [CORE]: API Gemini configurada com sucesso
+[2026-03-13 20:09:40] INFO [GUI]: Sistema de voz configurado
+[2026-03-13 20:09:41] INFO [GUI]: GUI inicializada com sucesso
+[2026-03-13 20:10:29] ERROR [GUI]: Erro ao falar texto
+Erro: OSError: [WinError -2147221008] CoInitialize não foi chamado
+Traceback:
+Traceback (most recent call last):
+  File "C:\Users\Breno\AppData\Local\Programs\Python\Python313\Lib\site-packages\pyttsx3\__init__.py", line 20, in init
+    eng = _activeEngines[driverName]
+          ~~~~~~~~~~~~~~^^^^^^^^^^^^
+  File "C:\Users\Breno\AppData\Local\Programs\Python\Python313\Lib\weakref.py", line 136, in __getitem__
+    o = self.data[key]()
+        ~~~~~~~~~^^^^^
+KeyError: None
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\Breno\CascadeProjects\gui.py", line 832, in _speak
+    engine = pyttsx3.init()
+  File "C:\Users\Breno\AppData\Local\Programs\Python\Python313\Lib\site-packages\pyttsx3\__init__.py", line 22, in init
+    eng = Engine(driverName, debug)
+  File "C:\Users\Breno\AppData\Local\Programs\Python\Python313\Lib\site-packages\pyttsx3\engine.py", line 30, in __init__
+    self.proxy = driver.DriverProxy(weakref.proxy(self), driverName, debug)
+                 ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Breno\AppData\Local\Programs\Python\Python313\Lib\site-packages\pyttsx3\driver.py", line 52, in __init__
+    self._driver = self._module.buildDriver(weakref.proxy(self))
+                   ~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Breno\AppData\Local\Programs\Python\Python313\Lib\site-packages\pyttsx3\drivers\sapi5.py", line 30, in buildDriver
+    return SAPI5Driver(proxy)
+  File "C:\Users\Breno\AppData\Local\Programs\Python\Python313\Lib\site-packages\pyttsx3\drivers\sapi5.py", line 35, in __init__
+    self._tts = comtypes.client.CreateObject('SAPI.SPVoice')
+                ~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^
+  File "C:\Users\Breno\AppData\Local\Programs\Python\Python313\Lib\site-packages\comtypes\client\_create.py", line 99, in CreateObject
+    obj = comtypes.CoCreateInstance(clsid, clsctx=clsctx, interface=interface)
+  File "C:\Users\Breno\AppData\Local\Programs\Python\Python313\Lib\site-packages\comtypes\_post_coinit\misc.py", line 141, in CoCreateInstance
+    _CoCreateInstance(byref(clsid), punkouter, clsctx, byref(iid), byref(p))
+    ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "_ctypes/callproc.c", line 1033, in GetResult
+OSError: [WinError -2147221008] CoInitialize não foi chamado
+
+--------------------------------------------------
+
+[2026-03-13 20:10:46] INFO [CORE]: Memória: User='Qual o clima atualmente?...', Jarvis='🌡️ Condições Atuais - Votorantim Temperatura: 22°C...'
+[2026-03-13 20:11:19] INFO [ACTIONS]: Deep Link executado: ms-windows-store:
+[2026-03-13 20:12:58] INFO [CORE]: Memória: User='verifique por atualizações...', Jarvis='Iniciando varredura de sistema para atualizações p...'
+[2026-03-13 20:15:01] INFO [CORE]: Memória: User='Verifique por atualizações...', Jarvis='A varredura de sistema para atualizações já está e...'
+[2026-03-13 20:43:40] INFO [GUI]: Interface encerrada pelo usuário
